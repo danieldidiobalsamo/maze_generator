@@ -4,10 +4,10 @@
 
 Walls::Walls()
 {
-	_westWall = false;
-	_eastWall = false;
-	_northWall = false;
-	_southWall = false;
+	_westWall = true;
+	_eastWall = true;
+	_northWall = true;
+	_southWall = true;
 }
 
 Walls::Walls(bool built)

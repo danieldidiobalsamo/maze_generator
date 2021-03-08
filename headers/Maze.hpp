@@ -14,6 +14,7 @@ class Maze // TODO
 
 	public :
 		Maze();
+		Maze(int width, int height);
 		Maze(const Maze &m); // TODO
 		~Maze();
 
