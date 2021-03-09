@@ -1,12 +1,22 @@
 #include <iostream>
 
+#include <QApplication>
+#include <QWidget>
+
 #include "Maze.hpp"
+
+#include "MainWindow.h"
 
 using namespace std;
 
-int main()
+int main(int argc, char *argv[])
 {
 	Maze m(5, 5);
 
-	return 0;
+	QApplication app(argc, argv);
+	MainWindow window;
+
+	window.show();
+
+	return app.exec();
 }
