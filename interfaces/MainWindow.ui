@@ -16,12 +16,12 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QGridLayout" name="gridLayout">
     <item row="0" column="2">
-     <layout class="QVBoxLayout" name="verticalLayout">
+     <layout class="QVBoxLayout" name="sidebarVerticalLayout">
       <property name="spacing">
        <number>6</number>
       </property>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="generateButton">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -40,7 +40,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="solveButton">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -59,7 +59,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_4">
+       <widget class="QPushButton" name="convertPDFButton">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -78,7 +78,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="aboutButton">
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -92,12 +92,31 @@
          </size>
         </property>
         <property name="text">
-         <string>A propos</string>
+         <string>About</string>
         </property>
        </widget>
       </item>
       <item>
-       <widget class="QLabel" name="label_5">
+       <widget class="QPushButton" name="exitButton">
+        <property name="sizePolicy">
+         <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
+          <horstretch>0</horstretch>
+          <verstretch>0</verstretch>
+         </sizepolicy>
+        </property>
+        <property name="maximumSize">
+         <size>
+          <width>16777215</width>
+          <height>50</height>
+         </size>
+        </property>
+        <property name="text">
+         <string>Exit</string>
+        </property>
+       </widget>
+      </item>
+      <item>
+       <widget class="QLabel" name="parametersLabel">
         <property name="font">
          <font>
           <weight>75</weight>
@@ -110,16 +129,16 @@
        </widget>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout">
+       <layout class="QHBoxLayout" name="algoHLayout">
         <item>
-         <widget class="QLabel" name="label">
+         <widget class="QLabel" name="algoLabel">
           <property name="text">
            <string>  Algorithm</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="comboBox">
+         <widget class="QComboBox" name="algorithmComboBox">
           <item>
            <property name="text">
             <string>Recursive backtracer</string>
@@ -135,16 +154,16 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="ligne2">
+       <layout class="QHBoxLayout" name="widthHLayout">
         <item>
-         <widget class="QLabel" name="label_2">
+         <widget class="QLabel" name="widthLabel">
           <property name="text">
-           <string>   Largeur</string>
+           <string>  Width</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="spinBox">
+         <widget class="QSpinBox" name="widthSpinBox">
           <property name="maximum">
            <number>500</number>
           </property>
@@ -156,16 +175,16 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_3">
+       <layout class="QHBoxLayout" name="heightHLayout">
         <item>
-         <widget class="QLabel" name="label_4">
+         <widget class="QLabel" name="heightLabel">
           <property name="text">
-           <string>  Hauteur</string>
+           <string>  Height</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QSpinBox" name="spinBox_2">
+         <widget class="QSpinBox" name="heightSpinBox">
           <property name="maximum">
            <number>500</number>
           </property>
@@ -177,16 +196,16 @@
        </layout>
       </item>
       <item>
-       <layout class="QHBoxLayout" name="horizontalLayout_2">
+       <layout class="QHBoxLayout" name="startsFromHLayout">
         <item>
-         <widget class="QLabel" name="label_3">
+         <widget class="QLabel" name="startsFromLabel">
           <property name="text">
            <string> Starts from</string>
           </property>
          </widget>
         </item>
         <item>
-         <widget class="QComboBox" name="comboBox_2">
+         <widget class="QComboBox" name="startsFromComboBox">
           <item>
            <property name="text">
             <string>Top</string>
@@ -214,7 +233,7 @@
      </layout>
     </item>
     <item row="0" column="0" rowspan="2">
-     <widget class="QGraphicsView" name="graphicsView">
+     <widget class="QGraphicsView" name="mazeGraphicsView">
       <property name="minimumSize">
        <size>
         <width>750</width>
@@ -225,7 +244,11 @@
     </item>
    </layout>
   </widget>
-  <widget class="QStatusBar" name="statusbar"/>
+  <widget class="QStatusBar" name="statusbar">
+   <property name="enabled">
+    <bool>true</bool>
+   </property>
+  </widget>
  </widget>
  <resources/>
  <connections/>
