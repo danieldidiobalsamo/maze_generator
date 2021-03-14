@@ -17,12 +17,14 @@ class Cell
 		int _y;
 
 		bool _visited;
+		bool _isEntry;
+		bool _isExit;
 
 		Walls _walls;
 
 	public :
 		Cell();
-		Cell(int x, int y, bool built);
+		Cell(int x, int y, bool built, bool isEntry, bool isExit);
 		Cell(const Cell &c);
 		~Cell();
 		Cell &operator=(const Cell &c);
