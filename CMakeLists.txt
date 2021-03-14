@@ -22,14 +22,14 @@ find_package(Qt4 4.8.7 REQUIRED QtCore QtGui)
 INCLUDE(${QT_USE_FILE})
 ADD_DEFINITIONS(${QT_DEFINITIONS})
 
-qt4_wrap_cpp(MOC_FILES include/MainWindow.h)
+qt4_wrap_cpp(MOC_FILES include/WallWidget.hpp include/MainWindow.hpp)
 
 set(UIS interfaces/MainWindow.ui)
 qt4_wrap_ui(UIS_HDRS ${UIS})
 
 include_directories(include ${Boost_INCLUDE_DIR})
 
-add_executable(mazeGenerator src/main.cpp src/MainWindow.cpp ${SOURCE_FILES} ${UIS_HDRS} ${MOC_FILES})
+add_executable(mazeGenerator src/main.cpp src/MainWindow.cpp src/WallWidget.cpp ${SOURCE_FILES} ${UIS_HDRS} ${MOC_FILES})
 target_link_libraries(mazeGenerator PUBLIC Qt4::QtCore Qt4::QtGui)
 
 enable_testing()

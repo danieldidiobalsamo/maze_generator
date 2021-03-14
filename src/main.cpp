@@ -5,7 +5,7 @@
 
 #include "Maze.hpp"
 
-#include "MainWindow.h"
+#include "MainWindow.hpp"
 
 using namespace std;
 
