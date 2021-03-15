@@ -29,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->mazeGraphicsView->setScene(_scene);
 
+    //QObject::connect(ui->exitButton, SIGNAL(clicked()), qApp, SLOT(quit()));
     QObject::connect(ui->exitButton, SIGNAL(clicked()), qApp, SLOT(quit()));
 }
 
