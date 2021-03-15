@@ -1,18 +1,18 @@
-#include "WallWidget.hpp"
+#include "WallGraphicsItem.hpp"
 #include <iostream>
 
 //////////////////////////////////////////////////////////////////
 // constructors
-WallWidget::WallWidget() : _rect(), _pen(), _brush()
+WallGraphicsItem::WallGraphicsItem() : _rect(), _pen(), _brush()
 {
 }
 
-WallWidget::WallWidget(int x, int y, int w, int h, QPen &pen, QBrush &brush) : _rect(x, y, w, h), _pen(pen), _brush(brush)
+WallGraphicsItem::WallGraphicsItem(int x, int y, int w, int h, QPen &pen, QBrush &brush) : _rect(x, y, w, h), _pen(pen), _brush(brush)
 {
 
 }
 
-WallWidget::~WallWidget()
+WallGraphicsItem::~WallGraphicsItem()
 {
 
 }
@@ -20,12 +20,12 @@ WallWidget::~WallWidget()
 //////////////////////////////////////////////////////////////////
 // implements virtual pure function from QGraphicsItem
 
-QRectF WallWidget::boundingRect() const
+QRectF WallGraphicsItem::boundingRect() const
 {
 	return QRectF(_rect);
 }
 
-void WallWidget::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
+void WallGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
 {
 	Q_UNUSED(option);
 	Q_UNUSED(widget);

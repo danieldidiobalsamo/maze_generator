@@ -1,25 +1,29 @@
-#ifndef WALL_WIDGET_HPP
-#define WALL_WIDGET_HPP
+#ifndef CELL_WIDGET_HPP
+#define CELL_WIDGET_HPP
 
-#include <QGraphicsItem>
+
+#include <QGraphicsItemGroup>
 #include <QGraphicsScene>
 #include <QPainter>
 #include <QRect>
 #include <QRectF>
 #include <QPaintEvent>
 
+#include "WallGraphicsItem.hpp"
 
-class WallWidget : public QGraphicsItem
+class CellGraphicsItem : public QGraphicsItemGroup
 {
 	private :
+		WallGraphicsItem **_walls;
 		QRect _rect;
 		QPen _pen;
 		QBrush _brush;
 
-	public : 
-		WallWidget();
-		WallWidget(int x, int y, int w, int h, QPen &pen, QBrush &brush);
-		~WallWidget();
+	public :
+
+		CellGraphicsItem();
+		CellGraphicsItem(int x, int y, int w, int h, QPen &pen, QBrush &brush);
+		~CellGraphicsItem();
 
 		// implements virtual pure function from QGraphicsItem
 		QRectF boundingRect() const;

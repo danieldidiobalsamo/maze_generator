@@ -12,19 +12,34 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
 	_scene = new QGraphicsScene(this);
-
+//tmp
 	QBrush blackBrush(Qt::black);
 	QPen pen(Qt::black);
 	pen.setWidth(2);
-	w = new WallWidget(0, 0, 40, 10, pen, blackBrush);
+	_w = new WallGraphicsItem(0, 0, 40, 10, pen, blackBrush);
 
-	_scene->addItem(w);
+	QBrush yellowBrush(Qt::yellow);
+	QPen yellowPen(Qt::yellow);
+	pen.setWidth(2);
+
+	_c = new CellGraphicsItem(50, 50, 30, 30, yellowPen, yellowBrush);
+
+	_scene->addItem(_w);
+	_scene->addItem(_c);
 
     ui->mazeGraphicsView->setScene(_scene);
+
+    QObject::connect(ui->exitButton, SIGNAL(clicked()), qApp, SLOT(quit()));
 }
 
 MainWindow::~MainWindow()
 {
+    _scene->removeItem(_w);
+	_scene->removeItem(_c);
+
     delete ui;
     delete _scene;
+
+    delete _w;
+    delete _c;
 }

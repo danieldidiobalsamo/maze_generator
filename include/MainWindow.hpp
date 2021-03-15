@@ -6,7 +6,8 @@
 #include <QGraphicsScene>
 #include <QPainter>
 
-#include "WallWidget.hpp"
+#include "WallGraphicsItem.hpp"
+#include "CellGraphicsItem.hpp"
 
 namespace Ui {
 class MainWindow;
@@ -19,7 +20,8 @@ class MainWindow : public QMainWindow
 	private:
 	    Ui::MainWindow *ui;
 	    QGraphicsScene *_scene;
-	    WallWidget *w;
+	    WallGraphicsItem *_w;
+	    CellGraphicsItem *_c;
 
 	public:
 	    explicit MainWindow(QWidget *parent = 0);
