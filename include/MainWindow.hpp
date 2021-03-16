@@ -8,6 +8,7 @@
 
 #include "WallGraphicsItem.hpp"
 #include "CellGraphicsItem.hpp"
+#include "MazeGraphicsItem.hpp"
 
 namespace Ui {
 class MainWindow;
@@ -22,6 +23,7 @@ class MainWindow : public QMainWindow
 	    QGraphicsScene *_scene;
 	    WallGraphicsItem *_w;
 	    CellGraphicsItem *_c;
+	    MazeGraphicsItem *_mazeItem;
 
 	public:
 	    explicit MainWindow(QWidget *parent = 0);

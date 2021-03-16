@@ -25,9 +25,13 @@ class CellGraphicsItem : public QGraphicsItemGroup
 		CellGraphicsItem(int x, int y, int w, int h, QPen &pen, QBrush &brush);
 		~CellGraphicsItem();
 
+		CellGraphicsItem& operator=(const CellGraphicsItem &c);
+
 		// implements virtual pure function from QGraphicsItem
 		QRectF boundingRect() const;
 		void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+
+		void setRect(QRect rect);
 };
 
 #endif

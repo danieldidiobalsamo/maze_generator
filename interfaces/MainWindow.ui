@@ -164,11 +164,14 @@
         </item>
         <item>
          <widget class="QSpinBox" name="widthSpinBox">
+          <property name="minimum">
+           <number>2</number>
+          </property>
           <property name="maximum">
-           <number>500</number>
+           <number>20</number>
           </property>
           <property name="value">
-           <number>100</number>
+           <number>20</number>
           </property>
          </widget>
         </item>
@@ -185,11 +188,14 @@
         </item>
         <item>
          <widget class="QSpinBox" name="heightSpinBox">
+          <property name="minimum">
+           <number>2</number>
+          </property>
           <property name="maximum">
-           <number>500</number>
+           <number>20</number>
           </property>
           <property name="value">
-           <number>100</number>
+           <number>20</number>
           </property>
          </widget>
         </item>
