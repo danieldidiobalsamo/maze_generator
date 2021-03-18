@@ -3,7 +3,9 @@
 
 #include "Cell.hpp"
 
-class Maze // TODO
+#include <utility> // pair
+
+class Maze
 {
 	private :
 
@@ -15,10 +17,11 @@ class Maze // TODO
 	public :
 		Maze();
 		Maze(int width, int height);
-		Maze(const Maze &m); // TODO
+		Maze(int width, int height, bool allWallsBuilt, std::pair<int, int> entryPos, std::pair<int, int> exitPos);
+		Maze(const Maze &m);
 		~Maze();
 
-		Maze &operator=(const Maze &m); // TODO
+		Maze &operator=(const Maze &m);
 
 
 };

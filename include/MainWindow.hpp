@@ -6,6 +6,8 @@
 #include <QGraphicsScene>
 #include <QPainter>
 
+#include <utility>
+
 #include "WallGraphicsItem.hpp"
 #include "CellGraphicsItem.hpp"
 #include "MazeGraphicsItem.hpp"
@@ -28,6 +30,8 @@ class MainWindow : public QMainWindow
 	public:
 	    explicit MainWindow(QWidget *parent = 0);
 	    ~MainWindow();
+
+	    std::pair<int, int> getMazeSize();
 };
 
 #endif

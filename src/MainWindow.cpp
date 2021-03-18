@@ -53,3 +53,8 @@ MainWindow::~MainWindow()
    /* delete _w;
     delete _c;*/
 }
+
+std::pair<int, int> MainWindow::getMazeSize()
+{
+	return std::make_pair(ui->widthSpinBox->value(), ui->heightSpinBox->value());
+}

@@ -23,6 +23,31 @@ Maze::Maze(int width, int height)
 	}
 }
 
+Maze::Maze(int width, int height, bool allWallsBuilt, std::pair<int, int> entryPos, std::pair<int, int> exitPos)
+{
+	_width = width;
+	_height = height;
+
+	_grid = new Cell*[height];
+
+	for (int row = 0; row < height; ++row)
+	{
+		_grid[row] = new Cell[width];
+
+		for (int col = 0; col < width; ++col)
+		{
+			if(entryPos.first == row && entryPos.second == col) // cell is entry
+				_grid[row][col] = Cell(row, col, false, true, false);
+			
+			else if(exitPos.first == row && exitPos.second == col)// cell is exit
+				_grid[row][col] = Cell(row, col, false, false, true);
+			
+			else // cell is a normal cell
+				_grid[row][col] = Cell(row, col, allWallsBuilt, false, false);
+		}
+	}
+}
+
 Maze::~Maze()
 {
 	if(_grid != nullptr)

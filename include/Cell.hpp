@@ -13,8 +13,8 @@ enum WallState
 class Cell
 {
 	private :
-		int _x;
-		int _y;
+		int _row;
+		int _col;
 
 		bool _visited;
 		bool _isEntry;
@@ -24,7 +24,7 @@ class Cell
 
 	public :
 		Cell();
-		Cell(int x, int y, bool built, bool isEntry, bool isExit);
+		Cell(int row, int col, bool built, bool isEntry, bool isExit);
 		Cell(const Cell &c);
 		~Cell();
 		Cell &operator=(const Cell &c);

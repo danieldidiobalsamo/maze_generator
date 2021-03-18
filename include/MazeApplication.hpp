@@ -1,14 +1,16 @@
 #ifndef APPLICATION_HPP
 #define APPLICATION_HPP
 
-#include "Maze.hpp"
+#include "EngineFacade.hpp"
 #include "MainWindow.hpp"
+
+#include <utility>
 
 class MazeApplication
 {
 	private :
 		MainWindow _mainWindow;
-		Maze _maze;
+		EngineFacade _engine;
 
 	public :
 
@@ -16,6 +18,7 @@ class MazeApplication
 		~MazeApplication();
 
 		void launch();
+		void generate();
 };
 
 #endif
