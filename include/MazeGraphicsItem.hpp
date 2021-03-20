@@ -11,6 +11,7 @@
 #include <vector>
 
 #include "CellGraphicsItem.hpp"
+#include "Maze.hpp"
 
 
 class MazeGraphicsItem : public QGraphicsItemGroup
@@ -27,7 +28,7 @@ class MazeGraphicsItem : public QGraphicsItemGroup
 
 	public : 
 		MazeGraphicsItem();
-		MazeGraphicsItem(int mazeWidth, int mazeHeight, int cellWidth, int cellHeight);
+		MazeGraphicsItem(int mazeWidth, int mazeHeight, int cellWidth, int cellHeight, Maze &maze);
 		~MazeGraphicsItem();
 
 		// implements virtual pure function from QGraphicsItem

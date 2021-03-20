@@ -29,7 +29,7 @@ qt4_wrap_ui(UIS_HDRS ${UIS})
 
 include_directories(include ${Boost_INCLUDE_DIR})
 
-add_executable(mazeGenerator src/main.cpp src/MazeApplication.cpp src/MainWindow.cpp src/WallGraphicsItem.cpp src/CellGraphicsItem.cpp  src/MazeGraphicsItem.cpp ${SOURCE_FILES} ${UIS_HDRS} ${MOC_FILES})
+add_executable(mazeGenerator src/main.cpp src/MainWindow.cpp src/WallGraphicsItem.cpp src/CellGraphicsItem.cpp  src/MazeGraphicsItem.cpp ${SOURCE_FILES} ${UIS_HDRS} ${MOC_FILES})
 target_link_libraries(mazeGenerator PUBLIC Qt4::QtCore Qt4::QtGui)
 
 enable_testing()

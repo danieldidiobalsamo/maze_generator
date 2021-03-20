@@ -17,6 +17,21 @@ WallGraphicsItem::~WallGraphicsItem()
 
 }
 
+/*
+WallGraphicsItem& WallGraphicsItem::operator=(const WallGraphicsItem &w)
+{
+	if(this == &w)
+		return *this;
+	else
+	{
+		_rect = w._rect;
+		_pen = w._pen;
+		_brush = w._brush;
+
+		return *this;
+	}
+}*/
+
 //////////////////////////////////////////////////////////////////
 // implements virtual pure function from QGraphicsItem
 

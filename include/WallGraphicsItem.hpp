@@ -21,6 +21,8 @@ class WallGraphicsItem : public QGraphicsItem
 		WallGraphicsItem(int x, int y, int w, int h, QPen &pen, QBrush &brush);
 		~WallGraphicsItem();
 
+		//WallGraphicsItem& operator=(const WallGraphicsItem &w);
+
 		// implements virtual pure function from QGraphicsItem
 		QRectF boundingRect() const;
 		void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);

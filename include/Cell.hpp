@@ -31,6 +31,9 @@ class Cell
 
 		bool isVisited();
 		void setVisited();
+
+		Walls getWalls() const;
+		void setWalls(bool north, bool west, bool south, bool east);
 };
 
 #endif

@@ -1,12 +1,13 @@
 #include <QApplication>
-#include "MazeApplication.hpp"
+#include "MainWindow.hpp"
 
 int main(int argc, char *argv[])
 {
 	QApplication app(argc, argv);
 
-	MazeApplication mazeAppli;
-	mazeAppli.launch();
+	MainWindow window;
+	window.show();
+	window.generate();//tmp : dans le futur c'est une méthode appeler via l'event click du bouton associé
 
 	return app.exec();
 }

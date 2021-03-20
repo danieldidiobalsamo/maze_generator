@@ -1,12 +1,14 @@
 #include "EngineFacade.hpp"
 
+#include <iostream>
+
 EngineFacade::EngineFacade()
 {
 	_mazeWidth = 0;
 	_mazeHeight = 0;
 }
 
-EngineFacade::EngineFacade(int w, int h, std::pair<int, int> entryPos, std::pair<int, int> exitPos, bool allWallsBuilt) : _mazeWidth(w), _mazeHeight(h), _maze(w, h, allWallsBuilt, entryPos, exitPos)
+EngineFacade::EngineFacade(int w, int h, std::pair<int, int> entryPos, std::pair<int, int> exitPos, bool allWallsBuilt) : _mazeWidth(w), _mazeHeight(h), _maze(w, h, entryPos, exitPos, allWallsBuilt)
 {
 
 }
@@ -32,4 +34,24 @@ EngineFacade& EngineFacade::operator=(const EngineFacade &f)
 
 		return *this;
 	}	
+}
+
+void EngineFacade::generateMaze(const std::string algo)
+{
+	if(algo == "hunt")
+		huntAndKillGeneration();
+	else
+	{
+		std::cout << "Bad algorithm name" << std::endl;
+	}
+}
+
+void EngineFacade::huntAndKillGeneration()
+{
+	_maze.huntAndKill();
+}
+
+Maze& EngineFacade::getMaze()
+{
+	return _maze;
 }

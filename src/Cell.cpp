@@ -49,4 +49,17 @@ Cell& Cell::operator=(const Cell &c)
 	}
 }
 
+Walls Cell::getWalls() const
+{
+	return _walls;
+}
+
+void Cell::setWalls(bool north, bool west, bool south, bool east)
+{
+	_walls.setNorthWall(north);
+	_walls.setWestWall(west);
+	_walls.setSouthWall(south);
+	_walls.setEastWall(east);
+}
+
 ////////////////////////////

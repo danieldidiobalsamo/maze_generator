@@ -8,9 +8,8 @@
 
 #include <utility>
 
-#include "WallGraphicsItem.hpp"
-#include "CellGraphicsItem.hpp"
 #include "MazeGraphicsItem.hpp"
+#include "EngineFacade.hpp"
 
 namespace Ui {
 class MainWindow;
@@ -23,15 +22,16 @@ class MainWindow : public QMainWindow
 	private:
 	    Ui::MainWindow *ui;
 	    QGraphicsScene *_scene;
-	    WallGraphicsItem *_w;
-	    CellGraphicsItem *_c;
 	    MazeGraphicsItem *_mazeItem;
+
+	    EngineFacade _engine;
 
 	public:
 	    explicit MainWindow(QWidget *parent = 0);
 	    ~MainWindow();
 
 	    std::pair<int, int> getMazeSize();
+	    void generate();
 };
 
 #endif

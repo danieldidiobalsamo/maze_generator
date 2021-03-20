@@ -23,7 +23,7 @@ Maze::Maze(int width, int height)
 	}
 }
 
-Maze::Maze(int width, int height, bool allWallsBuilt, std::pair<int, int> entryPos, std::pair<int, int> exitPos)
+Maze::Maze(int width, int height, std::pair<int, int> entryPos, std::pair<int, int> exitPos, bool allWallsBuilt)
 {
 	_width = width;
 	_height = height;
@@ -136,4 +136,22 @@ Maze& Maze::operator=(const Maze &m)
 			return *this;
 		}
 	}
+}
+
+Cell Maze::getCell(int row, int col) const
+{
+	return _grid[row][col];
+}
+
+void Maze::setCellWalls(int row, int col, bool north, bool west, bool south, bool east)
+{
+	_grid[row][col].setWalls(north, west, south, east);
+}
+
+void Maze::huntAndKill()
+{
+	setCellWalls(0, 10, false, false,false,false);
+
+	_grid[10][0].getWalls().printWalls();
+	_grid[0][10].getWalls().printWalls();
 }

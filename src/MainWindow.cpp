@@ -14,25 +14,11 @@ MainWindow::MainWindow(QWidget *parent) :
 
     ui->setupUi(this);
 	_scene = new QGraphicsScene(this);
-//tmp
-	/*QBrush blackBrush(Qt::black);
-	QPen pen(Qt::black);
-	pen.setWidth(2);
-	_w = new WallGraphicsItem(0, 0, 40, 10, pen, blackBrush);*/
 
-	// QBrush yellowBrush(Qt::yellow);
-	// QPen yellowPen(Qt::yellow);
-	//pen.setWidth(2);
-
-	//_c = new CellGraphicsItem(50, 50, 30, 30, yellowPen, yellowBrush);
-
-	//_scene->addItem(_w);
-	//_scene->addItem(_c);
-
-	_mazeItem = new MazeGraphicsItem(20, 20, 30, 30);
+	/*_mazeItem = new MazeGraphicsItem(20, 20, 30, 30);
 	_scene->addItem(_mazeItem);
 
-    ui->mazeGraphicsView->setScene(_scene);
+    ui->mazeGraphicsView->setScene(_scene);*/
 
     QObject::connect(ui->exitButton, SIGNAL(clicked()), qApp, SLOT(quit()));
 }
@@ -42,7 +28,11 @@ MainWindow::~MainWindow()
     //_scene->removeItem(_w);
 	//_scene->removeItem(_c);
 	//_scene->removeItem(_mazeItem);
-    _scene->destroyItemGroup(_mazeItem);
+ 
+	if(_mazeItem != nullptr)
+	{
+    	_scene->destroyItemGroup(_mazeItem);
+	}
 
     delete ui;
     delete _scene;
@@ -57,4 +47,22 @@ MainWindow::~MainWindow()
 std::pair<int, int> MainWindow::getMazeSize()
 {
 	return std::make_pair(ui->widthSpinBox->value(), ui->heightSpinBox->value());
+}
+
+void MainWindow::generate()
+{
+	// generating the maze
+
+	std::pair<int, int> mazeSize = getMazeSize();
+	//todo : genérer random départ et exit selon le côté choisi
+	_engine = EngineFacade(mazeSize.first, mazeSize.second, std::make_pair(0,5), std::make_pair(19, 19), true);
+	_engine.generateMaze("hunt");
+
+	//drawing the maze
+
+	_mazeItem = new MazeGraphicsItem(20, 20, 30, 30, _engine.getMaze());
+	_scene->addItem(_mazeItem);
+
+    ui->mazeGraphicsView->setScene(_scene);
+
 }

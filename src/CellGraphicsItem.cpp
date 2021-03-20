@@ -1,48 +1,48 @@
 #include "CellGraphicsItem.hpp"
+#include "Cell.hpp"
 
 #include <iostream>
 #include <cmath>
 
 //////////////////////////////////////////////////////////////////
 // constructors
-CellGraphicsItem::CellGraphicsItem() : _rect(), _pen(Qt::yellow), _brush(Qt::yellow)
+CellGraphicsItem::CellGraphicsItem() : _rect(), _pen(Qt::lightGray, 2), _brush(Qt::lightGray)
 {
-	_walls = nullptr;
-}
 
-CellGraphicsItem::CellGraphicsItem(int x, int y, int w, int h, QPen &pen, QBrush &brush) : _rect(x, y, w, h), _pen(pen), _brush(brush)
+}
+/*
+CellGraphicsItem::CellGraphicsItem(int x, int y, int w, int h, QPen &pen, QBrush &brush, const Cell &cell) : 
+_rect(x, y, w, h), 
+_pen(pen), 
+_brush(brush)
 {
-	_walls = new WallGraphicsItem*[4];
+	std::cout << "constructor" << std::endl;
 
 	QBrush blackBrush(Qt::black);
 	QPen blackPen(Qt::black);
-	pen.setWidth(2);
+	blackPen.setWidth(2);
+	
+	_northWall = new WallGraphicsItem(x, y-floor(h/4), w, 10, blackPen, blackBrush);
+	_westWall = new WallGraphicsItem(x, y+floor(h*0.95), w, 10, blackPen, blackBrush);
+	_southWall = new WallGraphicsItem(x, y+floor(h*0.95), w, 10, blackPen, blackBrush);
+	_eastWall = new WallGraphicsItem(x+floor(w*0.95), y, 10, h, blackPen, blackBrush);
 
-	_walls[0] = new WallGraphicsItem(x, y-floor(h/4), w, 10, blackPen, blackBrush);
-	_walls[1] = new WallGraphicsItem(x-floor(w/4), y, 10, h, blackPen, blackBrush);
-	_walls[2] = new WallGraphicsItem(x, y+floor(h*0.95), w, 10, blackPen, blackBrush);
-	_walls[3] = new WallGraphicsItem(x+floor(w*0.95), y, 10, h, blackPen, blackBrush);
+	Walls walls = cell.getWalls();
 
-	for (int i = 0; i < 4; ++i)
-	{
-		addToGroup(_walls[i]);
-	}
-}
+	buildWalls(walls);
+}*/
 
 CellGraphicsItem::~CellGraphicsItem()
 {
-	if(_walls != nullptr)
-	{
-		for (int i = 0; i < 4; ++i)
-		{
-			delete _walls[i];
-		}
-	}
-
+	// delete managé par _scene->destroyItemGroup dans ~MainWindow()
 }
 
-CellGraphicsItem& CellGraphicsItem::operator=(const CellGraphicsItem &c)
+/*
+TODO
+CellGraphicsItem& CellGraphicsItem::operator=(CellGraphicsItem &c)
 {
+	std::cout << "operator" << std::endl;
+
 	if(this == &c)
 	{
 		return *this;
@@ -53,7 +53,14 @@ CellGraphicsItem& CellGraphicsItem::operator=(const CellGraphicsItem &c)
 		_pen = c._pen;
 		_brush = c._brush;
 
-		_walls = new WallGraphicsItem*[4];
+		*_northWall = c.getNorthWall();
+		*_westWall = c.getWestWall();
+		*_southWall = c.getSouthWall();
+		*_eastWall = c.getEastWall();
+
+		//_walls = new WallGraphicsItem*[4];
+
+		//_walls = c._walls;
 
 		int x = c._rect.x();
 		int y = c._rect.y();
@@ -63,6 +70,8 @@ CellGraphicsItem& CellGraphicsItem::operator=(const CellGraphicsItem &c)
 		QBrush blackBrush(Qt::black);
 		QPen blackPen(Qt::black);
 		blackPen.setWidth(2);
+
+
 
 		_walls[0] = new WallGraphicsItem(x, y-floor(h/4), w, 10, blackPen, blackBrush);
 		_walls[1] = new WallGraphicsItem(x-floor(w/4), y, 10, h, blackPen, blackBrush);
@@ -76,7 +85,7 @@ CellGraphicsItem& CellGraphicsItem::operator=(const CellGraphicsItem &c)
 
 		return *this;
 	}
-}
+}*/
 //////////////////////////////////////////////////////////////////
 // implements virtual pure function from QGraphicsItem
 
@@ -101,6 +110,41 @@ void CellGraphicsItem::setRect(QRect rect)
 	_rect = rect;
 }
 
+void CellGraphicsItem::buildWalls(Walls &walls)
+{
+	if(walls.hasNorthWall())
+	{
+		addToGroup(_northWall);
+	}
+	if(walls.hasWestWall())
+	{
+		addToGroup(_westWall);
+	}
+	if(walls.hasEastWall())
+	{
+		addToGroup(_eastWall);
+	}
+	if(walls.hasSouthWall())
+	{
+		addToGroup(_southWall);
+	}
+}
 
+void CellGraphicsItem::generate(int x, int y, int w, int h, const Cell &cell)
+{
+	_rect = QRect(x, y, w, h);
 
+	QBrush blackBrush(Qt::black);
+	QPen blackPen(Qt::black);
+	blackPen.setWidth(1);
+
+	_northWall = new WallGraphicsItem(x, y-floor(h/4), w, 10, blackPen, blackBrush);
+	_westWall = new WallGraphicsItem(x-floor(w/4), y, 10, h, blackPen, blackBrush);
+	_southWall = new WallGraphicsItem(x, y+floor(h*0.95), w, 10, blackPen, blackBrush);
+	_eastWall = new WallGraphicsItem(x+floor(w*0.95), y, 10, h, blackPen, blackBrush);
+
+	Walls walls = cell.getWalls();
+
+	buildWalls(walls);
+}
 //////////////////////////////////////////////////////////////////

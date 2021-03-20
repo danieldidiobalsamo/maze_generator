@@ -44,42 +44,22 @@ bool Walls::hasSouthWall()
 
 
 // methods to build walls
-void Walls::buildWestWall()
+void Walls::setWestWall(bool built)
 {
-	_westWall = true;
+	_westWall = built;
 }
-void Walls::buildEastWall()
+void Walls::setEastWall(bool built)
 {
-	_eastWall = true;
+	_eastWall = built;
 }
-void Walls::buildNorthWall()
+void Walls::setNorthWall(bool built)
 {
-	_northWall = true;
+	_northWall = built;
 }
-void Walls::buildSouthWall()
+void Walls::setSouthWall(bool built)
 {
-	_southWall = true;
+	_southWall = built;
 }
-
-
-// methods to remove walls
-void Walls::removeWestWall()
-{
-	_westWall = false;
-}
-void Walls::removeEastWall()
-{
-	_eastWall = false;
-}
-void Walls::removeNorthWall()
-{
-	_northWall = false;
-}
-void Walls::removeSouthWall()
-{
-	_southWall = false;
-}
-
 
 // method to print the walls in the terminal
 void Walls::printWalls()

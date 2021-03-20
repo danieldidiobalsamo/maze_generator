@@ -21,15 +21,10 @@ class Walls
 		bool hasNorthWall();
 		bool hasSouthWall();
 
-		void buildWestWall();
-		void buildEastWall();
-		void buildNorthWall();
-		void buildSouthWall();
-
-		void removeWestWall();
-		void removeEastWall();
-		void removeNorthWall();
-		void removeSouthWall();
+		void setWestWall(bool built);
+		void setEastWall(bool built);
+		void setNorthWall(bool built);
+		void setSouthWall(bool built);
 
 		void printWalls();
 };

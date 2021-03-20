@@ -1,4 +1,5 @@
 #include "MazeGraphicsItem.hpp"
+#include "Cell.hpp"
 
 #include <cmath>
 #include <QRect>
@@ -19,7 +20,7 @@ MazeGraphicsItem::MazeGraphicsItem()
 	_grid = nullptr;
 }
 
-MazeGraphicsItem::MazeGraphicsItem(int mazeWidth, int mazeHeight, int cellWidth, int cellHeight)
+MazeGraphicsItem::MazeGraphicsItem(int mazeWidth, int mazeHeight, int cellWidth, int cellHeight, Maze &maze)
 {
 	_mazeWidth = mazeWidth;
 	_mazeHeight = mazeHeight;
@@ -44,7 +45,9 @@ MazeGraphicsItem::MazeGraphicsItem(int mazeWidth, int mazeHeight, int cellWidth,
 			currentX = floor(_cellWidth/2) + row * _cellWidth;
 			currentY = floor(_cellHeight/2) + col * _cellHeight;
 
-			_grid[row][col] = CellGraphicsItem(currentX, currentY, _cellWidth, _cellHeight, yellowPen, yellowBrush);
+			//_grid[row][col] = CellGraphicsItem(currentX, currentY, _cellWidth, _cellHeight, yellowPen, yellowBrush, maze.getCell(row, col));
+			_grid[row][col].generate(currentX, currentY, _cellWidth, _cellHeight, maze.getCell(row, col));
+
 			addToGroup(&_grid[row][col]);
 		}
 	}

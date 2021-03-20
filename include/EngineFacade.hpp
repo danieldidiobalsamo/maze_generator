@@ -25,12 +25,14 @@ class EngineFacade
 		EngineFacade& operator=(const EngineFacade &f);
 
 		void initMaze();
-		void generateMaze(std::string algo);
+		void generateMaze(const std::string algo);
 
 		// generation algo
 
-		void huntAndKill();
+		void huntAndKillGeneration();
 		void recursiveBacktrace();
+
+		Maze& getMaze();
 };
 
 #endif
