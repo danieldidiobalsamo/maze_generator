@@ -4,6 +4,9 @@
 #include "Cell.hpp"
 
 #include <utility> // pair
+#include <random>
+#include <time.h>
+
 
 enum CarvingDirection
 {
@@ -20,8 +23,17 @@ class Maze
 		int _width;
 		int _height;
 
+		std::pair<int, int> _entryPos;
+		std::pair<int, int> _exitPos;
+
 		Cell **_grid;
+
+		std::default_random_engine _randomEngine;
+
 		void setCellWalls(int row, int col, bool north, bool west, bool south, bool east);
+		std::pair<int, int> chooseRandomNeighbors(int row, int col);
+		std::vector<std::pair<int, int>> getNeighbors(std::pair<int, int> cell);
+		bool isDeadEnd(std::pair<int ,int> cell);
 
 	public :
 		Maze();

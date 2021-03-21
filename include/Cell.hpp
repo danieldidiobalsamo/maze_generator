@@ -29,8 +29,8 @@ class Cell
 		~Cell();
 		Cell &operator=(const Cell &c);
 
-		bool isVisited();
-		void setVisited();
+		void setVisited(bool visited);
+		bool isVisited() const;
 
 		Walls getWalls() const;
 		void setWalls(bool north, bool west, bool south, bool east);

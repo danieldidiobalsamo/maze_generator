@@ -79,4 +79,14 @@ void Cell::setEastWall(bool built)
 	_walls.setEastWall(built);
 }
 
+void Cell::setVisited(bool visited)
+{
+	_visited = visited;
+}
+
+bool Cell::isVisited() const
+{
+	return _visited;
+}
+
 ////////////////////////////

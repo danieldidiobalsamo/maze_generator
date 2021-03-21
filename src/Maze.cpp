@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-Maze::Maze()
+Maze::Maze() : _randomEngine(time(0))
 {
 	_grid = nullptr;
 
@@ -10,7 +10,7 @@ Maze::Maze()
 	_height = 0;
 }
 
-Maze::Maze(int width, int height)
+Maze::Maze(int width, int height) : _randomEngine(time(0))
 {
 	_width = width;
 	_height = height;
@@ -23,10 +23,13 @@ Maze::Maze(int width, int height)
 	}
 }
 
-Maze::Maze(int width, int height, std::pair<int, int> entryPos, std::pair<int, int> exitPos, bool allWallsBuilt)
+Maze::Maze(int width, int height, std::pair<int, int> entryPos, std::pair<int, int> exitPos, bool allWallsBuilt) : _randomEngine(time(0))
 {
 	_width = width;
 	_height = height;
+
+	_entryPos = entryPos;
+	_exitPos = exitPos;
 
 	_grid = new Cell*[height];
 
@@ -212,10 +215,184 @@ int Maze::carve(std::pair<int, int> src, std::pair<int, int> dest)
 	return 0;
 }
 
+std::pair<int, int> Maze::chooseRandomNeighbors(int row, int col)
+{
+	std::uniform_int_distribution<int> intDistribution(1, 4);
+
+	bool correctCell = false;
+
+	std::pair<int, int> cell;
+
+	while(!correctCell)
+	{
+		int neighbor = intDistribution(_randomEngine);
+
+		switch(neighbor)
+		{
+			case 1 :
+				//choosing north
+				cell = std::make_pair(row-1, col);
+				break;
+			case 2 :
+				//choosing west
+				cell = std::make_pair(row, col-1);
+				break;
+			case 3 :
+				//choosing south
+				cell = std::make_pair(row+1, col);
+				break;
+			case 4 :
+				//choosing east
+				cell = std::make_pair(row, col+1);
+				break;
+		}
+
+		bool correctRow = cell.first >= 0 && cell.first < _height;
+		bool correctHeight = cell.second >= 0 && cell.second < _width;
+
+		if(correctRow && correctHeight)
+			correctCell = true;
+	}
+
+	return cell;
+}
+
+std::vector<std::pair<int, int>> Maze::getNeighbors(std::pair<int, int> cell)
+{
+	std::vector<std::pair<int, int>> neighbor;
+
+	int row = cell.first;
+	int col = cell.second;
+
+	if(row-1 > 0)
+		neighbor.push_back(std::make_pair(row-1, col));
+	if(row+1 < _height)
+		neighbor.push_back(std::make_pair(row+1, col));
+	if(col-1 > 0)
+		neighbor.push_back(std::make_pair(row, col-1));
+	if(col+1 < _width)
+		neighbor.push_back(std::make_pair(row, col+1));
+
+	return neighbor;
+}
+
+bool Maze::isDeadEnd(std::pair<int ,int> cell)
+{
+	std::vector<std::pair<int, int>> neighbor = getNeighbors(cell);
+	bool unvisitedCell = false;
+
+	std::vector<std::pair<int, int>>::iterator neighborEnd = neighbor.end();
+	std::vector<std::pair<int, int>>::iterator it = neighbor.begin();
+
+	do
+	{
+		int row = it->first;
+		int col = it->second;
+
+		if(_grid[row][col].isVisited() == false)
+			unvisitedCell = true;
+
+		++it;
+	}while(!unvisitedCell && it != neighborEnd);
+
+	if(unvisitedCell)
+		return false;
+	else
+		return true;
+
+}
+
 void Maze::huntAndKill()
 {
-	carve(std::make_pair(2, 2), std::make_pair(2, 3));
-	carve(std::make_pair(2, 2), std::make_pair(2, 1));
-	carve(std::make_pair(2, 2), std::make_pair(1, 2));
-	carve(std::make_pair(2, 2), std::make_pair(3, 2));
+	// TODO : ajouter un compteur + getter pour la barre de progression lors de la génération
+
+	std::pair<int, int> currentCell = _entryPos;
+	_grid[currentCell.first][currentCell.second].setVisited(true);
+	
+	std::pair<int, int> nextCell;
+	bool allCellsTreated = false;
+	bool huntMode = false;
+
+
+	//looping on the whole maze
+	do
+	{
+		do // looping until a dead end if reached
+		{
+			if(isDeadEnd(currentCell))
+			{
+				// launching hunt mode
+				huntMode = true;
+				std::cout << "deadend" << std::endl;
+				std::cout << currentCell.first << " " << currentCell.second << std::endl;
+			}
+			else
+			{
+				//choosing an unvisited cell
+
+				do
+				{
+					nextCell = chooseRandomNeighbors(currentCell.first, currentCell.second);
+				}while(_grid[nextCell.first][nextCell.second].isVisited());
+
+				_grid[nextCell.first][nextCell.second].setVisited(true);
+				carve(currentCell, nextCell);
+
+				currentCell = nextCell;
+			}
+
+		}while(!huntMode);
+
+		/*// hunt mode
+
+		bool unvisitedCell = false;
+		bool visitedNeighbor = false;
+		int row = 0, col = 0;
+
+		// searching for unvisited cell which has a visited neighbor
+		do
+		{
+			if(_grid[row][col].isVisited())
+			{
+				// checking its neighbors
+
+				std::vector<std::pair<int, int>> neighbor = getNeighbors(std::make_pair(row, col));
+
+				std::vector<std::pair<int, int>>::iterator neighborEnd = neighbor.end();
+				std::vector<std::pair<int, int>>::iterator it = neighbor.begin();
+
+				do
+				{
+					if(_grid[it->first][it->second].isVisited() == true)
+						visitedNeighbor = true;
+
+					++it;
+				}while(!visitedNeighbor && it != neighborEnd);
+
+				if(visitedNeighbor)
+				{
+					currentCell = std::make_pair(row, col);
+					unvisitedCell = true;
+				}
+
+				visitedNeighbor = false;
+
+			}
+
+			++row;
+			++col;
+		}while(!unvisitedCell && row < _height && col < _width);
+
+
+		if(!unvisitedCell)
+		{
+			allCellsTreated = true;
+		}
+*/
+		allCellsTreated = true;
+		
+
+		huntMode = false;
+	}while(!allCellsTreated);
+
 }
