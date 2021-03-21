@@ -46,7 +46,7 @@ MazeGraphicsItem::MazeGraphicsItem(int mazeWidth, int mazeHeight, int cellWidth,
 			currentY = floor(_cellHeight/2) + col * _cellHeight;
 
 			//_grid[row][col] = CellGraphicsItem(currentX, currentY, _cellWidth, _cellHeight, yellowPen, yellowBrush, maze.getCell(row, col));
-			_grid[row][col].generate(currentX, currentY, _cellWidth, _cellHeight, maze.getCell(row, col));
+			_grid[row][col].generate(currentY, currentX, _cellWidth, _cellHeight, maze.getCell(row, col));
 
 			addToGroup(&_grid[row][col]);
 		}
