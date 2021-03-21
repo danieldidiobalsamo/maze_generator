@@ -34,6 +34,10 @@ class Cell
 
 		Walls getWalls() const;
 		void setWalls(bool north, bool west, bool south, bool east);
+		void setNorthWall(bool built);
+		void setWestWall(bool built);
+		void setSouthWall(bool built);
+		void setEastWall(bool built);
 };
 
 #endif

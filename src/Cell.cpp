@@ -62,4 +62,21 @@ void Cell::setWalls(bool north, bool west, bool south, bool east)
 	_walls.setEastWall(east);
 }
 
+void Cell::setNorthWall(bool built)
+{
+	_walls.setNorthWall(built);
+}
+void Cell::setWestWall(bool built)
+{
+	_walls.setWestWall(built);
+}
+void Cell::setSouthWall(bool built)
+{
+	_walls.setSouthWall(built);
+}
+void Cell::setEastWall(bool built)
+{
+	_walls.setEastWall(built);
+}
+
 ////////////////////////////

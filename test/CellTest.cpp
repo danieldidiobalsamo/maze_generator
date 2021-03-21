@@ -9,8 +9,6 @@ using boost::unit_test::test_suite;
 
 BOOST_AUTO_TEST_CASE(SumValue)
 {
-	Cell cell;
-
 	BOOST_CHECK_EQUAL(1,1);
 }
 

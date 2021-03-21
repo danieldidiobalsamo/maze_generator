@@ -30,9 +30,9 @@ MazeGraphicsItem::MazeGraphicsItem(int mazeWidth, int mazeHeight, int cellWidth,
 
 	_grid = new CellGraphicsItem*[_mazeHeight];
 
-	QBrush yellowBrush(Qt::lightGray);
+	/*QBrush yellowBrush(Qt::lightGray);
 	QPen yellowPen(Qt::lightGray);
-	yellowPen.setWidth(2);
+	yellowPen.setWidth(1);*/
 
 	int currentX, currentY;
 

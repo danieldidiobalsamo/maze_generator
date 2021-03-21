@@ -148,10 +148,74 @@ void Maze::setCellWalls(int row, int col, bool north, bool west, bool south, boo
 	_grid[row][col].setWalls(north, west, south, east);
 }
 
+int Maze::carve(std::pair<int, int> src, std::pair<int, int> dest)
+{
+	// determining which walls to be removed
+
+	int srcRow = src.first;
+	int srcCol = src.second;
+
+	int destRow = dest.first;
+	int destCol = dest.second;
+
+	CarvingDirection direction;
+
+	if(srcCol != destCol) //carving horizontally
+	{
+		//carving to the left
+		if(srcCol < destCol)
+			direction = CARVING_EAST;
+		else
+			direction = CARVING_WEST;
+
+	}
+	else if(srcRow != destRow) //carving vertically
+	{
+
+		//carving to the left
+		if(srcRow < destRow)
+			direction = CARVING_SOUTH;
+		else
+			direction = CARVING_NORTH;
+
+	}
+	else
+	{
+		// TODO : refactor en utilisant des exceptions
+
+		std::cout << "Cells are not connected" << std::endl;
+		return -1;
+	}
+
+	
+	// removing the corresponding wall
+	switch(direction)
+	{
+		case CARVING_NORTH :
+			_grid[srcRow][srcCol].setNorthWall(false);
+			_grid[destRow][destCol].setSouthWall(false);
+			break;
+		case CARVING_SOUTH :
+			_grid[srcRow][srcCol].setSouthWall(false);
+			_grid[destRow][destCol].setNorthWall(false);
+			break;
+		case CARVING_WEST :
+			_grid[srcRow][srcCol].setWestWall(false);
+			_grid[destRow][destCol].setEastWall(false);
+			break;
+		case CARVING_EAST :
+			_grid[srcRow][srcCol].setEastWall(false);
+			_grid[destRow][destCol].setWestWall(false);
+			break;
+	}
+
+	return 0;
+}
+
 void Maze::huntAndKill()
 {
-	setCellWalls(0, 10, false, false,false,false);
-
-	_grid[10][0].getWalls().printWalls();
-	_grid[0][10].getWalls().printWalls();
+	carve(std::make_pair(2, 2), std::make_pair(2, 3));
+	carve(std::make_pair(2, 2), std::make_pair(2, 1));
+	carve(std::make_pair(2, 2), std::make_pair(1, 2));
+	carve(std::make_pair(2, 2), std::make_pair(3, 2));
 }

@@ -45,7 +45,6 @@ void WallGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
 	Q_UNUSED(option);
 	Q_UNUSED(widget);
 
-    //QPen pen(Qt::black, 3);
     painter->setBrush(_brush);
     painter->setPen(_pen);
     painter->drawRect(_rect);

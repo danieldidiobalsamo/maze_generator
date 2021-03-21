@@ -5,6 +5,14 @@
 
 #include <utility> // pair
 
+enum CarvingDirection
+{
+	CARVING_NORTH,
+	CARVING_WEST,
+	CARVING_SOUTH,
+	CARVING_EAST
+};
+
 class Maze
 {
 	private :
@@ -14,7 +22,6 @@ class Maze
 
 		Cell **_grid;
 		void setCellWalls(int row, int col, bool north, bool west, bool south, bool east);
-		
 
 	public :
 		Maze();
@@ -27,6 +34,7 @@ class Maze
 
 		Cell getCell(int row, int col) const;
 
+		int carve(std::pair<int, int>, std::pair<int, int>);	
 		void huntAndKill();
 };
 
