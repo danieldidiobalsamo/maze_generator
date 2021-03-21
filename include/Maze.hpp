@@ -32,8 +32,9 @@ class Maze
 
 		void setCellWalls(int row, int col, bool north, bool west, bool south, bool east);
 		std::pair<int, int> chooseRandomNeighbors(int row, int col);
-		std::vector<std::pair<int, int>> getNeighbors(std::pair<int, int> cell);
 		bool isDeadEnd(std::pair<int ,int> cell);
+		bool hasVisitedNeighbor(std::pair<int, int> cell, std::pair<int, int> &validNeighbor);
+		std::vector<std::pair<int, int>> getNeighbors(std::pair<int, int> cell);
 
 	public :
 		Maze();

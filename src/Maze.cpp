@@ -302,6 +302,29 @@ bool Maze::isDeadEnd(std::pair<int ,int> cell)
 
 }
 
+bool Maze::hasVisitedNeighbor(std::pair<int, int> cell, std::pair<int, int> &validNeighbor)
+{
+	bool visitedNeighbor = false;
+
+	std::vector<std::pair<int, int>> neighbor = getNeighbors(std::make_pair(cell.first, cell.second));
+
+	std::vector<std::pair<int, int>>::iterator neighborEnd = neighbor.end();
+	std::vector<std::pair<int, int>>::iterator it = neighbor.begin();
+
+	while(!visitedNeighbor && it != neighborEnd)
+	{
+		if(_grid[it->first][it->second].isVisited() == true)
+		{
+			validNeighbor = *it;
+			visitedNeighbor = true;
+		}
+
+		++it;
+	}
+
+	return visitedNeighbor;
+}
+
 void Maze::huntAndKill()
 {
 	// TODO : ajouter un compteur + getter pour la barre de progression lors de la génération
@@ -317,14 +340,12 @@ void Maze::huntAndKill()
 	//looping on the whole maze
 	do
 	{
-		do // looping until a dead end if reached
+		do // looping until a dead end is reached
 		{
 			if(isDeadEnd(currentCell))
 			{
 				// launching hunt mode
 				huntMode = true;
-				std::cout << "deadend" << std::endl;
-				std::cout << currentCell.first << " " << currentCell.second << std::endl;
 			}
 			else
 			{
@@ -343,56 +364,43 @@ void Maze::huntAndKill()
 
 		}while(!huntMode);
 
-		/*// hunt mode
+		// hunt mode
 
-		bool unvisitedCell = false;
-		bool visitedNeighbor = false;
+		bool selectedCell = false;
 		int row = 0, col = 0;
 
-		// searching for unvisited cell which has a visited neighbor
-		do
+		while(row < _height && !selectedCell)
 		{
-			if(_grid[row][col].isVisited())
-			{
-				// checking its neighbors
+			col = 0;
 
-				std::vector<std::pair<int, int>> neighbor = getNeighbors(std::make_pair(row, col));
-
-				std::vector<std::pair<int, int>>::iterator neighborEnd = neighbor.end();
-				std::vector<std::pair<int, int>>::iterator it = neighbor.begin();
-
-				do
+			while(col < _width && !selectedCell)
+			{	
+				if(_grid[row][col].isVisited() == false)
 				{
-					if(_grid[it->first][it->second].isVisited() == true)
-						visitedNeighbor = true;
+					// checking if among its neighbors, there is one who is visited
 
-					++it;
-				}while(!visitedNeighbor && it != neighborEnd);
+					std::pair<int, int> neighbor;
 
-				if(visitedNeighbor)
-				{
-					currentCell = std::make_pair(row, col);
-					unvisitedCell = true;
+					if(hasVisitedNeighbor(std::make_pair(row, col), neighbor))
+					{
+						currentCell = std::make_pair(row, col);
+						carve(currentCell, neighbor);
+
+						_grid[row][col].setVisited(true);
+						selectedCell = true;
+					}
 				}
-
-				visitedNeighbor = false;
-
+				++col;
 			}
 
 			++row;
-			++col;
-		}while(!unvisitedCell && row < _height && col < _width);
+		}
 
-
-		if(!unvisitedCell)
+		if(!selectedCell)
 		{
 			allCellsTreated = true;
 		}
-*/
-		allCellsTreated = true;
 		
-
 		huntMode = false;
 	}while(!allCellsTreated);
-
 }
