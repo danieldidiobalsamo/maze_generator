@@ -41,6 +41,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="solveButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -60,6 +63,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="convertPDFButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Preferred">
           <horstretch>0</horstretch>
@@ -79,6 +85,9 @@
       </item>
       <item>
        <widget class="QPushButton" name="aboutButton">
+        <property name="enabled">
+         <bool>false</bool>
+        </property>
         <property name="sizePolicy">
          <sizepolicy hsizetype="Expanding" vsizetype="Fixed">
           <horstretch>0</horstretch>
@@ -132,6 +141,9 @@
        <layout class="QHBoxLayout" name="algoHLayout">
         <item>
          <widget class="QLabel" name="algoLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string>  Algorithm</string>
           </property>
@@ -139,6 +151,9 @@
         </item>
         <item>
          <widget class="QComboBox" name="algorithmComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <item>
            <property name="text">
             <string>Recursive backtracer</string>
@@ -165,7 +180,7 @@
         <item>
          <widget class="QSpinBox" name="widthSpinBox">
           <property name="minimum">
-           <number>2</number>
+           <number>5</number>
           </property>
           <property name="maximum">
            <number>20</number>
@@ -205,6 +220,9 @@
        <layout class="QHBoxLayout" name="startsFromHLayout">
         <item>
          <widget class="QLabel" name="startsFromLabel">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <property name="text">
            <string> Starts from</string>
           </property>
@@ -212,6 +230,9 @@
         </item>
         <item>
          <widget class="QComboBox" name="startsFromComboBox">
+          <property name="enabled">
+           <bool>false</bool>
+          </property>
           <item>
            <property name="text">
             <string>Top</string>

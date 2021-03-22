@@ -7,9 +7,4 @@
 
 using boost::unit_test::test_suite;
 
-BOOST_AUTO_TEST_CASE(SumValue)
-{
-	BOOST_CHECK_EQUAL(1,1);
-}
-
 #endif

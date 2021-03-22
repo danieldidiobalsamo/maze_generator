@@ -43,7 +43,9 @@ Maze::Maze(int width, int height, std::pair<int, int> entryPos, std::pair<int, i
 				_grid[row][col] = Cell(row, col, false, true, false);
 			
 			else if(exitPos.first == row && exitPos.second == col)// cell is exit
+			{
 				_grid[row][col] = Cell(row, col, false, false, true);
+			}
 			
 			else // cell is a normal cell
 				_grid[row][col] = Cell(row, col, allWallsBuilt, false, false);
@@ -122,7 +124,7 @@ Maze& Maze::operator=(const Maze &m)
 		}
 		else if(m._width != _width || m._height != _height)
 		{
-			std::cerr << "Mazes have to be the same size" << std::endl; // TODO : add an exception later
+			std::cout << "Mazes must have the same size" << std::endl; // TODO : add an exception later
 			return *this;
 		}
 		else
@@ -327,9 +329,8 @@ bool Maze::hasVisitedNeighbor(std::pair<int, int> cell, std::pair<int, int> &val
 
 void Maze::huntAndKill()
 {
-	// TODO : ajouter un compteur + getter pour la barre de progression lors de la génération
-
 	std::pair<int, int> currentCell = _entryPos;
+
 	_grid[currentCell.first][currentCell.second].setVisited(true);
 	
 	std::pair<int, int> nextCell;

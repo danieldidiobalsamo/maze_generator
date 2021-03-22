@@ -24,13 +24,17 @@ class MainWindow : public QMainWindow
 	    QGraphicsScene *_scene;
 	    MazeGraphicsItem *_mazeItem;
 
-	    EngineFacade _engine;
+	    EngineFacade *_engine;
+
+	    std::default_random_engine _randomIntGenerator;
 
 	public:
 	    explicit MainWindow(QWidget *parent = 0);
 	    ~MainWindow();
 
 	    std::pair<int, int> getMazeSize();
+
+	public slots:
 	    void generate();
 };
 

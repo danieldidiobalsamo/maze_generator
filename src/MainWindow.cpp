@@ -6,21 +6,21 @@
 #include <QBrush>
 #include <QPen>
 #include <QPainter>
+#include <iostream>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow)
+    ui(new Ui::MainWindow),
+    _randomIntGenerator(time(0))
 {
+	_engine = nullptr;
+	_mazeItem = nullptr;
 
     ui->setupUi(this);
 	_scene = new QGraphicsScene(this);
 
-	/*_mazeItem = new MazeGraphicsItem(20, 20, 30, 30);
-	_scene->addItem(_mazeItem);
-
-    ui->mazeGraphicsView->setScene(_scene);*/
-
     QObject::connect(ui->exitButton, SIGNAL(clicked()), qApp, SLOT(quit()));
+    QObject::connect(ui->generateButton, SIGNAL(clicked()), this, SLOT(generate()));
 }
 
 MainWindow::~MainWindow()
@@ -36,12 +36,6 @@ MainWindow::~MainWindow()
 
     delete ui;
     delete _scene;
-
-
-    //delete _mazeItem;
-
-   /* delete _w;
-    delete _c;*/
 }
 
 std::pair<int, int> MainWindow::getMazeSize()
@@ -54,15 +48,29 @@ void MainWindow::generate()
 	// generating the maze
 
 	std::pair<int, int> mazeSize = getMazeSize();
-	//todo : genérer random départ et exit selon le côté choisi
-	_engine = EngineFacade(mazeSize.first, mazeSize.second, std::make_pair(0,5), std::make_pair(19, 19), true);
-	_engine.generateMaze("hunt");
+
+	// determining random entry
+	//TODO amélioration : selon le côté choisi
+	int w = mazeSize.first;
+	int h = mazeSize.second;
+
+	std::uniform_int_distribution<int> widthDistrib(0, w-1);
+
+	std::pair<int, int> randomEntry = std::make_pair(0, widthDistrib(_randomIntGenerator));
+
+	if(_engine != nullptr)
+		delete _engine;
+
+	_engine = new EngineFacade(mazeSize.first, mazeSize.second, randomEntry, std::make_pair(h-1, w-1), true);
+	_engine->generateMaze("hunt");
 
 	//drawing the maze
 
-	_mazeItem = new MazeGraphicsItem(20, 20, 30, 30, _engine.getMaze());
+	if(_mazeItem != nullptr)
+		_scene->destroyItemGroup(_mazeItem);
+
+	_mazeItem = new MazeGraphicsItem(w, h, 30, 30, _engine->getMaze());
 	_scene->addItem(_mazeItem);
 
     ui->mazeGraphicsView->setScene(_scene);
-
 }
