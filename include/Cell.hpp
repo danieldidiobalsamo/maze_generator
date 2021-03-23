@@ -3,13 +3,6 @@
 
 #include "Walls.hpp"
 
-// enumeration used to determine if a wall is built or not
-enum WallState
-{
-	WALL_BUILT,
-	WALL_EMPTY
-};
-
 class Cell
 {
 	private :

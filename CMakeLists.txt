@@ -13,7 +13,7 @@ set(CMAKE_AUTOUIC ON)
 set(CMAKE_INCLUDE_CURRENT_DIR ON)#finds includes in build directory
 set(CMAKE_AUTOUIC_SEARCH_PATHS interfaces)
 
-set(SOURCE_FILES src/Maze.cpp src/Cell.cpp src/Walls.cpp src/EngineFacade.cpp)
+set(SOURCE_FILES src/Maze.cpp src/Cell.cpp src/Walls.cpp src/EngineFacade.cpp src/MazeGrid.cpp)
 set(TEST_FILES test/MazeTest.cpp test/CellTest.cpp)
 
 find_package(Boost 1.55 REQUIRED COMPONENTS unit_test_framework REQUIRED)

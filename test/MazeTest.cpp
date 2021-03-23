@@ -7,7 +7,7 @@
 #include "Maze.hpp"
 
 using boost::unit_test::test_suite;
-
+/*
 BOOST_AUTO_TEST_CASE(CarvingEast)
 {
 	// "normal" use of carving function
@@ -106,4 +106,4 @@ BOOST_AUTO_TEST_CASE(CarvingNorth)
 	BOOST_CHECK_EQUAL(w2.hasNorthWall(),true);
 	BOOST_CHECK_EQUAL(w2.hasWestWall(),true);
 	BOOST_CHECK_EQUAL(w2.hasEastWall(),true);
-}
+}*/
