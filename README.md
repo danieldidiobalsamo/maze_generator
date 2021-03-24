@@ -19,7 +19,7 @@ Pour compiler et lancer le projet :
 - ./mazeGenerator
 
 Pour lancer les tests unitaires :
-- ctest
+- ctest --verbose
 
 Pour lancer KCacheGrind :
 - ../runKCacheGrind.sh
