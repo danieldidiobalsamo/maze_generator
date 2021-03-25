@@ -32,23 +32,13 @@ class CellGraphicsItem : public QGraphicsItemGroup
 	public :
 
 		CellGraphicsItem();
-		//CellGraphicsItem(int x, int y, int w, int h, QPen &pen, QBrush &brush, const Cell &cell);
 		~CellGraphicsItem();
-
-		//TODO
-		//CellGraphicsItem& operator=(CellGraphicsItem &c);
 
 		// implements virtual pure function from QGraphicsItem
 		QRectF boundingRect() const;
 		void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
 		void setRect(QRect rect);
-
-		/*WallGraphicsItem getNorthWall();
-		WallGraphicsItem getWestWall();
-		WallGraphicsItem getSouthWall();
-		WallGraphicsItem getEastWall();*/
-
 		void generate(int x, int y, int w, int h, const Cell &cell);
 
 };

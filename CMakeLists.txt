@@ -1,11 +1,8 @@
-cmake_minimum_required(VERSION 2.6)
+cmake_minimum_required(VERSION 3.10)
 
 project(MazeGenerator)
 
-set(CMAKE_CXX_STANDARD 11)
-#set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -g")
-
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
@@ -22,7 +19,7 @@ find_package(Qt4 4.8.7 REQUIRED QtCore QtGui)
 INCLUDE(${QT_USE_FILE})
 ADD_DEFINITIONS(${QT_DEFINITIONS})
 
-qt4_wrap_cpp(MOC_FILES include/WallGraphicsItem.hpp include/CellGraphicsItem.hpp include/MazeGraphicsItem.hpp include/MainWindow.hpp)
+qt4_wrap_cpp(MOC_FILES include/MainWindow.hpp)
 
 set(UIS interfaces/MainWindow.ui)
 qt4_wrap_ui(UIS_HDRS ${UIS})

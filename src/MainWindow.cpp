@@ -25,17 +25,18 @@ MainWindow::MainWindow(QWidget *parent) :
 
 MainWindow::~MainWindow()
 {
-    //_scene->removeItem(_w);
-	//_scene->removeItem(_c);
-	//_scene->removeItem(_mazeItem);
- 
 	if(_mazeItem != nullptr)
 	{
-    	_scene->destroyItemGroup(_mazeItem);
+		delete _mazeItem;
 	}
 
-    delete ui;
+	if(_engine != nullptr)
+	{
+		delete _engine;
+	}
+
     delete _scene;
+    delete ui;
 }
 
 std::pair<int, int> MainWindow::getMazeSize()
