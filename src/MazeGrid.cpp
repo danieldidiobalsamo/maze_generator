@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-MazeGrid::MazeGrid() : _randomEngine(time(0))
+MazeGrid::MazeGrid() : _randomEngine(time(0)) // used to generate random int, better than rand()
 {
 	_grid = nullptr;
 
@@ -10,7 +10,7 @@ MazeGrid::MazeGrid() : _randomEngine(time(0))
 	_height = 0;
 }
 
-MazeGrid::MazeGrid(int width, int height) : _randomEngine(time(0))
+MazeGrid::MazeGrid(int width, int height) : _randomEngine(time(0)) // used to generate random int, better than rand()
 {
 	_width = width;
 	_height = height;
@@ -23,7 +23,7 @@ MazeGrid::MazeGrid(int width, int height) : _randomEngine(time(0))
 	}
 }
 
-MazeGrid::MazeGrid(int width, int height, std::pair<int, int> entryPos, std::pair<int, int> exitPos, bool allWallsBuilt) : _randomEngine(time(0))
+MazeGrid::MazeGrid(int width, int height, std::pair<int, int> entryPos, std::pair<int, int> exitPos, bool allWallsBuilt) : _randomEngine(time(0)) // used to generate random int, better than rand()
 {
 	_width = width;
 	_height = height;
@@ -37,6 +37,7 @@ MazeGrid::MazeGrid(int width, int height, std::pair<int, int> entryPos, std::pai
 	{
 		_grid[row] = new Cell[width];
 
+		// determining if the cell is an entry, exit or normal cell
 		for (int col = 0; col < width; ++col)
 		{
 			if(entryPos.first == row && entryPos.second == col) // cell is entry
@@ -145,7 +146,6 @@ MazeGrid& MazeGrid::operator=(const MazeGrid &m)
 
 int MazeGrid::carve(std::pair<int, int> src, std::pair<int, int> dest)
 {
-	// determining which walls to be removed
 
 	int srcRow = src.first;
 	int srcCol = src.second;
@@ -153,8 +153,9 @@ int MazeGrid::carve(std::pair<int, int> src, std::pair<int, int> dest)
 	int destRow = dest.first;
 	int destCol = dest.second;
 
-	CarvingDirection direction;
+	CarvingDirection direction; // enum in Mazegrid.hpp
 
+	// determining which walls have to be removed
 	if(srcCol != destCol) //carving horizontally
 	{
 		//carving to the left
@@ -177,7 +178,6 @@ int MazeGrid::carve(std::pair<int, int> src, std::pair<int, int> dest)
 	else
 	{
 		// TODO : refactor en utilisant des exceptions
-
 		std::cout << "Cells are not connected" << std::endl;
 		return -1;
 	}
@@ -210,13 +210,12 @@ int MazeGrid::carve(std::pair<int, int> src, std::pair<int, int> dest)
 std::pair<int, int> MazeGrid::chooseRandomNeighbors(int row, int col)
 {
 	std::uniform_int_distribution<int> intDistribution(1, 4);
-
 	bool correctCell = false;
-
 	std::pair<int, int> cell;
 
 	while(!correctCell)
 	{
+		// randomly choosing a neighbor among the four potentially available
 		int neighbor = intDistribution(_randomEngine);
 
 		switch(neighbor)
@@ -239,11 +238,13 @@ std::pair<int, int> MazeGrid::chooseRandomNeighbors(int row, int col)
 				break;
 		}
 
+		// checking if the neighbor belongs to the grid
 		bool correctRow = cell.first >= 0 && cell.first < _height;
 		bool correctHeight = cell.second >= 0 && cell.second < _width;
 
 		if(correctRow && correctHeight)
 			correctCell = true;
+		// else loop again to choose another one
 	}
 
 	return cell;
@@ -276,6 +277,7 @@ bool MazeGrid::isDeadEnd(std::pair<int ,int> cell)
 	std::vector<std::pair<int, int>>::iterator neighborEnd = neighbor.end();
 	std::vector<std::pair<int, int>>::iterator it = neighbor.begin();
 
+	// checking if this cell has an unvisited neighbor
 	do
 	{
 		int row = it->first;

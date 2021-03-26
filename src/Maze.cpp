@@ -114,6 +114,8 @@ void Maze::huntAndKill()
 		}while(!huntMode);
 
 		// hunt mode
+		// consists in searching for an unvisited cell which have at least a visited one
+		// and searching row by row
 
 		bool selectedCell = false;
 		int row = 0, col = 0;
