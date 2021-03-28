@@ -1,17 +1,14 @@
 # MazeGenerator
 
 <h3>A propos.</h3>
-Un générateur de labyrinthe codé en C++ (Boost) / Qt.
+MazeGenerator est un générateur de labyrinthes codé en C++ / Qt / CMake.
+Les tests unitaires sont réalisés avec Boost Test / ctest.
 
-Le projet est géré avec CMake.
-
-Pour la qualité logicielle, j'utilise boost test avec ctest et KCachegrind.
-
+L'interface est générée automatiquement à partir du .ui grâce à CMake auto-uic.
 
 <h3>Utilisation du projet</h3>
 
 Pour compiler et lancer le projet : 
-- cloner le repo
 - mkdir build
 - cd build
 - cmake ..
@@ -21,9 +18,11 @@ Pour compiler et lancer le projet :
 Pour lancer les tests unitaires :
 - ctest --verbose
 
+Les classes gérant les tests unitaires sont dans le dossier "test" et sont gérées dans un exécutable séparé.
+
 Pour lancer KCacheGrind :
 - ../runKCacheGrind.sh
 
-<h3>Diagramme UML</h3>
+<h3>Diagramme de classes</h3>
 
-Le diagramme de classes se trouve dans le dossier "archi" et s'ouvre avec StarUML
+Le diagramme de classes, sous format .png et .mdj (StarUML), se trouve dans le dossier "archi".
