@@ -12,16 +12,14 @@
 class WallGraphicsItem : public QGraphicsItem
 {
 	private :
-		QRect _rect;
+		QRectF _rect;
 		QPen _pen;
 		QBrush _brush;
 
 	public : 
 		WallGraphicsItem();
-		WallGraphicsItem(int x, int y, int w, int h, QPen &pen, QBrush &brush);
+		WallGraphicsItem(float x, float y, float w, float h, QPen &pen, QBrush &brush);
 		~WallGraphicsItem();
-
-		//WallGraphicsItem& operator=(const WallGraphicsItem &w);
 
 		// implements virtual pure function from QGraphicsItem
 		QRectF boundingRect() const;

@@ -17,7 +17,7 @@ class CellGraphicsItem : public QGraphicsItemGroup
 {
 	private :
 		
-		QRect _rect;
+		QRectF _rect;
 		QPen _pen;
 		QBrush _brush;
 		
@@ -38,8 +38,7 @@ class CellGraphicsItem : public QGraphicsItemGroup
 		QRectF boundingRect() const;
 		void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
 
-		void setRect(QRect rect);
-		void generate(int x, int y, int w, int h, const Cell &cell);
+		void generate(float x, float y, float w, float h, const Cell &cell);
 
 };
 

@@ -30,11 +30,7 @@ MazeGraphicsItem::MazeGraphicsItem(int mazeWidth, int mazeHeight, int cellWidth,
 
 	_grid = new CellGraphicsItem*[_mazeHeight];
 
-	/*QBrush yellowBrush(Qt::lightGray);
-	QPen yellowPen(Qt::lightGray);
-	yellowPen.setWidth(1);*/
-
-	int currentX, currentY;
+	float currentX, currentY;
 
 	for (int row = 0; row < _mazeHeight; ++row)
 	{
@@ -42,11 +38,10 @@ MazeGraphicsItem::MazeGraphicsItem(int mazeWidth, int mazeHeight, int cellWidth,
 
 		for (int col = 0; col < _mazeWidth; ++col)
 		{
-			currentX = floor(_cellWidth/2) + row * _cellWidth;
-			currentY = floor(_cellHeight/2) + col * _cellHeight;
+			currentX = (float)(row * _cellWidth);
+			currentY = (float)(col * _cellHeight);
 
-			//_grid[row][col] = CellGraphicsItem(currentX, currentY, _cellWidth, _cellHeight, yellowPen, yellowBrush, maze.getCell(row, col));
-			_grid[row][col].generate(currentY, currentX, _cellWidth, _cellHeight, maze.getCell(row, col));
+			_grid[row][col].generate(currentY, currentX, (float)_cellWidth, (float)_cellHeight, maze.getCell(row, col));
 
 			addToGroup(&_grid[row][col]);
 		}

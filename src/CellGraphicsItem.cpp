@@ -38,7 +38,7 @@ CellGraphicsItem::~CellGraphicsItem()
 
 QRectF CellGraphicsItem::boundingRect() const
 {
-	return QRectF(_rect);
+	return _rect;
 }
 
 void CellGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget)
@@ -50,11 +50,6 @@ void CellGraphicsItem::paint(QPainter *painter, const QStyleOptionGraphicsItem *
     painter->setBrush(_brush);
     painter->setPen(_pen);
     painter->drawRect(_rect);
-}
-
-void CellGraphicsItem::setRect(QRect rect)
-{
-	_rect = rect;
 }
 
 void CellGraphicsItem::buildWalls(Walls &walls)
@@ -77,18 +72,18 @@ void CellGraphicsItem::buildWalls(Walls &walls)
 	}
 }
 
-void CellGraphicsItem::generate(int x, int y, int w, int h, const Cell &cell)
+void CellGraphicsItem::generate(float x, float y, float w, float h, const Cell &cell)
 {
-	_rect = QRect(x, y, w, h);
+	_rect = QRectF(x, y, w, h);
 
 	QBrush blackBrush(Qt::black);
 	QPen blackPen(Qt::black);
 	blackPen.setWidth(1);
 
-	_northWall = new WallGraphicsItem(x, y-floor(h/4), w, 10, blackPen, blackBrush);
-	_westWall = new WallGraphicsItem(x-floor(w/4), y, 10, h, blackPen, blackBrush);
-	_southWall = new WallGraphicsItem(x, y+floor(h*0.95), w, 10, blackPen, blackBrush);
-	_eastWall = new WallGraphicsItem(x+floor(w*0.95), y, 10, h, blackPen, blackBrush);
+	_northWall = new WallGraphicsItem(x-2.0f, y-2.0f, w+2.0f, 2.0f, blackPen, blackBrush);
+	_westWall = new WallGraphicsItem(x-2.0f, y-1, 2.0f, h+1, blackPen, blackBrush);
+	_southWall = new WallGraphicsItem(x-2.0f, y+h, w+2.0f, 2.0f, blackPen, blackBrush);
+	_eastWall = new WallGraphicsItem(x+w, y-1, 2.0f, h+1, blackPen, blackBrush);
 
 	Walls walls = cell.getWalls();
 
