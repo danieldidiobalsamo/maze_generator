@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.10)
 
 project(MazeGenerator)
 
-set(CMAKE_CXX_FLAGS "-Wall -Wextra -Werror -Wconversion -g")
+set(CMAKE_CXX_FLAGS "-pedantic -Wall -Wextra -Werror -Wconversion -Wsign-conversion -Wold-style-cast -g")
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)

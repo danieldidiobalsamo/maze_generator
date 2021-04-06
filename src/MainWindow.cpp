@@ -11,7 +11,7 @@
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    _randomIntGenerator(time(0))
+    _randomIntGenerator(static_cast<unsigned int>(time(0)))
 {
 	_engine = nullptr;
 	_mazeItem = nullptr;

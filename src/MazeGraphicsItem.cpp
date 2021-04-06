@@ -38,10 +38,10 @@ MazeGraphicsItem::MazeGraphicsItem(int mazeWidth, int mazeHeight, int cellWidth,
 
 		for (int col = 0; col < _mazeWidth; ++col)
 		{
-			currentX = (float)(row * _cellWidth);
-			currentY = (float)(col * _cellHeight);
+			currentX = static_cast<float>(row * _cellWidth);
+			currentY = static_cast<float>(col * _cellHeight);
 
-			_grid[row][col].generate(currentY, currentX, (float)_cellWidth, (float)_cellHeight, maze.getCell(row, col));
+			_grid[row][col].generate(currentY, currentX, static_cast<float>(_cellWidth), static_cast<float>(_cellHeight), maze.getCell(row, col));
 
 			addToGroup(&_grid[row][col]);
 		}

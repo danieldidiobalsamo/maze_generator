@@ -50,7 +50,7 @@ struct MazeFixture
 	}
 };
 
-BOOST_FIXTURE_TEST_SUITE(s, MazeFixture);
+BOOST_FIXTURE_TEST_SUITE(s, MazeFixture)
 
 /////////////////TESTING CARVE FUNCTION IN THE 4 DIRECTIONS (4 NEXT UNIT TESTS)
 BOOST_FIXTURE_TEST_CASE(CarvingEast, MazeFixture)
@@ -173,4 +173,4 @@ BOOST_FIXTURE_TEST_CASE(isDeadEnd, MazeFixture)
 	BOOST_CHECK_EQUAL(grid.isDeadEnd(testedCell), true);
 }
 
-BOOST_AUTO_TEST_SUITE_END();
+BOOST_AUTO_TEST_SUITE_END()

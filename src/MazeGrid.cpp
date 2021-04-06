@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-MazeGrid::MazeGrid() : _randomEngine(time(0)) // used to generate random int, better than rand()
+MazeGrid::MazeGrid() : _randomEngine(static_cast<unsigned int>(time(0))) // used to generate random int, better than rand()
 {
 	_grid = nullptr;
 
@@ -10,7 +10,7 @@ MazeGrid::MazeGrid() : _randomEngine(time(0)) // used to generate random int, be
 	_height = 0;
 }
 
-MazeGrid::MazeGrid(int width, int height) : _randomEngine(time(0)) // used to generate random int, better than rand()
+MazeGrid::MazeGrid(int width, int height) : _randomEngine(static_cast<unsigned int>(time(0))) // used to generate random int, better than rand()
 {
 	_width = width;
 	_height = height;
@@ -23,7 +23,7 @@ MazeGrid::MazeGrid(int width, int height) : _randomEngine(time(0)) // used to ge
 	}
 }
 
-MazeGrid::MazeGrid(int width, int height, std::pair<int, int> entryPos, std::pair<int, int> exitPos, bool allWallsBuilt) : _randomEngine(time(0)) // used to generate random int, better than rand()
+MazeGrid::MazeGrid(int width, int height, std::pair<int, int> entryPos, std::pair<int, int> exitPos, bool allWallsBuilt) : _randomEngine(static_cast<unsigned int>(time(0))) // used to generate random int, better than rand()
 {
 	_width = width;
 	_height = height;
