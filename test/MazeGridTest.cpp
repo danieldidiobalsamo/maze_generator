@@ -146,7 +146,7 @@ BOOST_FIXTURE_TEST_CASE(GetNeighbors, MazeFixture)
 
 BOOST_FIXTURE_TEST_CASE(RandomNeighbor, MazeFixture)
 {
-	std::pair<int, int> neighbor = grid.chooseRandomNeighbors(testedCell.first, testedCell.second);
+	std::pair<int, int> neighbor = grid.chooseRandomNeighbors(testedCell);
 
 	BOOST_CHECK_EQUAL(checkIsInNeighbors(neighbor), true);
 }

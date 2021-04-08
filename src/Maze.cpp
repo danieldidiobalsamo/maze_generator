@@ -1,6 +1,7 @@
 #include "Maze.hpp"
 
 #include <iostream>
+#include <stdexcept>
 
 Maze::Maze() : _grid()
 {
@@ -44,30 +45,37 @@ Maze& Maze::operator=(const Maze &m)
 		return *this;
 	else
 	{
-		if(this->_grid.isEmpty())
+		try
 		{
+			// managing exceptions
+			if(m.isEmpty())
+				throw std::invalid_argument("Maze is empty");
+			else
+			{
+				if(m._width != _width || m._height != _height)
+					throw std::invalid_argument("Mazes dimensions must be the same");
+			}
+
+			// copying the maze
 			_width = m._width;
 			_height = m._height;
 
-			// allocation of the maze
-
-			_grid = MazeGrid(m._width, m._height);
 			_grid = m._grid;
 
 			return *this;
 		}
-		else if(m._width != _width || m._height != _height)
+		catch(const std::invalid_argument &e)
 		{
-			std::cout << "Mazes must have the same size" << std::endl; // TODO : add an exception later
-			return *this;
-		}
-		else
-		{
-			_grid = m._grid;
-
-			return *this;
+			std::cerr << e.what() << std::endl;
+			return const_cast<Maze&>(m); 
+			// here const_cast is allowed because when calling operator= , the left side Maze variable is not a const reference
 		}
 	}
+}
+
+bool Maze::isEmpty() const
+{
+	return _grid.isEmpty();
 }
 
 Cell Maze::getCell(int row, int col) const
@@ -102,7 +110,7 @@ void Maze::huntAndKill()
 
 				do
 				{
-					nextCell = _grid.chooseRandomNeighbors(currentCell.first, currentCell.second);
+					nextCell = _grid.chooseRandomNeighbors(currentCell);
 				}while(_grid.getCell(nextCell.first, nextCell.second).isVisited());
 
 				_grid.getCell(nextCell.first, nextCell.second).setVisited(true);

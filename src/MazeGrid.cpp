@@ -1,6 +1,7 @@
 #include "MazeGrid.hpp"
 
 #include <iostream>
+#include <stdexcept>
 
 MazeGrid::MazeGrid() : _randomEngine(static_cast<unsigned int>(time(0))) // used to generate random int, better than rand()
 {
@@ -98,20 +99,28 @@ MazeGrid& MazeGrid::operator=(const MazeGrid &m)
 		return *this;
 	else
 	{
-		if(this->_grid == nullptr)
+		try
 		{
-			_width = m._width;
-			_height = m._height;
+			//exceptions
+			if(m._width != _width || m._height != _height)
+				throw std::invalid_argument("MazeGrids must have the same dimensions");
 
-			// allocation of the maze
 
-			_grid = new Cell*[_height];
-
-			for (int row = 0; row < _height; ++row)
+			if(this->isEmpty()) // need to allocate
 			{
-				_grid[row] = new Cell[_width];
-			}
+				_width = m._width;
+				_height = m._height;
 
+				// allocation of the maze
+
+				_grid = new Cell*[_height];
+
+				for (int row = 0; row < _height; ++row)
+				{
+					_grid[row] = new Cell[_width];
+				}
+			}
+			
 			// copy of the original maze
 			for (int row = 0; row < _height; ++row)
 			{
@@ -123,96 +132,92 @@ MazeGrid& MazeGrid::operator=(const MazeGrid &m)
 
 			return *this;
 		}
-		else if(m._width != _width || m._height != _height)
+		catch(const std::invalid_argument &e)
 		{
-			std::cout << "Mazes must have the same size" << std::endl; // TODO : add an exception later
-			return *this;
-		}
-		else
-		{
-			// copy of the original maze
-			for (int row = 0; row < _height; ++row)
-			{
-				for (int col = 0; col < _width; ++col)
-				{
-					_grid[row][col] = m._grid[row][col];
-				}
-			}
-
-			return *this;
+			std::cerr << e.what() << std::endl;
+			return const_cast<MazeGrid&>(m); 
+			// here const_cast is allowed because when calling operator= , the left side MazeGrid variable is not a const reference
 		}
 	}
 }
 
-int MazeGrid::carve(std::pair<int, int> src, std::pair<int, int> dest)
+void MazeGrid::carve(std::pair<int, int> src, std::pair<int, int> dest)
 {
-
-	int srcRow = src.first;
-	int srcCol = src.second;
-
-	int destRow = dest.first;
-	int destCol = dest.second;
-
-	CarvingDirection direction; // enum in Mazegrid.hpp
-
-	// determining which walls have to be removed
-	if(srcCol != destCol) //carving horizontally
+	try
 	{
-		//carving to the left
-		if(srcCol < destCol)
-			direction = CARVING_EAST;
+		int srcRow = src.first;
+		int srcCol = src.second;
+
+		int destRow = dest.first;
+		int destCol = dest.second;
+
+		bool carvingHorizontally = (srcCol != destCol);
+		bool carvingVertically = (srcRow != destRow);
+
+		//exception
+		if(carvingHorizontally && carvingVertically)
+			throw std::invalid_argument("Cells must be connected for carving");
+
+
+		CarvingDirection direction; // enum in Mazegrid.hpp
+
+		// determining which walls have to be removed
+		if(carvingHorizontally)
+		{
+			//carving to the left
+			if(srcCol < destCol)
+				direction = CARVING_EAST;
+			else
+				direction = CARVING_WEST;
+
+		}
 		else
-			direction = CARVING_WEST;
+		{
 
+			//carving to the left
+			if(srcRow < destRow)
+				direction = CARVING_SOUTH;
+			else
+				direction = CARVING_NORTH;
+
+		}
+		
+		// removing the corresponding wall
+		switch(direction)
+		{
+			case CARVING_NORTH :
+				_grid[srcRow][srcCol].setNorthWall(false);
+				_grid[destRow][destCol].setSouthWall(false);
+				break;
+			case CARVING_SOUTH :
+				_grid[srcRow][srcCol].setSouthWall(false);
+				_grid[destRow][destCol].setNorthWall(false);
+				break;
+			case CARVING_WEST :
+				_grid[srcRow][srcCol].setWestWall(false);
+				_grid[destRow][destCol].setEastWall(false);
+				break;
+			case CARVING_EAST :
+				_grid[srcRow][srcCol].setEastWall(false);
+				_grid[destRow][destCol].setWestWall(false);
+				break;
+		}
 	}
-	else if(srcRow != destRow) //carving vertically
+	catch(const std::invalid_argument &e)
 	{
-
-		//carving to the left
-		if(srcRow < destRow)
-			direction = CARVING_SOUTH;
-		else
-			direction = CARVING_NORTH;
-
+		std::cout << e.what() << std::endl;
 	}
-	else
-	{
-		// TODO : refactor en utilisant des exceptions
-		std::cout << "Cells are not connected" << std::endl;
-		return -1;
-	}
-
-	
-	// removing the corresponding wall
-	switch(direction)
-	{
-		case CARVING_NORTH :
-			_grid[srcRow][srcCol].setNorthWall(false);
-			_grid[destRow][destCol].setSouthWall(false);
-			break;
-		case CARVING_SOUTH :
-			_grid[srcRow][srcCol].setSouthWall(false);
-			_grid[destRow][destCol].setNorthWall(false);
-			break;
-		case CARVING_WEST :
-			_grid[srcRow][srcCol].setWestWall(false);
-			_grid[destRow][destCol].setEastWall(false);
-			break;
-		case CARVING_EAST :
-			_grid[srcRow][srcCol].setEastWall(false);
-			_grid[destRow][destCol].setWestWall(false);
-			break;
-	}
-
-	return 0;
 }
 
-std::pair<int, int> MazeGrid::chooseRandomNeighbors(int row, int col)
+std::pair<int, int> MazeGrid::chooseRandomNeighbors(std::pair<int, int> currentCell)
 {
+	int row = currentCell.first;
+	int col = currentCell.second;
+
 	std::uniform_int_distribution<int> intDistribution(1, 4);
 	bool correctCell = false;
 	std::pair<int, int> cell;
-
+	
 	while(!correctCell)
 	{
 		// randomly choosing a neighbor among the four potentially available
@@ -319,7 +324,7 @@ bool MazeGrid::hasVisitedNeighbor(std::pair<int, int> cell, std::pair<int, int> 
 	return visitedNeighbor;
 }
 
-bool MazeGrid::isEmpty()
+bool MazeGrid::isEmpty() const
 {
 	if(_grid == nullptr)
 		return true;

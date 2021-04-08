@@ -33,13 +33,13 @@ class MazeGrid
 
 		MazeGrid& operator=(const MazeGrid &m);
 		
-		int carve(std::pair<int, int> src, std::pair<int, int> dest);	
-		std::pair<int, int> chooseRandomNeighbors(int row, int col);
+		void carve(std::pair<int, int> src, std::pair<int, int> dest);	
+		std::pair<int, int> chooseRandomNeighbors(std::pair<int, int> currentCell);
 		bool isDeadEnd(std::pair<int ,int> cell);
 		bool hasVisitedNeighbor(std::pair<int, int> cell, std::pair<int, int> &validNeighbor);
 		std::vector<std::pair<int, int>> getNeighbors(std::pair<int, int> cell);
 
-		bool isEmpty();
+		bool isEmpty() const;
 
 		Cell& getCell(int row, int col) const;
 };
