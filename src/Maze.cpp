@@ -78,16 +78,21 @@ bool Maze::isEmpty() const
 	return _grid.isEmpty();
 }
 
-Cell Maze::getCell(int row, int col) const
+Cell Maze::getCell(int row, int col)
 {
 	return _grid.getCell(row, col);
+}
+
+void Maze::visitCell(std::pair<int, int> cell)
+{
+	_grid.setVisited(cell);
 }
 
 void Maze::huntAndKill()
 {
 	std::pair<int, int> currentCell = _entryPos;
 
-	_grid.getCell(currentCell.first, currentCell.second).setVisited(true);
+	visitCell(currentCell);
 	
 	std::pair<int, int> nextCell;
 	bool allCellsTreated = false;
@@ -113,7 +118,7 @@ void Maze::huntAndKill()
 					nextCell = _grid.chooseRandomNeighbors(currentCell);
 				}while(_grid.getCell(nextCell.first, nextCell.second).isVisited());
 
-				_grid.getCell(nextCell.first, nextCell.second).setVisited(true);
+				visitCell(nextCell);
 				_grid.carve(currentCell, nextCell);
 
 				currentCell = nextCell;
@@ -143,9 +148,9 @@ void Maze::huntAndKill()
 					if(_grid.hasVisitedNeighbor(std::make_pair(row, col), neighbor))
 					{
 						currentCell = std::make_pair(row, col);
+						
 						_grid.carve(currentCell, neighbor);
-
-						_grid.getCell(row, col).setVisited(true);
+						visitCell(currentCell);
 						selectedCell = true;
 					}
 				}

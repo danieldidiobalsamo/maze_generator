@@ -28,7 +28,8 @@ class Maze
 		Maze &operator=(const Maze &m);
 		bool isEmpty() const;
 
-		Cell getCell(int row, int col) const;
+		Cell getCell(int row, int col);
+		void visitCell(std::pair<int, int> cell);
 
 		void huntAndKill();
 };

@@ -5,8 +5,6 @@
 
 MazeGrid::MazeGrid() : _randomEngine(static_cast<unsigned int>(time(0))) // used to generate random int, better than rand()
 {
-	_grid = nullptr;
-
 	_width = 0;
 	_height = 0;
 }
@@ -15,13 +13,6 @@ MazeGrid::MazeGrid(int width, int height) : _randomEngine(static_cast<unsigned i
 {
 	_width = width;
 	_height = height;
-
-	_grid = new Cell*[height];
-
-	for (int row = 0; row < height; ++row)
-	{
-		_grid[row] = new Cell[width];
-	}
 }
 
 MazeGrid::MazeGrid(int width, int height, std::pair<int, int> entryPos, std::pair<int, int> exitPos, bool allWallsBuilt) : _randomEngine(static_cast<unsigned int>(time(0))) // used to generate random int, better than rand()
@@ -32,40 +23,29 @@ MazeGrid::MazeGrid(int width, int height, std::pair<int, int> entryPos, std::pai
 	_entryPos = entryPos;
 	_exitPos = exitPos;
 
-	_grid = new Cell*[height];
-
 	for (int row = 0; row < height; ++row)
 	{
-		_grid[row] = new Cell[width];
-
 		// determining if the cell is an entry, exit or normal cell
 		for (int col = 0; col < width; ++col)
 		{
+			auto current = std::make_pair(row, col);
+
 			if(entryPos.first == row && entryPos.second == col) // cell is entry
-				_grid[row][col] = Cell(row, col, false, true, false);
+				_grid[current] = Cell(row, col, false, true, false);
 			
 			else if(exitPos.first == row && exitPos.second == col)// cell is exit
 			{
-				_grid[row][col] = Cell(row, col, false, false, true);
+				_grid[current] = Cell(row, col, false, false, true);
 			}
 			
 			else // cell is a normal cell
-				_grid[row][col] = Cell(row, col, allWallsBuilt, false, false);
+				_grid[current] = Cell(row, col, allWallsBuilt, false, false);
 		}
 	}
 }
 
 MazeGrid::~MazeGrid()
 {
-	if(_grid != nullptr)
-	{
-		for (int row = 0; row < _height; ++row)
-		{
-			delete[] _grid[row];
-		}
-
-		delete[] _grid;
-	}
 }
 
 MazeGrid::MazeGrid(const MazeGrid &m)
@@ -73,23 +53,7 @@ MazeGrid::MazeGrid(const MazeGrid &m)
 	_width = m._width;
 	_height = m._height;
 
-	// allocation of the maze
-
-	_grid = new Cell*[_height];
-
-	for (int row = 0; row < _height; ++row)
-	{
-		_grid[row] = new Cell[_width];
-	}
-
-	// copy of the original maze
-	for (int row = 0; row < _height; ++row)
-	{
-		for (int col = 0; col < _width; ++col)
-		{
-			_grid[row][col] = m._grid[row][col];
-		}
-	}
+	_grid = m._grid;
 }
 
 
@@ -104,31 +68,8 @@ MazeGrid& MazeGrid::operator=(const MazeGrid &m)
 			//exceptions
 			if(m._width != _width || m._height != _height)
 				throw std::invalid_argument("MazeGrids must have the same dimensions");
-
-
-			if(this->isEmpty()) // need to allocate
-			{
-				_width = m._width;
-				_height = m._height;
-
-				// allocation of the maze
-
-				_grid = new Cell*[_height];
-
-				for (int row = 0; row < _height; ++row)
-				{
-					_grid[row] = new Cell[_width];
-				}
-			}
-			
-			// copy of the original maze
-			for (int row = 0; row < _height; ++row)
-			{
-				for (int col = 0; col < _width; ++col)
-				{
-					_grid[row][col] = m._grid[row][col];
-				}
-			}
+	
+			_grid = m._grid;
 
 			return *this;
 		}
@@ -186,20 +127,20 @@ void MazeGrid::carve(std::pair<int, int> src, std::pair<int, int> dest)
 		switch(direction)
 		{
 			case CARVING_NORTH :
-				_grid[srcRow][srcCol].setNorthWall(false);
-				_grid[destRow][destCol].setSouthWall(false);
+				_grid[src].setNorthWall(false);
+				_grid[dest].setSouthWall(false);
 				break;
 			case CARVING_SOUTH :
-				_grid[srcRow][srcCol].setSouthWall(false);
-				_grid[destRow][destCol].setNorthWall(false);
+				_grid[src].setSouthWall(false);
+				_grid[dest].setNorthWall(false);
 				break;
 			case CARVING_WEST :
-				_grid[srcRow][srcCol].setWestWall(false);
-				_grid[destRow][destCol].setEastWall(false);
+				_grid[src].setWestWall(false);
+				_grid[dest].setEastWall(false);
 				break;
 			case CARVING_EAST :
-				_grid[srcRow][srcCol].setEastWall(false);
-				_grid[destRow][destCol].setWestWall(false);
+				_grid[src].setEastWall(false);
+				_grid[dest].setWestWall(false);
 				break;
 		}
 	}
@@ -288,7 +229,7 @@ bool MazeGrid::isDeadEnd(std::pair<int ,int> cell)
 		int row = it->first;
 		int col = it->second;
 
-		if(_grid[row][col].isVisited() == false)
+		if(getCell(row, col).isVisited() == false)
 			unvisitedCell = true;
 
 		++it;
@@ -312,7 +253,7 @@ bool MazeGrid::hasVisitedNeighbor(std::pair<int, int> cell, std::pair<int, int> 
 
 	while(!visitedNeighbor && it != neighborEnd)
 	{
-		if(_grid[it->first][it->second].isVisited() == true)
+		if(getCell(it->first, it->second).isVisited() == true)
 		{
 			validNeighbor = *it;
 			visitedNeighbor = true;
@@ -326,13 +267,23 @@ bool MazeGrid::hasVisitedNeighbor(std::pair<int, int> cell, std::pair<int, int> 
 
 bool MazeGrid::isEmpty() const
 {
-	if(_grid == nullptr)
+	if(_grid.size() == 0)
 		return true;
 	else
 		return false;
 }
 
-Cell& MazeGrid::getCell(int row, int col) const
+void MazeGrid::setVisited(const std::pair<int, int> cell)
 {
-	return _grid[row][col];
+	_grid[cell].setVisited(true);
+}
+
+Cell MazeGrid::getCell(int row, int col)
+{
+	return _grid[std::make_pair(row, col)];
+}
+
+Cell MazeGrid::getCell(std::pair<int, int> cell)
+{
+	return _grid[cell];
 }

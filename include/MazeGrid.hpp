@@ -3,6 +3,7 @@
 
 #include "Cell.hpp"
 
+#include <map>
 #include <utility> // pair
 #include <random>
 #include <time.h>
@@ -18,7 +19,7 @@ class MazeGrid
 		std::pair<int, int> _entryPos;
 		std::pair<int, int> _exitPos;
 
-		Cell **_grid;
+		std::map<std::pair<int, int>, Cell> _grid;
 
 		std::default_random_engine _randomEngine;
 
@@ -39,9 +40,12 @@ class MazeGrid
 		bool hasVisitedNeighbor(std::pair<int, int> cell, std::pair<int, int> &validNeighbor);
 		std::vector<std::pair<int, int>> getNeighbors(std::pair<int, int> cell);
 
+		void setVisited(const std::pair<int, int> cell);
+
 		bool isEmpty() const;
 
-		Cell& getCell(int row, int col) const;
+		Cell getCell(int row, int col);
+		Cell getCell(std::pair<int, int> cell);
 };
 
 enum CarvingDirection

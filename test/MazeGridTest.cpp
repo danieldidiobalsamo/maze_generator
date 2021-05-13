@@ -61,8 +61,8 @@ BOOST_FIXTURE_TEST_CASE(CarvingEast, MazeFixture)
 
 	grid.carve(testedCell, destCell);
 
-	Walls firstCellWalls = grid.getCell(testedCell.first, testedCell.second).getWalls();
-	Walls secondCellWalls = grid.getCell(destCell.first, destCell.second).getWalls();
+	Walls firstCellWalls = grid.getCell(testedCell).getWalls();
+	Walls secondCellWalls = grid.getCell(destCell).getWalls();
 
 	// uppercase means "wall built"
 	// lowercase means "no wall"
@@ -79,8 +79,8 @@ BOOST_FIXTURE_TEST_CASE(CarvingSouth, MazeFixture)
 
 	grid.carve(testedCell, destCell);
 
-	Walls firstCellWalls = grid.getCell(testedCell.first, testedCell.second).getWalls();
-	Walls secondCellWalls = grid.getCell(destCell.first, destCell.second).getWalls();
+	Walls firstCellWalls = grid.getCell(testedCell).getWalls();
+	Walls secondCellWalls = grid.getCell(destCell).getWalls();
 
 	// uppercase means "wall built"
 	// lowercase means "no wall"
@@ -96,8 +96,8 @@ BOOST_FIXTURE_TEST_CASE(CarvingWest, MazeFixture)
 
 	grid.carve(testedCell, destCell);
 
-	Walls firstCellWalls = grid.getCell(testedCell.first, testedCell.second).getWalls();
-	Walls secondCellWalls = grid.getCell(destCell.first, destCell.second).getWalls();
+	Walls firstCellWalls = grid.getCell(testedCell).getWalls();
+	Walls secondCellWalls = grid.getCell(destCell).getWalls();
 
 	// uppercase means "wall built"
 	// lowercase means "no wall"
@@ -113,8 +113,8 @@ BOOST_FIXTURE_TEST_CASE(CarvingNorth, MazeFixture)
 
 	grid.carve(testedCell, destCell);
 
-	Walls firstCellWalls = grid.getCell(testedCell.first, testedCell.second).getWalls();
-	Walls secondCellWalls = grid.getCell(destCell.first, destCell.second).getWalls();
+	Walls firstCellWalls = grid.getCell(testedCell).getWalls();
+	Walls secondCellWalls = grid.getCell(destCell).getWalls();
 
 	// uppercase means "wall built"
 	// lowercase means "no wall"
@@ -154,7 +154,7 @@ BOOST_FIXTURE_TEST_CASE(RandomNeighbor, MazeFixture)
 /////////////////TESTING hasVisitedNeighbor FUNCTION
 BOOST_FIXTURE_TEST_CASE(hasVisitedNeighbor, MazeFixture)
 {
-	grid.getCell(testedCell.first+1, testedCell.second).setVisited(true);
+	grid.setVisited(std::make_pair(testedCell.first+1, testedCell.second));
 
 	std::pair<int, int> validNeighbor;
 	BOOST_CHECK_EQUAL(grid.hasVisitedNeighbor(testedCell, validNeighbor), true);
@@ -164,11 +164,11 @@ BOOST_FIXTURE_TEST_CASE(hasVisitedNeighbor, MazeFixture)
 
 BOOST_FIXTURE_TEST_CASE(isDeadEnd, MazeFixture)
 {
-	grid.getCell(testedCell.first, testedCell.second).setVisited(true);
-	grid.getCell(testedCell.first+1, testedCell.second).setVisited(true);
-	grid.getCell(testedCell.first-1, testedCell.second).setVisited(true);
-	grid.getCell(testedCell.first, testedCell.second+1).setVisited(true);
-	grid.getCell(testedCell.first, testedCell.second-1).setVisited(true);
+	grid.setVisited(testedCell);
+	grid.setVisited(std::make_pair(testedCell.first+1, testedCell.second));
+	grid.setVisited(std::make_pair(testedCell.first-1, testedCell.second));
+	grid.setVisited(std::make_pair(testedCell.first, testedCell.second+1));
+	grid.setVisited(std::make_pair(testedCell.first, testedCell.second-1));
 
 	BOOST_CHECK_EQUAL(grid.isDeadEnd(testedCell), true);
 }
