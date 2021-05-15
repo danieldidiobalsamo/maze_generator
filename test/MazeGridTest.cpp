@@ -57,7 +57,7 @@ BOOST_FIXTURE_TEST_CASE(CarvingEast, MazeFixture)
 {
 	/// carving east
 
-	std::pair<int, int> destCell = std::make_pair(testedCell.first, testedCell.second+1);
+	auto destCell = std::make_pair(testedCell.first, testedCell.second+1);
 
 	grid.carve(testedCell, destCell);
 
@@ -75,7 +75,7 @@ BOOST_FIXTURE_TEST_CASE(CarvingSouth, MazeFixture)
 {
 	/// carving south
 
-	std::pair<int, int> destCell = std::make_pair(testedCell.first+1, testedCell.second);
+	auto destCell = std::make_pair(testedCell.first+1, testedCell.second);
 
 	grid.carve(testedCell, destCell);
 
@@ -92,7 +92,7 @@ BOOST_FIXTURE_TEST_CASE(CarvingWest, MazeFixture)
 {
 	/// carving west
 
-	std::pair<int, int> destCell = std::make_pair(testedCell.first, testedCell.second-1);
+	auto destCell = std::make_pair(testedCell.first, testedCell.second-1);
 
 	grid.carve(testedCell, destCell);
 
@@ -109,7 +109,7 @@ BOOST_FIXTURE_TEST_CASE(CarvingNorth, MazeFixture)
 {
 	/// carving north
 
-	std::pair<int, int> destCell = std::make_pair(testedCell.first-1, testedCell.second);
+	auto destCell = std::make_pair(testedCell.first-1, testedCell.second);
 
 	grid.carve(testedCell, destCell);
 
@@ -126,12 +126,12 @@ BOOST_FIXTURE_TEST_CASE(CarvingNorth, MazeFixture)
 
 BOOST_FIXTURE_TEST_CASE(GetNeighbors, MazeFixture)
 {
-	std::vector<std::pair<int, int>> neighbors = grid.getNeighbors(testedCell);
+	auto neighbors = grid.getNeighbors(testedCell);
 
 	bool inNeighbors = true;
 
-	std::vector<std::pair<int, int>>::iterator it = neighbors.begin();
-	std::vector<std::pair<int, int>>::iterator neighborEnd = neighbors.end();
+	auto it = neighbors.begin();
+	auto neighborEnd = neighbors.end();
 
 	while(inNeighbors && it != neighborEnd)
 	{
@@ -146,7 +146,7 @@ BOOST_FIXTURE_TEST_CASE(GetNeighbors, MazeFixture)
 
 BOOST_FIXTURE_TEST_CASE(RandomNeighbor, MazeFixture)
 {
-	std::pair<int, int> neighbor = grid.chooseRandomNeighbors(testedCell);
+	auto neighbor = grid.chooseRandomNeighbors(testedCell);
 
 	BOOST_CHECK_EQUAL(checkIsInNeighbors(neighbor), true);
 }
@@ -154,10 +154,15 @@ BOOST_FIXTURE_TEST_CASE(RandomNeighbor, MazeFixture)
 /////////////////TESTING hasVisitedNeighbor FUNCTION
 BOOST_FIXTURE_TEST_CASE(hasVisitedNeighbor, MazeFixture)
 {
-	grid.setVisited(std::make_pair(testedCell.first+1, testedCell.second));
+	auto current = std::make_pair(testedCell.first+1, testedCell.second);
 
-	std::pair<int, int> validNeighbor;
-	BOOST_CHECK_EQUAL(grid.hasVisitedNeighbor(testedCell, validNeighbor), true);
+	grid.setVisited(current);
+
+	auto [visitedNeighbor, chosenNeighbor] = grid.hasVisitedNeighbor(testedCell);
+	std::ignore = chosenNeighbor;
+
+	BOOST_CHECK_EQUAL(visitedNeighbor, true);
+
 }
 
 /////////////////TESTING isDeadEnd FUNCTION

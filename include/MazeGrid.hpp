@@ -3,6 +3,7 @@
 
 #include "Cell.hpp"
 
+#include <tuple>
 #include <map>
 #include <utility> // pair
 #include <random>
@@ -37,7 +38,7 @@ class MazeGrid
 		void carve(std::pair<int, int> src, std::pair<int, int> dest);	
 		std::pair<int, int> chooseRandomNeighbors(std::pair<int, int> currentCell);
 		bool isDeadEnd(std::pair<int ,int> cell);
-		bool hasVisitedNeighbor(std::pair<int, int> cell, std::pair<int, int> &validNeighbor);
+		std::tuple<bool,std::pair<int, int>> hasVisitedNeighbor(std::pair<int, int> cell);
 		std::vector<std::pair<int, int>> getNeighbors(std::pair<int, int> cell);
 
 		void setVisited(const std::pair<int, int> cell);

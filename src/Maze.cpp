@@ -143,13 +143,13 @@ void Maze::huntAndKill()
 				{
 					// checking if among its neighbors, there is one who is visited
 
-					std::pair<int, int> neighbor;
+					auto [visitedNeighbor, chosenNeighbor] = _grid.hasVisitedNeighbor(std::make_pair(row, col));
 
-					if(_grid.hasVisitedNeighbor(std::make_pair(row, col), neighbor))
+					if(visitedNeighbor)
 					{
 						currentCell = std::make_pair(row, col);
 						
-						_grid.carve(currentCell, neighbor);
+						_grid.carve(currentCell, chosenNeighbor);
 						visitCell(currentCell);
 						selectedCell = true;
 					}

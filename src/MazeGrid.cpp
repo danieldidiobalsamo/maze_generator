@@ -217,11 +217,11 @@ std::vector<std::pair<int, int>> MazeGrid::getNeighbors(std::pair<int, int> cell
 
 bool MazeGrid::isDeadEnd(std::pair<int ,int> cell)
 {
-	std::vector<std::pair<int, int>> neighbor = getNeighbors(cell);
+	auto neighbor = getNeighbors(cell);
 	bool unvisitedCell = false;
 
-	std::vector<std::pair<int, int>>::iterator neighborEnd = neighbor.end();
-	std::vector<std::pair<int, int>>::iterator it = neighbor.begin();
+	auto neighborEnd = neighbor.end();
+	auto it = neighbor.begin();
 
 	// checking if this cell has an unvisited neighbor
 	do
@@ -242,14 +242,15 @@ bool MazeGrid::isDeadEnd(std::pair<int ,int> cell)
 
 }
 
-bool MazeGrid::hasVisitedNeighbor(std::pair<int, int> cell, std::pair<int, int> &validNeighbor)
+std::tuple<bool, std::pair<int, int>> MazeGrid::hasVisitedNeighbor(std::pair<int, int> cell)
 {
 	bool visitedNeighbor = false;
+	std::pair<int, int> validNeighbor;
 
-	std::vector<std::pair<int, int>> neighbor = getNeighbors(std::make_pair(cell.first, cell.second));
+	auto neighbor = getNeighbors(cell);
 
-	std::vector<std::pair<int, int>>::iterator neighborEnd = neighbor.end();
-	std::vector<std::pair<int, int>>::iterator it = neighbor.begin();
+	auto neighborEnd = neighbor.end();
+	auto it = neighbor.begin();
 
 	while(!visitedNeighbor && it != neighborEnd)
 	{
@@ -262,7 +263,7 @@ bool MazeGrid::hasVisitedNeighbor(std::pair<int, int> cell, std::pair<int, int> 
 		++it;
 	}
 
-	return visitedNeighbor;
+	return std::make_tuple(visitedNeighbor, validNeighbor);
 }
 
 bool MazeGrid::isEmpty() const
