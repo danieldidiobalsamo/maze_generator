@@ -17,21 +17,19 @@ set(SOURCE_FILES src/Maze.cpp src/Cell.cpp src/Walls.cpp src/EngineFacade.cpp sr
 set(TEST_FILES test/MazeGridTest.cpp)
 
 find_package(Boost 1.55 REQUIRED COMPONENTS unit_test_framework REQUIRED)
-find_package(Qt4 4.8.7 REQUIRED QtCore QtGui)
+find_package(Qt5 COMPONENTS Widgets REQUIRED)
 
-INCLUDE(${QT_USE_FILE})
-ADD_DEFINITIONS(${QT_DEFINITIONS})
-
-qt4_wrap_cpp(MOC_FILES include/MainWindow.hpp)
+qt5_wrap_cpp(MOC_FILES include/MainWindow.hpp)
 
 set(UIS interfaces/MainWindow.ui)
-qt4_wrap_ui(UIS_HDRS ${UIS})
+qt5_wrap_ui(UIS_HDRS ${UIS})
 
 include_directories(include ${Boost_INCLUDE_DIR})
 
 add_executable(mazeGenerator src/main.cpp src/MainWindow.cpp src/WallGraphicsItem.cpp src/CellGraphicsItem.cpp  src/MazeGraphicsItem.cpp ${SOURCE_FILES} ${UIS_HDRS} ${MOC_FILES})
-target_link_libraries(mazeGenerator PUBLIC Qt4::QtCore Qt4::QtGui)
+target_link_libraries(mazeGenerator PUBLIC Qt5::Widgets)
 
+# UNIT TESTS EXECUTABLE
 enable_testing()
 add_executable(test_exe ${SOURCE_FILES} ${TEST_FILES})
 target_link_libraries(test_exe ${Boost_LIBRARIES})
