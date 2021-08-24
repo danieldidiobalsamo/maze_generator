@@ -8,7 +8,7 @@ Cell::Cell() : _row(0), _col(0), _visited(false), _isEntry(false), _isExit(false
 
 }
 
-Cell::Cell(int row, int col, bool built, bool isEntry, bool isExit) : _row(row), _col(col), _visited(false), _isEntry(isEntry), _isExit(isExit),_walls(built)
+Cell::Cell(const int row, const int col, const bool built, const bool isEntry, const bool isExit) : _row(row), _col(col), _visited(false), _isEntry(isEntry), _isExit(isExit),_walls(built)
 {
 	
 }
@@ -54,7 +54,7 @@ Walls Cell::getWalls() const
 	return _walls;
 }
 
-void Cell::setWalls(bool north, bool west, bool south, bool east)
+void Cell::setWalls(const bool north, const bool west, const bool south, const bool east)
 {
 	_walls.setNorthWall(north);
 	_walls.setWestWall(west);
@@ -62,24 +62,24 @@ void Cell::setWalls(bool north, bool west, bool south, bool east)
 	_walls.setEastWall(east);
 }
 
-void Cell::setNorthWall(bool built)
+void Cell::setNorthWall(const bool built)
 {
 	_walls.setNorthWall(built);
 }
-void Cell::setWestWall(bool built)
+void Cell::setWestWall(const bool built)
 {
 	_walls.setWestWall(built);
 }
-void Cell::setSouthWall(bool built)
+void Cell::setSouthWall(const bool built)
 {
 	_walls.setSouthWall(built);
 }
-void Cell::setEastWall(bool built)
+void Cell::setEastWall(const bool built)
 {
 	_walls.setEastWall(built);
 }
 
-void Cell::setVisited(bool visited)
+void Cell::setVisited(const bool visited)
 {
 	_visited = visited;
 }

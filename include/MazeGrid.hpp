@@ -9,6 +9,15 @@
 #include <random>
 #include <time.h>
 
+typedef std::pair<int, int> CellCoord;
+
+enum CarvingDirection
+{
+	CARVING_NORTH,
+	CARVING_WEST,
+	CARVING_SOUTH,
+	CARVING_EAST
+};
 
 class MazeGrid
 {
@@ -17,44 +26,36 @@ class MazeGrid
 		int _width;
 		int _height;
 
-		std::pair<int, int> _entryPos;
-		std::pair<int, int> _exitPos;
+		CellCoord _entryPos;
+		CellCoord _exitPos;
 
-		std::map<std::pair<int, int>, Cell> _grid;
+		std::map<CellCoord, Cell> _grid;
 
 		std::default_random_engine _randomEngine;
 
 	public :
 
 		MazeGrid();
-		MazeGrid(int width, int height);
-		MazeGrid(int width, int height, std::pair<int, int> entryPos, std::pair<int, int> exitPos, bool allWallsBuilt);
+		MazeGrid(const int width, const  int height);
+		MazeGrid(const int width, const int height, const CellCoord entryPos, const CellCoord exitPos, const bool allWallsBuilt);
 		MazeGrid(const MazeGrid &m);
 		
 		~MazeGrid();
 
 		MazeGrid& operator=(const MazeGrid &m);
 		
-		void carve(std::pair<int, int> src, std::pair<int, int> dest);	
-		std::pair<int, int> chooseRandomNeighbors(std::pair<int, int> currentCell);
-		bool isDeadEnd(std::pair<int ,int> cell);
-		std::tuple<bool,std::pair<int, int>> hasVisitedNeighbor(std::pair<int, int> cell);
-		std::vector<std::pair<int, int>> getNeighbors(std::pair<int, int> cell);
+		void carve(const CellCoord src, const CellCoord dest);	
+		CellCoord chooseRandomNeighbors(const CellCoord currentCell);
+		bool isDeadEnd(const CellCoord cell);
+		std::tuple<bool,CellCoord> hasVisitedNeighbor(const CellCoord cell);
+		std::vector<CellCoord> getNeighbors(const CellCoord cell);
 
-		void setVisited(const std::pair<int, int> cell);
+		void setVisited(const CellCoord cell);
 
 		bool isEmpty() const;
 
-		Cell getCell(int row, int col);
-		Cell getCell(std::pair<int, int> cell);
-};
-
-enum CarvingDirection
-{
-	CARVING_NORTH,
-	CARVING_WEST,
-	CARVING_SOUTH,
-	CARVING_EAST
+		Cell getCell(const int row, const int col);
+		Cell getCell(const CellCoord cell);
 };
 
 #endif

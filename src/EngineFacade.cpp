@@ -8,7 +8,7 @@ EngineFacade::EngineFacade()
 	_mazeHeight = 0;
 }
 
-EngineFacade::EngineFacade(int w, int h, std::pair<int, int> entryPos, std::pair<int, int> exitPos, bool allWallsBuilt) : _mazeWidth(w), _mazeHeight(h), _maze(w, h, entryPos, exitPos, allWallsBuilt)
+EngineFacade::EngineFacade(const int w, const int h, const CellCoord entryPos, const CellCoord exitPos, const bool allWallsBuilt) : _mazeWidth(w), _mazeHeight(h), _maze(w, h, entryPos, exitPos, allWallsBuilt)
 {
 
 }

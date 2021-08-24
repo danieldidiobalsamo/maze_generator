@@ -11,15 +11,15 @@ class EngineFacade
 	private :
 		int _mazeWidth;
 		int _mazeHeight;
-		std::pair<int, int> _entryPos;
-		std::pair<int, int> _exitPos;
+		CellCoord _entryPos;
+		CellCoord _exitPos;
 		Maze _maze;
 
 	public :
 
 		EngineFacade();
-		EngineFacade(int w, int h);
-		EngineFacade(int w, int h, std::pair<int, int> entryPos, std::pair<int, int> exitPos, bool allWallsBuilt);
+		EngineFacade(const int w, const int h);
+		EngineFacade(const int w, const int h, const CellCoord entryPos, const CellCoord exitPos, const bool allWallsBuilt);
 		~EngineFacade();
 
 		EngineFacade& operator=(const EngineFacade &f);

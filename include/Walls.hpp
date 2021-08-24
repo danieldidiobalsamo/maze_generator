@@ -13,7 +13,7 @@ class Walls
 	public : 
 
 		Walls();
-		Walls(bool built);
+		Walls(const bool built);
 		~Walls();
 
 		bool hasWestWall();
@@ -21,12 +21,10 @@ class Walls
 		bool hasNorthWall();
 		bool hasSouthWall();
 
-		void setWestWall(bool built);
-		void setEastWall(bool built);
-		void setNorthWall(bool built);
-		void setSouthWall(bool built);
-
-		void printWalls();
+		void setWestWall(const bool built);
+		void setEastWall(const bool built);
+		void setNorthWall(const bool built);
+		void setSouthWall(const bool built);
 };
 
 #endif

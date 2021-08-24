@@ -10,7 +10,7 @@ Walls::Walls()
 	_southWall = true;
 }
 
-Walls::Walls(bool built)
+Walls::Walls(const bool built)
 {
 	_westWall = built;
 	_eastWall = built;
@@ -44,28 +44,19 @@ bool Walls::hasSouthWall()
 
 
 // methods to build walls
-void Walls::setWestWall(bool built)
+void Walls::setWestWall(const bool built)
 {
 	_westWall = built;
 }
-void Walls::setEastWall(bool built)
+void Walls::setEastWall(const bool built)
 {
 	_eastWall = built;
 }
-void Walls::setNorthWall(bool built)
+void Walls::setNorthWall(const bool built)
 {
 	_northWall = built;
 }
-void Walls::setSouthWall(bool built)
+void Walls::setSouthWall(const bool built)
 {
 	_southWall = built;
-}
-
-// method to print the walls in the terminal
-void Walls::printWalls()
-{
-	std::cout << "West wall : " << _westWall << std::endl;
-	std::cout << "North wall : " << _northWall << std::endl;
-	std::cout << "East wall : " << _eastWall << std::endl;
-	std::cout << "South wall : " << _southWall << std::endl;
 }

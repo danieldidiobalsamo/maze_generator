@@ -9,13 +9,13 @@ MazeGrid::MazeGrid() : _randomEngine(static_cast<unsigned int>(time(0))) // used
 	_height = 0;
 }
 
-MazeGrid::MazeGrid(int width, int height) : _randomEngine(static_cast<unsigned int>(time(0))) // used to generate random int, better than rand()
+MazeGrid::MazeGrid(const int width, const int height) : _randomEngine(static_cast<unsigned int>(time(0))) // used to generate random int, better than rand()
 {
 	_width = width;
 	_height = height;
 }
 
-MazeGrid::MazeGrid(int width, int height, std::pair<int, int> entryPos, std::pair<int, int> exitPos, bool allWallsBuilt) : _randomEngine(static_cast<unsigned int>(time(0))) // used to generate random int, better than rand()
+MazeGrid::MazeGrid(const int width, const int height, const CellCoord entryPos, const CellCoord exitPos, bool allWallsBuilt) : _randomEngine(static_cast<unsigned int>(time(0))) // used to generate random int, better than rand()
 {
 	_width = width;
 	_height = height;
@@ -82,18 +82,18 @@ MazeGrid& MazeGrid::operator=(const MazeGrid &m)
 	}
 }
 
-void MazeGrid::carve(std::pair<int, int> src, std::pair<int, int> dest)
+void MazeGrid::carve(const CellCoord src, const CellCoord dest)
 {
 	try
 	{
-		int srcRow = src.first;
-		int srcCol = src.second;
+		const int srcRow = src.first;
+		const int srcCol = src.second;
 
-		int destRow = dest.first;
-		int destCol = dest.second;
+		const int destRow = dest.first;
+		const int destCol = dest.second;
 
-		bool carvingHorizontally = (srcCol != destCol);
-		bool carvingVertically = (srcRow != destRow);
+		const bool carvingHorizontally = (srcCol != destCol);
+		const bool carvingVertically = (srcRow != destRow);
 
 		//exception
 		if(carvingHorizontally && carvingVertically)
@@ -150,14 +150,14 @@ void MazeGrid::carve(std::pair<int, int> src, std::pair<int, int> dest)
 	}
 }
 
-std::pair<int, int> MazeGrid::chooseRandomNeighbors(std::pair<int, int> currentCell)
+CellCoord MazeGrid::chooseRandomNeighbors(const CellCoord currentCell)
 {
-	int row = currentCell.first;
-	int col = currentCell.second;
+	const int row = currentCell.first;
+	const int col = currentCell.second;
 
 	std::uniform_int_distribution<int> intDistribution(1, 4);
 	bool correctCell = false;
-	std::pair<int, int> cell;
+	CellCoord cell;
 	
 	while(!correctCell)
 	{
@@ -185,8 +185,8 @@ std::pair<int, int> MazeGrid::chooseRandomNeighbors(std::pair<int, int> currentC
 		}
 
 		// checking if the neighbor belongs to the grid
-		bool correctRow = cell.first >= 0 && cell.first < _height;
-		bool correctHeight = cell.second >= 0 && cell.second < _width;
+		const bool correctRow = cell.first >= 0 && cell.first < _height;
+		const bool correctHeight = cell.second >= 0 && cell.second < _width;
 
 		if(correctRow && correctHeight)
 			correctCell = true;
@@ -196,12 +196,12 @@ std::pair<int, int> MazeGrid::chooseRandomNeighbors(std::pair<int, int> currentC
 	return cell;
 }
 
-std::vector<std::pair<int, int>> MazeGrid::getNeighbors(std::pair<int, int> cell)
+std::vector<CellCoord> MazeGrid::getNeighbors(CellCoord cell)
 {
-	std::vector<std::pair<int, int>> neighbor;
+	std::vector<CellCoord> neighbor;
 
-	int row = cell.first;
-	int col = cell.second;
+	const int row = cell.first;
+	const int col = cell.second;
 
 	if(row-1 > 0)
 		neighbor.push_back(std::make_pair(row-1, col));
@@ -220,14 +220,14 @@ bool MazeGrid::isDeadEnd(std::pair<int ,int> cell)
 	auto neighbor = getNeighbors(cell);
 	bool unvisitedCell = false;
 
-	auto neighborEnd = neighbor.end();
+	const auto neighborEnd = neighbor.end();
 	auto it = neighbor.begin();
 
 	// checking if this cell has an unvisited neighbor
 	do
 	{
-		int row = it->first;
-		int col = it->second;
+		const int row = it->first;
+		const int col = it->second;
 
 		if(getCell(row, col).isVisited() == false)
 			unvisitedCell = true;
@@ -242,10 +242,10 @@ bool MazeGrid::isDeadEnd(std::pair<int ,int> cell)
 
 }
 
-std::tuple<bool, std::pair<int, int>> MazeGrid::hasVisitedNeighbor(std::pair<int, int> cell)
+std::tuple<bool, CellCoord> MazeGrid::hasVisitedNeighbor(const CellCoord cell)
 {
 	bool visitedNeighbor = false;
-	std::pair<int, int> validNeighbor;
+	CellCoord validNeighbor;
 
 	auto neighbor = getNeighbors(cell);
 
@@ -274,17 +274,17 @@ bool MazeGrid::isEmpty() const
 		return false;
 }
 
-void MazeGrid::setVisited(const std::pair<int, int> cell)
+void MazeGrid::setVisited(const CellCoord cell)
 {
 	_grid[cell].setVisited(true);
 }
 
-Cell MazeGrid::getCell(int row, int col)
+Cell MazeGrid::getCell(const int row, const int col)
 {
 	return _grid[std::make_pair(row, col)];
 }
 
-Cell MazeGrid::getCell(std::pair<int, int> cell)
+Cell MazeGrid::getCell(const CellCoord cell)
 {
 	return _grid[cell];
 }
