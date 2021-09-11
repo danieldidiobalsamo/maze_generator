@@ -9,25 +9,22 @@ set(CMAKE_CXX_FLAGS "-pedantic -Wall -Wextra -Werror -Wconversion -Wsign-convers
 
 set(CMAKE_AUTOMOC ON)
 set(CMAKE_AUTORCC ON)
-set(CMAKE_AUTOUIC ON)
+
 set(CMAKE_INCLUDE_CURRENT_DIR ON)#finds includes in build directory
-set(CMAKE_AUTOUIC_SEARCH_PATHS interfaces)
 
 set(SOURCE_FILES src/Maze.cpp src/Cell.cpp src/Walls.cpp src/EngineFacade.cpp src/MazeGrid.cpp)
 set(TEST_FILES test/MazeGridTest.cpp)
 
 find_package(Boost 1.55 REQUIRED COMPONENTS unit_test_framework REQUIRED)
-find_package(Qt5 COMPONENTS Widgets REQUIRED)
-
-qt5_wrap_cpp(MOC_FILES include/MainWindow.hpp)
-
-set(UIS interfaces/MainWindow.ui)
-qt5_wrap_ui(UIS_HDRS ${UIS})
+find_package(Qt5 COMPONENTS Widgets Quick Core REQUIRED)
+find_package(Qt5QuickCompiler)
 
 include_directories(include ${Boost_INCLUDE_DIR})
 
-add_executable(mazeGenerator src/main.cpp src/MainWindow.cpp src/WallGraphicsItem.cpp src/CellGraphicsItem.cpp  src/MazeGraphicsItem.cpp ${SOURCE_FILES} ${UIS_HDRS} ${MOC_FILES})
-target_link_libraries(mazeGenerator PUBLIC Qt5::Widgets)
+qtquick_compiler_add_resources(RESOURCES qml/main.qrc)
+
+add_executable(mazeGenerator src/main.cpp ${SOURCE_FILES} ${RESOURCES})
+target_link_libraries(mazeGenerator PUBLIC Qt5::Widgets Qt5::Quick Qt5::Core)
 
 # UNIT TESTS EXECUTABLE
 enable_testing()
