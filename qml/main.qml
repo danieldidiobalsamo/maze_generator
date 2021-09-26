@@ -24,6 +24,13 @@ ApplicationWindow{
 
 		// Actions
 
+		Text{
+			text : "Menu"
+			font.pointSize : 20
+
+			anchors.horizontalCenter: parent.horizontalCenter
+		}
+
 		Button{
 			id: generateButton
 			text: "Generate"
@@ -57,6 +64,70 @@ ApplicationWindow{
 			width: parent.width
 
 			onClicked: Qt.quit()
+		}
+
+		// Settings
+
+		Text{
+			text : "Generation parameters"
+			font.pointSize : 20
+
+			anchors.horizontalCenter: parent.horizontalCenter
+		}
+
+		Row{
+			spacing: 20
+
+			Text{
+				text: "Algorithm"
+				anchors.verticalCenter: parent.verticalCenter
+			}
+
+			ComboBox{
+				model: AlgoListModel{}
+			}
+		}
+
+		Row{
+			spacing: 20
+
+			Text{
+				text: "Width"
+				anchors.verticalCenter: parent.verticalCenter
+			}
+
+			SpinBox{
+				id: mazeWidthSpinBox
+				from : 5.0
+			}
+		}
+
+		Row{
+			spacing: 20
+
+			Text{
+				text: "Height"
+				anchors.verticalCenter: parent.verticalCenter
+			}
+
+			SpinBox{
+				from : 5.0
+				id: mazeHeightSpinBox
+			}
+		}
+
+		Row{
+			spacing: 20
+
+			Text{
+				text: "Starts from "
+				anchors.verticalCenter: parent.verticalCenter
+			}
+
+			ComboBox{
+				model: EntrySideListModel{}
+				enabled : false
+			}
 		}
 
 	}
