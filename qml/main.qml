@@ -75,60 +75,58 @@ ApplicationWindow{
 			anchors.horizontalCenter: parent.horizontalCenter
 		}
 
-		Row{
-			spacing: 20
+		Grid{
+			
+			anchors.horizontalCenter: parent.horizontalCenter
+			
+			columns :2
+			rows : 4
 
-			Text{
-				text: "Algorithm"
-				anchors.verticalCenter: parent.verticalCenter
-			}
+			columnSpacing : 20
+			rowSpacing : 10
+			verticalItemAlignment: Grid.AlignVCenter
+			
+			// Generation algorithm
+
+			Text{text: "Algorithm"}
 
 			ComboBox{
+				id: generationAlgoComboBox
 				model: AlgoListModel{}
 			}
-		}
 
-		Row{
-			spacing: 20
+
+			// Maze width
 
 			Text{
 				text: "Width"
-				anchors.verticalCenter: parent.verticalCenter
 			}
 
 			SpinBox{
 				id: mazeWidthSpinBox
 				from : 5.0
 			}
-		}
 
-		Row{
-			spacing: 20
+			// Maze height
 
 			Text{
 				text: "Height"
-				anchors.verticalCenter: parent.verticalCenter
 			}
 
 			SpinBox{
 				from : 5.0
 				id: mazeHeightSpinBox
 			}
-		}
 
-		Row{
-			spacing: 20
+			// Entry side
 
-			Text{
-				text: "Starts from "
-				anchors.verticalCenter: parent.verticalCenter
-			}
+			Text{text: "Starts from"}
 
 			ComboBox{
+				id : entrySideComboBox
 				model: EntrySideListModel{}
 				enabled : false
 			}
 		}
-
 	}
 }
