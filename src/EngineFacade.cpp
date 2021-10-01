@@ -38,11 +38,11 @@ EngineFacade& EngineFacade::operator=(const EngineFacade &f)
 
 void EngineFacade::generateMaze(const std::string algo)
 {
-	if(algo == "hunt")
+	if(algo == "Hunt and kill")
 		huntAndKillGeneration();
 	else
 	{
-		std::cout << "Bad algorithm name" << std::endl;
+		std::cout << "Bad algorithm name : " << algo << std::endl;
 	}
 }
 

@@ -63,7 +63,7 @@ void MainWindow::generate()
 		delete _engine;
 
 	_engine = new EngineFacade(mazeSize.first, mazeSize.second, randomEntry, std::make_pair(h-1, w-1), true);
-	_engine->generateMaze("hunt");
+	_engine->generateMaze("Hunt and kill");
 
 	//drawing the maze
 

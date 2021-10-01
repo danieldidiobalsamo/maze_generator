@@ -2,10 +2,16 @@ import QtQuick 2.7
 import QtQuick.Controls 2.1
 import QtQuick.Window 2.0
 
+import engine 1.0
+
 ApplicationWindow{
 	visible: true
 	visibility: "FullScreen"	
 	color: "lightgray"
+
+	BackEnd{
+		id: backend
+	}
 
 	// Maze area
 	Item{
@@ -35,6 +41,8 @@ ApplicationWindow{
 			id: generateButton
 			text: "Generate"
 			width: parent.width
+
+			onClicked: backend.generateMaze()
 		}
 
 		Button{
@@ -93,6 +101,8 @@ ApplicationWindow{
 			ComboBox{
 				id: generationAlgoComboBox
 				model: AlgoListModel{}
+				Component.onCompleted: backend.setAlgo(currentText)
+				onActivated: backend.setAlgo(currentText)
 			}
 
 
@@ -105,6 +115,7 @@ ApplicationWindow{
 			SpinBox{
 				id: mazeWidthSpinBox
 				from : 5.0
+				onValueChanged: backend.setMazeWidth(value);
 			}
 
 			// Maze height
@@ -116,6 +127,7 @@ ApplicationWindow{
 			SpinBox{
 				from : 5.0
 				id: mazeHeightSpinBox
+				onValueChanged: backend.setMazeHeight(value);
 			}
 
 			// Entry side
