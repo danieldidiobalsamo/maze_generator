@@ -18,6 +18,9 @@ ApplicationWindow{
 		id: mazeArea
 		width: parent.width * 0.8
 		height: parent.height
+
+		Wall{
+		}
 	}
 
 	// Settings side bar
