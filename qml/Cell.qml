@@ -6,26 +6,26 @@ Item{
 	height: 0.02*parent.height
 
 	Wall{
-		vertical: false
 		id: north
+		vertical: false
 		anchors.top: parent.top		
 	}
 
 	Wall{
-		vertical: true
 		id: west
+		vertical: true
 		anchors.left: parent.left		
 	}
 
 	Wall{
-		vertical: false
 		id: south
+		vertical: false
 		anchors.bottom: parent.bottom	
 	}
 
 	Wall{
-		vertical: true
 		id: east
+		vertical: true
 		anchors.right: parent.right		
 	}
 }

@@ -38,3 +38,19 @@ void BackEnd::generateMaze()
 	_engine = new EngineFacade(_mazeWidth, _mazeHeight, randomEntry, exit, true);
 	_engine->generateMaze(_algo.toStdString());
 }
+
+QVariantList BackEnd::getCell(int row, int col)
+{
+	QVariantList cellWallsList;
+
+	Walls walls = _engine->getMaze().getCell(row, col).getWalls();
+	// note : getMaze only returns a reference
+
+	cellWallsList << walls.hasWestWall();
+	cellWallsList << walls.hasSouthWall();
+	cellWallsList << walls.hasEastWall();
+	cellWallsList << walls.hasNorthWall();
+
+	return cellWallsList;
+
+}

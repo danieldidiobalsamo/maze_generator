@@ -18,16 +18,15 @@ ApplicationWindow{
 		width: parent.width * 0.8
 		height: parent.height
 
-		Cell{
-		}
-
-		Item{
+		Maze{
 			id: mazeArea
-			width:  mazeWidthSpinBox.width
-			height:  mazeHeightSpinBox.height
-			// tmp; future = clean Maze qml element
-		}
+		
+			mazeWidth:  mazeWidthSpinBox.value
+			mazeHeight:  mazeHeightSpinBox.value
 
+
+			//visible: false //some algos needs start generation process with maze fully built
+		}
 	}
 
 	// Settings side bar

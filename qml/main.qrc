@@ -3,6 +3,7 @@
 		<file>main.qml</file>
 		<file>Wall.qml</file>
 		<file>Cell.qml</file>
+		<file>Maze.qml</file>
 
 		<file>AlgoListModel.qml</file>
 		<file>EntrySideListModel.qml</file>

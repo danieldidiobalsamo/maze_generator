@@ -20,6 +20,7 @@ class BackEnd : public QObject
 		Q_INVOKABLE void setMazeHeight(int _height);
 		Q_INVOKABLE void setAlgo(QString algo);
 		Q_INVOKABLE void generateMaze();
+		Q_INVOKABLE QVariantList getCell(int row, int col);
 
 	private: 
 		EngineFacade *_engine;
