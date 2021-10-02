@@ -2,6 +2,7 @@
 	<qresource prefix="/qml">
 		<file>main.qml</file>
 		<file>Wall.qml</file>
+		<file>Cell.qml</file>
 
 		<file>AlgoListModel.qml</file>
 		<file>EntrySideListModel.qml</file>

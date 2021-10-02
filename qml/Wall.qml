@@ -1,8 +1,9 @@
 import QtQuick 2.7
 
 Rectangle{
+	property bool vertical: true
 
-	width : 0.01*parent.width
-	height : 0.05*parent.width
+	width : vertical ? 0.25*parent.width  : parent.width
+	height : vertical ? parent.height  : 0.25*parent.height
 	color : "black"
 }

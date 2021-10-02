@@ -13,21 +13,28 @@ ApplicationWindow{
 		id: backend
 	}
 
-	// Maze area
 	Item{
-		id: mazeArea
+		id: graphicsArea
 		width: parent.width * 0.8
 		height: parent.height
 
-		Wall{
+		Cell{
 		}
+
+		Item{
+			id: mazeArea
+			width:  mazeWidthSpinBox.width
+			height:  mazeHeightSpinBox.height
+			// tmp; future = clean Maze qml element
+		}
+
 	}
 
 	// Settings side bar
 	Column{
 		width: parent.width * 0.2
 		height: parent.height
-		anchors.left: mazeArea.right
+		anchors.left: graphicsArea.right
 
 		spacing: 20
 
