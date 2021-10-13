@@ -9,7 +9,7 @@ BackEnd::BackEnd(QObject *parent) : QObject(parent),
 
 BackEnd::~BackEnd()
 {
-	
+	delete _engine;
 }
 
 void BackEnd::setMazeWidth(int width)
@@ -46,10 +46,10 @@ QVariantList BackEnd::getCell(int row, int col)
 	Walls walls = _engine->getMaze().getCell(row, col).getWalls();
 	// note : getMaze only returns a reference
 
-	cellWallsList << walls.hasWestWall();
-	cellWallsList << walls.hasSouthWall();
-	cellWallsList << walls.hasEastWall();
-	cellWallsList << walls.hasNorthWall();
+	cellWallsList.append(walls.hasWestWall());
+	cellWallsList.append(walls.hasSouthWall());
+	cellWallsList.append(walls.hasEastWall());
+	cellWallsList.append(walls.hasNorthWall());
 
 	return cellWallsList;
 

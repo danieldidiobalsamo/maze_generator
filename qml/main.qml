@@ -5,9 +5,13 @@ import QtQuick.Window 2.0
 import engine 1.0
 
 ApplicationWindow{
+	id: mainWindow
+
 	visible: true
 	visibility: "FullScreen"	
 	color: "lightgray"
+
+	property Maze maze
 
 	BackEnd{
 		id: backend
@@ -17,16 +21,6 @@ ApplicationWindow{
 		id: graphicsArea
 		width: parent.width * 0.8
 		height: parent.height
-
-		Maze{
-			id: mazeArea
-		
-			mazeWidth:  mazeWidthSpinBox.value
-			mazeHeight:  mazeHeightSpinBox.value
-
-
-			//visible: false //some algos needs start generation process with maze fully built
-		}
 	}
 
 	// Settings side bar
@@ -51,7 +45,20 @@ ApplicationWindow{
 			text: "Generate"
 			width: parent.width
 
-			onClicked: backend.generateMaze()
+			onClicked:{
+
+				if(maze != null)
+					maze.destroy()
+
+				backend.generateMaze()
+
+				let component = Qt.createComponent("Maze.qml")
+				let sprite = component.createObject(graphicsArea, { "anchors.leftMargin": 30,
+																"anchors.topMargin": 30,
+																mazeWidth: mazeWidthSpinBox.value, 
+				 												mazeHeight: mazeHeightSpinBox.value})
+				maze = sprite
+			}
 		}
 
 		Button{
@@ -110,6 +117,7 @@ ApplicationWindow{
 			ComboBox{
 				id: generationAlgoComboBox
 				model: AlgoListModel{}
+
 				Component.onCompleted: backend.setAlgo(currentText)
 				onActivated: backend.setAlgo(currentText)
 			}
@@ -124,6 +132,7 @@ ApplicationWindow{
 			SpinBox{
 				id: mazeWidthSpinBox
 				from : 5.0
+				editable: true
 				onValueChanged: backend.setMazeWidth(value);
 			}
 
@@ -136,6 +145,7 @@ ApplicationWindow{
 			SpinBox{
 				from : 5.0
 				id: mazeHeightSpinBox
+				editable: true
 				onValueChanged: backend.setMazeHeight(value);
 			}
 

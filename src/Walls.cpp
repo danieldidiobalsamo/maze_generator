@@ -42,7 +42,6 @@ bool Walls::hasSouthWall()
 	return _southWall;
 }
 
-
 // methods to build walls
 void Walls::setWestWall(const bool built)
 {
