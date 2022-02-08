@@ -1,45 +1,40 @@
 #ifndef CELL_WIDGET_HPP
 #define CELL_WIDGET_HPP
 
-
 #include <QGraphicsItemGroup>
 #include <QGraphicsScene>
+#include <QPaintEvent>
 #include <QPainter>
 #include <QRect>
 #include <QRectF>
-#include <QPaintEvent>
 #include <vector>
 
-#include "WallGraphicsItem.hpp"
 #include "Cell.hpp"
+#include "WallGraphicsItem.hpp"
 
-class CellGraphicsItem : public QGraphicsItemGroup
-{
-	private :
-		
-		QRectF _rect;
-		QPen _pen;
-		QBrush _brush;
-		
-		// walls that can be built
-		WallGraphicsItem *_northWall;
-		WallGraphicsItem *_westWall;
-		WallGraphicsItem *_southWall;
-		WallGraphicsItem *_eastWall;
+class CellGraphicsItem : public QGraphicsItemGroup {
+private:
+    QRectF _rect;
+    QPen _pen;
+    QBrush _brush;
 
-		void buildWalls(Walls &walls);
+    // walls that can be built
+    WallGraphicsItem* _northWall;
+    WallGraphicsItem* _westWall;
+    WallGraphicsItem* _southWall;
+    WallGraphicsItem* _eastWall;
 
-	public :
+    void buildWalls(Walls& walls);
 
-		CellGraphicsItem();
-		~CellGraphicsItem();
+public:
+    CellGraphicsItem();
+    ~CellGraphicsItem();
 
-		// implements virtual pure function from QGraphicsItem
-		QRectF boundingRect() const;
-		void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget);
+    // implements virtual pure function from QGraphicsItem
+    QRectF boundingRect() const;
+    void paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget);
 
-		void generate(float x, float y, float w, float h, const Cell &cell);
-
+    void generate(float x, float y, float w, float h, const Cell& cell);
 };
 
 #endif

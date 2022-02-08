@@ -5,34 +5,30 @@
 
 #include <utility> // pair
 
-class Maze
-{
-	private :
+class Maze {
+private:
+    int _width;
+    int _height;
 
+    std::pair<int, int> _entryPos;
+    std::pair<int, int> _exitPos;
 
-		int _width;
-		int _height;
+    MazeGrid _grid;
 
-		std::pair<int, int> _entryPos;
-		std::pair<int, int> _exitPos;
+public:
+    Maze();
+    Maze(int width, int height);
+    Maze(int width, int height, std::pair<int, int> entryPos, std::pair<int, int> exitPos, bool allWallsBuilt);
+    Maze(const Maze& m);
+    ~Maze();
 
-		MazeGrid _grid;
+    Maze& operator=(const Maze& m);
+    bool isEmpty() const;
 
-	public :
-		Maze();
-		Maze(int width, int height);
-		Maze(int width, int height, std::pair<int, int> entryPos, std::pair<int, int> exitPos, bool allWallsBuilt);
-		Maze(const Maze &m);
-		~Maze();
+    Cell getCell(int row, int col);
+    void visitCell(std::pair<int, int> cell);
 
-		Maze &operator=(const Maze &m);
-		bool isEmpty() const;
-
-		Cell getCell(int row, int col);
-		void visitCell(std::pair<int, int> cell);
-
-		void huntAndKill();
+    void huntAndKill();
 };
-
 
 #endif

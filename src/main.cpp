@@ -3,14 +3,14 @@
 
 #include "BackEnd.hpp"
 
-int main(int argc, char *argv[])
+int main(int argc, char* argv[])
 {
-	QGuiApplication app(argc, argv);
+    QGuiApplication app(argc, argv);
 
-	qmlRegisterType<BackEnd>("engine", 1, 0, "BackEnd");
-	
-	QQmlApplicationEngine engine;
-	engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
+    qmlRegisterType<BackEnd>("engine", 1, 0, "BackEnd");
 
-	return app.exec();
+    QQmlApplicationEngine engine;
+    engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
+
+    return app.exec();
 }
