@@ -36,7 +36,7 @@ void BackEnd::generateMaze()
 
     auto exit = std::make_pair(_mazeHeight - 1, _mazeWidth - 1);
 
-    _engine = new EngineFacade(_mazeWidth, _mazeHeight, randomEntry, exit, true);
+    _engine = new EngineFacade(_mazeWidth, _mazeHeight, randomEntry, exit, false);
     _engine->generateMaze(_algo.toStdString());
 }
 
@@ -44,13 +44,13 @@ QVariantList BackEnd::getCell(int row, int col)
 {
     QVariantList cellWallsList;
 
-    Walls walls = _engine->getMaze().getCell(row, col).getWalls();
+    CellWalls walls = _engine->getMaze().getCellWalls(std::make_pair(row, col));
     // note : getMaze only returns a reference
 
-    cellWallsList.append(walls.hasWestWall());
-    cellWallsList.append(walls.hasSouthWall());
-    cellWallsList.append(walls.hasEastWall());
-    cellWallsList.append(walls.hasNorthWall());
+    cellWallsList.append(walls.west);
+    cellWallsList.append(walls.south);
+    cellWallsList.append(walls.east);
+    cellWallsList.append(walls.north);
 
     return cellWallsList;
 }

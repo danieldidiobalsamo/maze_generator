@@ -12,11 +12,11 @@
 
 typedef std::pair<int, int> CellCoord;
 
-enum CarvingDirection {
-    CARVING_NORTH,
-    CARVING_WEST,
-    CARVING_SOUTH,
-    CARVING_EAST
+struct CellWalls {
+    bool west;
+    bool south;
+    bool east;
+    bool north;
 };
 
 class MazeGrid {
@@ -34,16 +34,16 @@ private:
 
     std::default_random_engine _randomEngine;
 
+    int mazeCoordToIndex(CellCoord coord);
+
 public:
-    MazeGrid()=delete;
-    MazeGrid(const int width, const int height);
-    MazeGrid(const int width, const int height, const CellCoord entryPos, const CellCoord exitPos, const bool allWallsBuilt);
-    MazeGrid(const MazeGrid& m)=delete;
+    MazeGrid() = delete;
+    MazeGrid(const int width, const int height, const CellCoord entryPos, const CellCoord exitPos, const bool initCellState);
+    MazeGrid(const MazeGrid& m) = delete;
 
     ~MazeGrid();
 
-    MazeGrid& operator=(const MazeGrid& m)=delete;
-
+    MazeGrid& operator=(const MazeGrid& m) = delete;
 
     void carve(const CellCoord src, const CellCoord dest);
     void carveToAllNeighbors(const CellCoord& cellCoord);
@@ -51,11 +51,9 @@ public:
     bool isDeadEnd(const CellCoord cell);
     std::tuple<bool, CellCoord> hasVisitedNeighbor(const CellCoord cell);
     std::vector<CellCoord> getNeighbors(const CellCoord cell);
-
     void setVisited(const CellCoord cell);
-
-    Cell getCell(const int row, const int col);
-    Cell getCell(const CellCoord cell);
+    CellWalls getCellWalls(CellCoord cell);
+    bool isCellVisited(CellCoord cell);
 };
 
 #endif

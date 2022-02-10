@@ -16,16 +16,15 @@ private:
     MazeGrid _grid;
 
 public:
-    Maze()=delete;
-    Maze(int width, int height);
-    Maze(int width, int height, std::pair<int, int> entryPos, std::pair<int, int> exitPos, bool allWallsBuilt);
-    Maze(const Maze& m)=delete;
+    Maze() = delete;
+    Maze(int width, int height, std::pair<int, int> entryPos, std::pair<int, int> exitPos, bool initCellState);
+    Maze(const Maze& m) = delete;
     ~Maze();
 
-    Maze& operator=(const Maze& m)=delete;
+    Maze& operator=(const Maze& m) = delete;
 
-    Cell getCell(int row, int col);
-    void visitCell(std::pair<int, int> cell);
+    CellWalls getCellWalls(CellCoord cell);
+    void visitCell(CellCoord cell);
 
     void huntAndKill();
 };

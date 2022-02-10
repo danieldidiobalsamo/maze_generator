@@ -5,7 +5,7 @@ project(MazeGenerator)
 # C++ standard and compilation flags
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS "-pedantic -Wall -Wextra -Werror -Wconversion -Wsign-conversion -Wold-style-cast -g")
+set(CMAKE_CXX_FLAGS "-pedantic -Wall -Wextra -Werror -Wconversion -Wold-style-cast -g")
 
 # packages
 find_package(Boost 1.55 REQUIRED COMPONENTS unit_test_framework REQUIRED)

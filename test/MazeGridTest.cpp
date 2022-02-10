@@ -16,8 +16,8 @@ struct MazeFixture
 	MazeGrid grid; // is initialized with all walls built there
 	std::pair<int, int> testedCell;
 
-	MazeFixture() : grid(20, 20, std::make_pair(0, 5), std::make_pair(19, 19), true),
-	testedCell(std::make_pair(2, 2))
+	MazeFixture() : grid(20, 20, std::make_pair(1, 0), std::make_pair(0, 19), false),
+	testedCell(std::make_pair(5, 5))
 	{
 	}
 
@@ -25,16 +25,16 @@ struct MazeFixture
 	{
 	}
 
-	std::string checkWalls(Walls &walls)
+	std::string checkWalls(CellWalls &walls)
 	{
 		std::string wallsState = "";
 
 		// uppercase means "wall built"
 		// lowercase means "no wall"
-		wallsState += walls.hasNorthWall() ? "N" : "n";
-		wallsState += walls.hasWestWall() ? "W" : "w";
-		wallsState += walls.hasSouthWall() ? "S" : "s";
-		wallsState += walls.hasEastWall() ? "E" : "e";
+		wallsState += walls.north ? "N" : "n";
+		wallsState += walls.west ? "W" : "w";
+		wallsState += walls.south ? "S" : "s";
+		wallsState += walls.east ? "E" : "e";
 
 		return wallsState;
 	}
@@ -61,8 +61,8 @@ BOOST_FIXTURE_TEST_CASE(CarvingEast, MazeFixture)
 
 	grid.carve(testedCell, destCell);
 
-	Walls firstCellWalls = grid.getCell(testedCell).getWalls();
-	Walls secondCellWalls = grid.getCell(destCell).getWalls();
+	CellWalls firstCellWalls = grid.getCellWalls(testedCell);
+	CellWalls secondCellWalls = grid.getCellWalls(destCell);
 
 	// uppercase means "wall built"
 	// lowercase means "no wall"
@@ -79,8 +79,8 @@ BOOST_FIXTURE_TEST_CASE(CarvingSouth, MazeFixture)
 
 	grid.carve(testedCell, destCell);
 
-	Walls firstCellWalls = grid.getCell(testedCell).getWalls();
-	Walls secondCellWalls = grid.getCell(destCell).getWalls();
+	CellWalls firstCellWalls = grid.getCellWalls(testedCell);
+	CellWalls secondCellWalls = grid.getCellWalls(destCell);
 
 	// uppercase means "wall built"
 	// lowercase means "no wall"
@@ -96,8 +96,8 @@ BOOST_FIXTURE_TEST_CASE(CarvingWest, MazeFixture)
 
 	grid.carve(testedCell, destCell);
 
-	Walls firstCellWalls = grid.getCell(testedCell).getWalls();
-	Walls secondCellWalls = grid.getCell(destCell).getWalls();
+	CellWalls firstCellWalls = grid.getCellWalls(testedCell);
+	CellWalls secondCellWalls = grid.getCellWalls(destCell);
 
 	// uppercase means "wall built"
 	// lowercase means "no wall"
@@ -113,8 +113,8 @@ BOOST_FIXTURE_TEST_CASE(CarvingNorth, MazeFixture)
 
 	grid.carve(testedCell, destCell);
 
-	Walls firstCellWalls = grid.getCell(testedCell).getWalls();
-	Walls secondCellWalls = grid.getCell(destCell).getWalls();
+	CellWalls firstCellWalls = grid.getCellWalls(testedCell);
+	CellWalls secondCellWalls = grid.getCellWalls(destCell);
 
 	// uppercase means "wall built"
 	// lowercase means "no wall"
@@ -140,6 +140,7 @@ BOOST_FIXTURE_TEST_CASE(GetNeighbors, MazeFixture)
 	}
 
 	BOOST_CHECK_EQUAL(inNeighbors, true);
+	BOOST_CHECK_EQUAL(neighbors.size(), 4);
 }
 
 /////////////////TESTING chooseRandomNeighbors FUNCTION

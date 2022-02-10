@@ -2,10 +2,10 @@
 
 #include <iostream>
 
-EngineFacade::EngineFacade(const int w, const int h, const CellCoord entryPos, const CellCoord exitPos, const bool allWallsBuilt)
+EngineFacade::EngineFacade(const int w, const int h, const CellCoord entryPos, const CellCoord exitPos, const bool initCellState)
     : _mazeWidth(w)
     , _mazeHeight(h)
-    , _maze(w, h, entryPos, exitPos, allWallsBuilt)
+    , _maze(w, h, entryPos, exitPos, initCellState)
 {
 }
 

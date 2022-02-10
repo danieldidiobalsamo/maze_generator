@@ -17,6 +17,7 @@ ApplicationWindow{
 		id: backend
 	}
 
+
 	Item{
 		id: graphicsArea
 		width: parent.width * 0.8
