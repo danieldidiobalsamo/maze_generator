@@ -15,12 +15,12 @@ private:
     Maze _maze;
 
 public:
-    EngineFacade();
+    EngineFacade()=delete;
     EngineFacade(const int w, const int h);
     EngineFacade(const int w, const int h, const CellCoord entryPos, const CellCoord exitPos, const bool allWallsBuilt);
     ~EngineFacade();
 
-    EngineFacade& operator=(const EngineFacade& f);
+    EngineFacade& operator=(const EngineFacade& f)=delete;
 
     void initMaze();
     void generateMaze(const std::string algo);

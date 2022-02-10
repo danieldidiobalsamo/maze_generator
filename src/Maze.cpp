@@ -3,13 +3,6 @@
 #include <iostream>
 #include <stdexcept>
 
-Maze::Maze()
-    : _grid()
-{
-    _width = 0;
-    _height = 0;
-}
-
 Maze::Maze(int width, int height)
     : _grid(width, height)
 {
@@ -29,50 +22,6 @@ Maze::Maze(int width, int height, std::pair<int, int> entryPos, std::pair<int, i
 
 Maze::~Maze()
 {
-}
-
-Maze::Maze(const Maze& m)
-{
-    _width = m._width;
-    _height = m._height;
-
-    // allocation of the maze
-
-    _grid = m._grid; // Mazegrid's operator= is overloaded
-}
-
-Maze& Maze::operator=(const Maze& m)
-{
-    if (this == &m)
-        return *this;
-    else {
-        try {
-            // managing exceptions
-            if (m.isEmpty())
-                throw std::invalid_argument("Maze is empty");
-            else {
-                if (m._width != _width || m._height != _height)
-                    throw std::invalid_argument("Mazes dimensions must be the same");
-            }
-
-            // copying the maze
-            _width = m._width;
-            _height = m._height;
-
-            _grid = m._grid;
-
-            return *this;
-        } catch (const std::invalid_argument& e) {
-            std::cerr << e.what() << std::endl;
-            return const_cast<Maze&>(m);
-            // here const_cast is allowed because when calling operator= , the left side Maze variable is not a const reference
-        }
-    }
-}
-
-bool Maze::isEmpty() const
-{
-    return _grid.isEmpty();
 }
 
 Cell Maze::getCell(int row, int col)

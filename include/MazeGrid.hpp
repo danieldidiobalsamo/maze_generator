@@ -8,6 +8,7 @@
 #include <time.h>
 #include <tuple>
 #include <utility> // pair
+#include <vector>
 
 typedef std::pair<int, int> CellCoord;
 
@@ -26,29 +27,32 @@ private:
     CellCoord _entryPos;
     CellCoord _exitPos;
 
+    std::map<int, std::vector<bool>> _adjacencyMatrix;
+    std::map<int, std::vector<bool>> _visitedMatrix;
+
     std::map<CellCoord, Cell> _grid;
 
     std::default_random_engine _randomEngine;
 
 public:
-    MazeGrid();
+    MazeGrid()=delete;
     MazeGrid(const int width, const int height);
     MazeGrid(const int width, const int height, const CellCoord entryPos, const CellCoord exitPos, const bool allWallsBuilt);
-    MazeGrid(const MazeGrid& m);
+    MazeGrid(const MazeGrid& m)=delete;
 
     ~MazeGrid();
 
-    MazeGrid& operator=(const MazeGrid& m);
+    MazeGrid& operator=(const MazeGrid& m)=delete;
+
 
     void carve(const CellCoord src, const CellCoord dest);
+    void carveToAllNeighbors(const CellCoord& cellCoord);
     CellCoord chooseRandomNeighbors(const CellCoord currentCell);
     bool isDeadEnd(const CellCoord cell);
     std::tuple<bool, CellCoord> hasVisitedNeighbor(const CellCoord cell);
     std::vector<CellCoord> getNeighbors(const CellCoord cell);
 
     void setVisited(const CellCoord cell);
-
-    bool isEmpty() const;
 
     Cell getCell(const int row, const int col);
     Cell getCell(const CellCoord cell);
