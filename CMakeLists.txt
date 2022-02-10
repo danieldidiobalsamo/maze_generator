@@ -19,15 +19,11 @@ set(CMAKE_AUTORCC ON)
 set(SRC
     src/BackEnd.cpp
     src/Maze.cpp
-    src/Cell.cpp
-    src/Walls.cpp
     src/EngineFacade.cpp
     src/MazeGrid.cpp
 
     include/BackEnd.hpp
     include/Maze.hpp
-    include/Cell.hpp
-    include/Walls.hpp
     include/EngineFacade.hpp
     include/MazeGrid.hpp
 

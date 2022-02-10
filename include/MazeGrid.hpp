@@ -1,8 +1,6 @@
 #ifndef MAZE_GRID_HPP
 #define MAZE_GRID_HPP
 
-#include "Cell.hpp"
-
 #include <map>
 #include <random>
 #include <time.h>
@@ -29,8 +27,6 @@ private:
 
     std::map<int, std::vector<bool>> _adjacencyMatrix;
     std::map<int, std::vector<bool>> _visitedMatrix;
-
-    std::map<CellCoord, Cell> _grid;
 
     std::default_random_engine _randomEngine;
 
