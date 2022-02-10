@@ -1,5 +1,4 @@
-#ifndef ENGINE_FACADE_HPP
-#define ENGINE_FACADE_HPP
+#pragma once
 
 #include "Maze.hpp"
 
@@ -32,5 +31,3 @@ public:
 
     Maze& getMaze();
 };
-
-#endif

@@ -1,5 +1,4 @@
-#ifndef BACKEND_HPP
-#define BACKEND_HPP
+#pragma once
 
 #include <QObject>
 #include <QString>
@@ -33,5 +32,3 @@ private:
 
     std::default_random_engine _randomIntGenerator;
 };
-
-#endif

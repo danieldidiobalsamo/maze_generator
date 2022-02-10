@@ -1,5 +1,4 @@
-#ifndef MAZE_GRID_HPP
-#define MAZE_GRID_HPP
+#pragma once
 
 #include <map>
 #include <random>
@@ -51,5 +50,3 @@ public:
     CellWalls getCellWalls(CellCoord cell);
     bool isCellVisited(CellCoord cell);
 };
-
-#endif

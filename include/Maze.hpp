@@ -1,5 +1,4 @@
-#ifndef MAZE_HPP
-#define MAZE_HPP
+#pragma once
 
 #include "MazeGrid.hpp"
 
@@ -28,5 +27,3 @@ public:
 
     void huntAndKill();
 };
-
-#endif
