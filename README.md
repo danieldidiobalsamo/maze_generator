@@ -22,7 +22,3 @@ Unit tests related classes are in "test" folder, and managed in a separated exec
 
 To launch KCacheGrind :
 - ../runKCacheGrind.sh
-
-## UML Class diagram
-
-UMLdiagram class is available in "archi" folder (.png and .mdj = StarUML file)
