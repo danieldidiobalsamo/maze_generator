@@ -5,6 +5,8 @@
 This application is a maze generator and visualizer, coded in C++17 / Qt (QML) and CMake.<br>
 Unit tests are managed by Boost Test / ctest
 
+ClangFormat is used to format the code.
+
 ![image info](./images/generation_example.png)
 
 ## How to launch
