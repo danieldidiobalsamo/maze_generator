@@ -5,14 +5,12 @@
 #include <stdexcept>
 
 MazeGrid::MazeGrid(const int width, const int height, const CellCoord entryPos, const CellCoord exitPos, bool initCellState)
-    : _randomEngine(static_cast<unsigned int>(time(0))) // used to generate random int, better than rand()
+    : _width(width)
+    , _height(height)
+    , _entryPos(entryPos)
+    , _exitPos(exitPos)
+    , _randomEngine(static_cast<unsigned int>(time(0))) // used to generate random int, better than rand()
 {
-    _width = width;
-    _height = height;
-
-    _entryPos = entryPos;
-    _exitPos = exitPos;
-
     const int nbCell = _width * _height;
 
     for (int row = 0; row < nbCell; ++row) {

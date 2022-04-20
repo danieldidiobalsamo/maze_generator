@@ -4,13 +4,12 @@
 #include <stdexcept>
 
 Maze::Maze(int width, int height, std::pair<int, int> entryPos, std::pair<int, int> exitPos, bool initCellState)
-    : _grid(width, height, entryPos, exitPos, initCellState)
+    : _width(width)
+    , _height(height)
+    , _entryPos(entryPos)
+    , _exitPos(exitPos)
+    , _grid(width, height, entryPos, exitPos, initCellState)
 {
-    _width = width;
-    _height = height;
-
-    _entryPos = entryPos;
-    _exitPos = exitPos;
 }
 
 Maze::~Maze()
