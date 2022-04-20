@@ -110,18 +110,16 @@ void MazeGrid::carveToAllNeighbors(const CellCoord& cellCoord)
 std::tuple<bool, CellCoord> MazeGrid::hasVisitedNeighbor(const CellCoord cell)
 {
     auto neighbors = getNeighbors(cell);
-    CellCoord visitedNeighbor;
-    bool hasOne = false;
+    std::vector<CellCoord>::iterator visitedNeighbor = std::find_if(neighbors.begin(), neighbors.end(),
+        [=](CellCoord& cell) {
+            return !_visitedMatrix[cell.first][cell.second];
+        });
 
-    for (auto cell : neighbors) {
-        if (!_visitedMatrix[cell.first][cell.second]) {
-            hasOne = true;
-            visitedNeighbor = cell;
-            break;
-        }
+    if (visitedNeighbor != neighbors.end()) {
+        return std::make_tuple(true, *visitedNeighbor);
+    } else {
+        return std::make_tuple(false, *visitedNeighbor);
     }
-
-    return std::make_tuple(hasOne, visitedNeighbor);
 }
 
 void MazeGrid::setVisited(const CellCoord cell)
