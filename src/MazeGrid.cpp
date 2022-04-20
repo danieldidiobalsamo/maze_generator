@@ -111,7 +111,7 @@ std::tuple<bool, CellCoord> MazeGrid::hasVisitedNeighbor(const CellCoord cell)
 {
     auto neighbors = getNeighbors(cell);
     std::vector<CellCoord>::iterator visitedNeighbor = std::find_if(neighbors.begin(), neighbors.end(),
-        [=](CellCoord& cell) {
+        [=](const CellCoord& cell) {
             return !_visitedMatrix[cell.first][cell.second];
         });
 
