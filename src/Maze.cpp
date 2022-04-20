@@ -65,10 +65,10 @@ void Maze::huntAndKill()
         // and searching row by row
 
         bool selectedCell = false;
-        int row = 0, col = 0;
+        int row = 0;
 
         while (row < _height && !selectedCell) {
-            col = 0;
+            int col = 0;
 
             while (col < _width && !selectedCell) {
                 if (_grid.isCellVisited(std::make_pair(row, col))) {
