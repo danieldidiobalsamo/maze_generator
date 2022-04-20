@@ -13,7 +13,7 @@ EngineFacade::~EngineFacade()
 {
 }
 
-void EngineFacade::generateMaze(const std::string algo)
+void EngineFacade::generateMaze(const std::string& algo)
 {
     if (algo == "Hunt and kill")
         huntAndKillGeneration();

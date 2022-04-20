@@ -22,7 +22,7 @@ public:
     EngineFacade& operator=(const EngineFacade& f) = delete;
 
     void initMaze();
-    void generateMaze(const std::string algo);
+    void generateMaze(const std::string& algo);
 
     // generation algo
 
