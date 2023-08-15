@@ -1,24 +1,22 @@
 #pragma once
 
-#include <QObject>
-#include <QString>
-#include <qqml.h>
 #include <utility>
+#include <string>
+#include <vector>
 
 #include "EngineFacade.hpp"
 
-class BackEnd : public QObject {
-    Q_OBJECT
+class BackEnd {
 
 public:
-    explicit BackEnd(QObject* parent = nullptr);
+    BackEnd();
     ~BackEnd();
 
-    Q_INVOKABLE void setMazeWidth(int _width);
-    Q_INVOKABLE void setMazeHeight(int _height);
-    Q_INVOKABLE void setAlgo(QString algo);
-    Q_INVOKABLE void generateMaze();
-    Q_INVOKABLE QVariantList getCell(int row, int col);
+    void setMazeWidth(int _width);
+    void setMazeHeight(int _height);
+    void setAlgo(std::string algo);
+    void generateMaze();
+    std::vector<bool> getCell(int row, int col);
 
 private:
     EngineFacade* _engine;
@@ -28,7 +26,7 @@ private:
     CellCoord _entryPos;
     CellCoord _exitPos;
 
-    QString _algo;
+    std::string _algo;
 
     std::default_random_engine _randomIntGenerator;
 };

@@ -2,9 +2,7 @@
 
 #include <iostream>
 
-BackEnd::BackEnd(QObject* parent)
-    : QObject(parent)
-    , _engine(nullptr)
+BackEnd::BackEnd() : _engine(nullptr)
     , _mazeWidth(0)
     , _mazeHeight(0)
     , _randomIntGenerator(static_cast<unsigned int>(time(0)))
@@ -26,7 +24,7 @@ void BackEnd::setMazeHeight(int height)
     _mazeHeight = height;
 }
 
-void BackEnd::setAlgo(QString algo)
+void BackEnd::setAlgo(std::string algo)
 {
     _algo = algo;
 }
@@ -40,20 +38,20 @@ void BackEnd::generateMaze()
     auto exit = std::make_pair(_mazeHeight - 1, _mazeWidth - 1);
 
     _engine = new EngineFacade(_mazeWidth, _mazeHeight, randomEntry, exit, false);
-    _engine->generateMaze(_algo.toStdString());
+    _engine->generateMaze(_algo);
 }
 
-QVariantList BackEnd::getCell(int row, int col)
+std::vector<bool> BackEnd::getCell(int row, int col)
 {
-    QVariantList cellWallsList;
+    std::vector<bool> cellWallsList;
 
     CellWalls walls = _engine->getMaze().getCellWalls(std::make_pair(row, col));
     // note : getMaze only returns a reference
 
-    cellWallsList.append(walls.west);
-    cellWallsList.append(walls.south);
-    cellWallsList.append(walls.east);
-    cellWallsList.append(walls.north);
+    cellWallsList.push_back(walls.west);
+    cellWallsList.push_back(walls.south);
+    cellWallsList.push_back(walls.east);
+    cellWallsList.push_back(walls.north);
 
     return cellWallsList;
 }

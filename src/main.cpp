@@ -1,16 +1,8 @@
-#include <QGuiApplication>
-#include <QQmlApplicationEngine>
-
 #include "BackEnd.hpp"
+#include <iostream>
 
-int main(int argc, char* argv[])
+int main()
 {
-    QGuiApplication app(argc, argv);
-
-    qmlRegisterType<BackEnd>("engine", 1, 0, "BackEnd");
-
-    QQmlApplicationEngine engine;
-    engine.load(QUrl(QStringLiteral("qrc:/qml/main.qml")));
-
-    return app.exec();
+    std::cout << "hello world" << std::endl;
+    return 0;
 }
