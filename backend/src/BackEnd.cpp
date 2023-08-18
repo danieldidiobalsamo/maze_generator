@@ -2,7 +2,8 @@
 
 #include <iostream>
 
-BackEnd::BackEnd() : _engine(nullptr)
+BackEnd::BackEnd()
+    : _engine(nullptr)
     , _mazeWidth(0)
     , _mazeHeight(0)
     , _randomIntGenerator(static_cast<unsigned int>(time(0)))

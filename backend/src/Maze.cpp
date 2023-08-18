@@ -36,7 +36,7 @@ void Maze::huntAndKill()
     bool allCellsTreated = false;
     bool huntMode = false;
 
-    //looping on the whole maze
+    // looping on the whole maze
     do {
 
         do // looping until a dead end is reached
@@ -45,7 +45,7 @@ void Maze::huntAndKill()
                 // launching hunt mode
                 huntMode = true;
             } else {
-                //choosing an unvisited cell
+                // choosing an unvisited cell
 
                 do {
                     nextCell = _grid.chooseRandomNeighbors(currentCell);

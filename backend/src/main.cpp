@@ -1,7 +1,7 @@
 #include "BackEnd.hpp"
+#include <emscripten.h>
 #include <iostream>
 #include <string>
-#include <emscripten.h>
 
 extern "C" int EMSCRIPTEN_KEEPALIVE helloWasm()
 {

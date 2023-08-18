@@ -45,7 +45,7 @@ void MazeGrid::carve(const CellCoord src, const CellCoord dest)
         const bool carvingHorizontally = (srcCol != destCol);
         const bool carvingVertically = (srcRow != destRow);
 
-        //exception
+        // exception
         if (carvingHorizontally && carvingVertically)
             throw std::invalid_argument("Cells must be connected for carving");
 
