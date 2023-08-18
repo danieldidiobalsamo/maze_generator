@@ -5,13 +5,16 @@ project(MazeGenerator)
 # C++ standard and compilation flags
 set(CMAKE_CXX_STANDARD 17)
 set(CMAKE_CXX_STANDARD_REQUIRED ON)
-set(CMAKE_CXX_FLAGS "-pedantic -Wall -Wextra -Werror -Wold-style-cast")
+set(CMAKE_CXX_FLAGS "-pedantic -Wall -Wextra -Werror -Wold-style-cast -Wno-unused-command-line-argument")
 
 option(EMCC "Compile with emcc" OFF)
 
 IF(${EMCC})
     set(CMAKE_CXX_COMPILER emcc) # emscripten compiler
-    set(CMAKE_EXECUTABLE_SUFFIX ".html")
+    set(CMAKE_EXECUTABLE_SUFFIX ".js")
+
+    set(EMCC_FLAGS "-sEXPORTED_RUNTIME_METHODS=['ccall'] -sEXPORT_ES6=1 -sMODULARIZE=1 -o MazeGenerator.js -sEXPORT_NAME='MazeGenerator' ")
+    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${EMCC_FLAGS}")
 ELSE()
     find_package(Boost 1.55 REQUIRED COMPONENTS unit_test_framework REQUIRED)
 ENDIF()
