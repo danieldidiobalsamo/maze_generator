@@ -1,4 +1,5 @@
 <script setup>
+import Menu from './components/Menu.vue'
 </script>
 
 
@@ -18,5 +19,18 @@ let mazeGenerator = MazeGenerator().then(mod => {
 </script>
 
 <template>
-  <p id="hello"></p>
+
+  <aside>
+    <Menu/>
+  </aside>
+
+  <main>
+    <p id="hello"></p>
+  </main>
 </template>
+
+<style type="text/css">
+  aside{
+    float:left;
+  }
+</style>
