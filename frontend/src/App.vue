@@ -4,27 +4,21 @@ import Maze from './components/Maze.vue'
 import Cell from './components/Cell.vue'
 </script>
 
-<script type="module">
+<script>
 import MazeGenerator from './assets/wasm/mazeGenerator.js'; // generated file (emcc wasm compiler)
-let mazeGenerator = MazeGenerator().then(mod => {
-    console.log("wasm loaded")
-
-    const hello = mod.ccall('helloWasm',
-          'number',
-          ['null'],
-          [])
-
-    console.log(hello)
-    document.getElementById("hello").textContent = hello
-})
 
 export default {
 
     data(){
         return{
             mazeCells: [],
-            width: 0
+            width: 0,
+            wasmBackend: {}
         }
+    },
+
+    created(){
+        MazeGenerator().then(back => this.wasmBackend = back)
     },
 
     components: {
@@ -32,31 +26,38 @@ export default {
     },
 
     methods:{
-        generate(algo, width, height){
-          this.mazeCells = this.getMaze(width, height)
-          this.width = width
-        },
+      generate(algo, width, height){
+        this.mazeCells = this.getMaze(width, height)
+        this.width = width
+
+        const hello = this.wasmBackend.ccall('helloWasm',
+          'number',
+          ['null'],
+          [])
+
+        document.getElementById("hello").textContent = hello
+      },
 
 
-        getMaze(width, height){
-            // TODO : fetch wasm backend result
+      getMaze(width, height){
+          // TODO : fetch wasm backend result
 
-            let maze = []
+          let maze = []
 
-            for (let col = 0; col < width; col++) {
-                for (let row = 0; row < height; row++) {
-                  let cell = {
-                    top: true,
-                    right: false,
-                    bottom: true,
-                    left: true,
-                  }
-
-                  maze.push(cell)
+          for (let col = 0; col < width; col++) {
+              for (let row = 0; row < height; row++) {
+                let cell = {
+                  top: true,
+                  right: false,
+                  bottom: true,
+                  left: true,
                 }
-            }
-            return maze
-        }
+
+                maze.push(cell)
+              }
+          }
+          return maze
+      }
   }
 }
 </script>
