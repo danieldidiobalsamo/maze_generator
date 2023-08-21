@@ -6,8 +6,7 @@
       <button disabled id="download-btn">Download as image <img src="" alt=""></button>
 
     <select required name="algos" id="algo-select">
-      <option value="">--Generation algo--</option>
-      <option value="Hunt and kill">Hunt and kill</option>
+      <option v-for="algo in genAlgos" :value="algo">{{ algo.title }}</option>
     </select>
 
     <label for="width">Width</label><input required min="5" max="999" id=width type="number">
@@ -16,6 +15,19 @@
     </form>
     </div>
 </template>
+
+<script>
+    export default {
+        data() {
+            return {
+                genAlgos: [
+                    { val: "", title: '---Generation algo--' },
+                    { val: "Hunt and kill", title: 'Hunt and kill' },
+                    ]
+            }
+        },
+    }
+</script>
 
 <style type="text/css">
   #main-item{
