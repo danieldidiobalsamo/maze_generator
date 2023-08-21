@@ -1,11 +1,11 @@
 <template>
     <div id="main-item">
-    <form id="sidebar" @submit.prevent="shortUrl">
+    <form id="sidebar" @submit.prevent="generate">
       <input id="generate-btn" type="submit" value="Generate" />
       <button disabled id="solve-btn">Solve</button>
       <button disabled id="download-btn">Download as image <img src="" alt=""></button>
 
-    <select required name="algos" id="algo-select">
+    <select required name="algos" v-model="selectedAlgo">
       <option v-for="algo in genAlgos" :value="algo">{{ algo.title }}</option>
     </select>
 
@@ -18,14 +18,21 @@
 
 <script>
     export default {
+        emits: ['generateMaze'],
         data() {
             return {
                 genAlgos: [
-                    { val: "", title: '---Generation algo--' },
                     { val: "Hunt and kill", title: 'Hunt and kill' },
                     ],
-                width: 5,
-                height: 5,
+                selectedAlgo: {},
+                width: 40,
+                height: 30,
+            }
+        },
+
+        methods:{
+            generate(){
+                this.$emit('generateMaze', this.selectedAlgo.val, this.width, this.height)
             }
         },
     }

@@ -4,7 +4,6 @@ import Maze from './components/Maze.vue'
 import Cell from './components/Cell.vue'
 </script>
 
-
 <script type="module">
 import MazeGenerator from './assets/wasm/mazeGenerator.js'; // generated file (emcc wasm compiler)
 let mazeGenerator = MazeGenerator().then(mod => {
@@ -19,40 +18,58 @@ let mazeGenerator = MazeGenerator().then(mod => {
     document.getElementById("hello").textContent = hello
 })
 
-function getMaze(width, height){
+export default {
 
-  // TODO : fetch wasm backend result
+    data(){
+        return{
+            mazeCells: [],
+            width: 0
+        }
+    },
 
-  let maze = []
+    components: {
+        Menu
+    },
 
-  for (let col = 0; col < width; col++) {
-    for (let row = 0; row < height; row++) {
-      let cell = {
-        top: true,
-        right: false,
-        bottom: true,
-        left: true,
-      }
+    methods:{
+        generate(algo, width, height){
+          this.mazeCells = this.getMaze(width, height)
+          this.width = width
+        },
 
-      maze.push(cell)
-    }
 
+        getMaze(width, height){
+            // TODO : fetch wasm backend result
+
+            let maze = []
+
+            for (let col = 0; col < width; col++) {
+                for (let row = 0; row < height; row++) {
+                  let cell = {
+                    top: true,
+                    right: false,
+                    bottom: true,
+                    left: true,
+                  }
+
+                  maze.push(cell)
+                }
+            }
+            return maze
+        }
   }
-
-  return maze
 }
-
 </script>
 
 <template>
 
   <aside>
-    <Menu/>
+    <Menu @generateMaze="(algo, w, h) => this.generate(algo, w, h)" />
   </aside>
 
   <main>
     <p id="hello"></p>
-    <Maze :maze="getMaze(15, 20)" :width="15"/>
+    <Maze :maze="this.mazeCells" :width="this.width"/>
   </main>
 </template>
 
