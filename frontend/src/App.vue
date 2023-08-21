@@ -1,5 +1,6 @@
 <script setup>
 import Menu from './components/Menu.vue'
+import Cell from './components/Cell.vue'
 </script>
 
 
@@ -26,11 +27,17 @@ let mazeGenerator = MazeGenerator().then(mod => {
 
   <main>
     <p id="hello"></p>
+    <Cell :top="true" :right="true" :bottom="false" :left="true"></Cell>
   </main>
 </template>
 
 <style type="text/css">
   aside{
     float:left;
+  }
+
+  main{
+    float:left;
+    margin-left: 3vw;
   }
 </style>
