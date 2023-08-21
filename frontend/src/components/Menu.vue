@@ -9,8 +9,8 @@
       <option v-for="algo in genAlgos" :value="algo">{{ algo.title }}</option>
     </select>
 
-    <label for="width">Width</label><input required min="5" max="999" id=width type="number">
-    <label for="height">Height</label><input required min="5" max="999" id=height type="number">
+    <label for="width">Width</label><input required min="5" max="50" id="maze-width" type="number" v-model=width>
+    <label for="height">Height</label><input required min="5" max="50" id="maze-height" type="number" v-model=height>
 
     </form>
     </div>
@@ -23,7 +23,9 @@
                 genAlgos: [
                     { val: "", title: '---Generation algo--' },
                     { val: "Hunt and kill", title: 'Hunt and kill' },
-                    ]
+                    ],
+                width: 5,
+                height: 5,
             }
         },
     }
