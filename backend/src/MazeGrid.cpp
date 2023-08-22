@@ -69,13 +69,13 @@ std::vector<CellCoord> MazeGrid::getNeighbors(CellCoord cell)
     std::vector<CellCoord> neighbors;
 
     if (cell.row - 1 >= 0)
-        neighbors.push_back(CellCoord { cell.row - 1, cell.col });
+        neighbors.push_back(getTopNeighbor(cell));
     if (cell.row + 1 < _height)
-        neighbors.push_back(CellCoord { cell.row + 1, cell.col });
+        neighbors.push_back(getBottomNeighbor(cell));
     if (cell.col - 1 >= 0)
-        neighbors.push_back(CellCoord { cell.row, cell.col - 1 });
+        neighbors.push_back(getLeftNeighbor(cell));
     if (cell.col + 1 < _width)
-        neighbors.push_back(CellCoord { cell.row, cell.col + 1 });
+        neighbors.push_back(getRightNeighbor(cell));
 
     return neighbors;
 }
@@ -128,28 +128,22 @@ CellWalls MazeGrid::getCellWalls(CellCoord cell)
     auto neighbors = getNeighbors(cell);
     int cellIndex = mazeCoordToIndex(cell);
 
-    // drawing borders
+    // checking if cell is on sides
     if (cell != _entryPos && cell != _exitPos) {
-        // drawing nothern, border
-        if (cell.row == 0)
+        if (isCellOnTopSide(cell))
             walls.north = true;
-
-        // drawing southern, border
-        if (cell.row == _height - 1)
+        else if (isCellOnBottomSide(cell))
             walls.south = true;
 
-        // drawing eastern, border
-        if (cell.col == _width - 1)
+        if (isCellOnRightSide(cell))
             walls.east = true;
-
-        // drawing nothern, border
-        if (cell.col == 0)
+        else if (isCellOnLeftSide(cell))
             walls.west = true;
     }
 
     for (auto neighbor : neighbors) {
         if (neighbor.col == cell.col - 1) {
-            const int neighborIndex = mazeCoordToIndex(CellCoord { neighbor.row, cell.col - 1 });
+            const int neighborIndex = mazeCoordToIndex(getLeftNeighbor(cell));
             if (!_adjacencyMatrix[cellIndex][neighborIndex]) {
                 walls.west = true;
                 continue;
@@ -157,7 +151,7 @@ CellWalls MazeGrid::getCellWalls(CellCoord cell)
         }
 
         if (neighbor.row == cell.row + 1) {
-            const int neighborIndex = mazeCoordToIndex(CellCoord { cell.row + 1, neighbor.col });
+            const int neighborIndex = mazeCoordToIndex(getBottomNeighbor(cell));
             if (!_adjacencyMatrix[cellIndex][neighborIndex]) {
                 walls.south = true;
                 continue;
@@ -165,7 +159,7 @@ CellWalls MazeGrid::getCellWalls(CellCoord cell)
         }
 
         if (neighbor.col == cell.col + 1) {
-            const int neighborIndex = mazeCoordToIndex(CellCoord { neighbor.row, cell.col + 1 });
+            const int neighborIndex = mazeCoordToIndex(getRightNeighbor(cell));
             if (!_adjacencyMatrix[cellIndex][neighborIndex]) {
                 walls.east = true;
                 continue;
@@ -173,7 +167,7 @@ CellWalls MazeGrid::getCellWalls(CellCoord cell)
         }
 
         if (neighbor.row == cell.row - 1) {
-            const int neighborIndex = mazeCoordToIndex(CellCoord { cell.row - 1, neighbor.col });
+            const int neighborIndex = mazeCoordToIndex(getTopNeighbor(cell));
             if (!_adjacencyMatrix[cellIndex][neighborIndex]) {
                 walls.north = true;
                 continue;
@@ -192,4 +186,56 @@ bool MazeGrid::isCellVisited(CellCoord cell)
 int MazeGrid::mazeCoordToIndex(CellCoord coord)
 {
     return (_width * coord.row) + coord.col;
+}
+
+bool MazeGrid::isCellOnTopSide(CellCoord cell)
+{
+    return cell.row == 0;
+}
+
+bool MazeGrid::isCellOnRightSide(CellCoord cell)
+{
+    return cell.col == _width - 1;
+}
+
+bool MazeGrid::isCellOnBottomSide(CellCoord cell)
+{
+    return cell.row == _height - 1;
+}
+
+bool MazeGrid::isCellOnLeftSide(CellCoord cell)
+{
+    return cell.col == 0;
+}
+
+CellCoord MazeGrid::getLeftNeighbor(CellCoord cell)
+{
+    if (cell.col - 1 >= 0)
+        return CellCoord { cell.row, cell.col - 1 };
+    else
+        return cell;
+}
+
+CellCoord MazeGrid::getBottomNeighbor(CellCoord cell)
+{
+    if (cell.row + 1 < _height)
+        return CellCoord { cell.row + 1, cell.col };
+    else
+        return cell;
+}
+
+CellCoord MazeGrid::getTopNeighbor(CellCoord cell)
+{
+    if (cell.row - 1 >= 0)
+        return CellCoord { cell.row - 1, cell.col };
+    else
+        return cell;
+}
+
+CellCoord MazeGrid::getRightNeighbor(CellCoord cell)
+{
+    if (cell.col + 1 < _width)
+        return CellCoord { cell.row, cell.col + 1 };
+    else
+        return cell;
 }

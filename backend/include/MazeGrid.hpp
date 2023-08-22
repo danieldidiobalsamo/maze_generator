@@ -43,6 +43,16 @@ private:
 
     int mazeCoordToIndex(CellCoord coord);
 
+    bool isCellOnTopSide(CellCoord cell);
+    bool isCellOnRightSide(CellCoord cell);
+    bool isCellOnBottomSide(CellCoord cell);
+    bool isCellOnLeftSide(CellCoord cell);
+
+    CellCoord getTopNeighbor(CellCoord cell);
+    CellCoord getRightNeighbor(CellCoord cell);
+    CellCoord getBottomNeighbor(CellCoord cell);
+    CellCoord getLeftNeighbor(CellCoord cell);
+
 public:
     MazeGrid() = delete;
     MazeGrid(const int width, const int height, const CellCoord entryPos, const CellCoord exitPos, const bool initCellState);
@@ -60,5 +70,6 @@ public:
     std::vector<CellCoord> getNeighbors(const CellCoord cell);
     void setVisited(const CellCoord cell);
     CellWalls getCellWalls(CellCoord cell);
+
     bool isCellVisited(CellCoord cell);
 };
