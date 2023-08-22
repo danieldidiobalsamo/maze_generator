@@ -26,11 +26,13 @@ set(SRC
     src/Maze.cpp
     src/EngineFacade.cpp
     src/MazeGrid.cpp
+    src/Cell.cpp
 
     include/BackEnd.hpp
     include/Maze.hpp
     include/EngineFacade.hpp
-    include/MazeGrid.hpp)
+    include/MazeGrid.hpp
+    include/Cell.hpp)
 
 include_directories(include ${Boost_INCLUDE_DIR})
 

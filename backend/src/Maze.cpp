@@ -3,7 +3,7 @@
 #include <iostream>
 #include <stdexcept>
 
-Maze::Maze(int width, int height, CellCoord entryPos, CellCoord exitPos, bool initCellState)
+Maze::Maze(int width, int height, Cell entryPos, Cell exitPos, bool initCellState)
     : _width(width)
     , _height(height)
     , _entryPos(entryPos)
@@ -15,23 +15,23 @@ Maze::~Maze()
 {
 }
 
-CellWalls Maze::getCellWalls(CellCoord coords)
+CellWalls Maze::getCellWalls(Cell coords)
 {
     return _grid.getCellWalls(coords);
 }
 
-void Maze::visitCell(CellCoord cell)
+void Maze::visitCell(Cell cell)
 {
     _grid.setVisited(cell);
 }
 
 void Maze::huntAndKill()
 {
-    CellCoord currentCell = _entryPos;
+    Cell currentCell = _entryPos;
 
     visitCell(currentCell);
 
-    CellCoord nextCell;
+    Cell nextCell;
     bool allCellsTreated = false;
     bool huntMode = false;
 
@@ -69,13 +69,13 @@ void Maze::huntAndKill()
             int col = 0;
 
             while (col < _width && !selectedCell) {
-                if (_grid.isCellVisited(CellCoord { row, col })) {
+                if (_grid.isCellVisited(Cell(row, col))) {
                     // checking if among its neighbors, there is one who is visited
 
-                    auto [visitedNeighbor, chosenNeighbor] = _grid.hasVisitedNeighbor(CellCoord { row, col });
+                    auto [visitedNeighbor, chosenNeighbor] = _grid.hasVisitedNeighbor(Cell(row, col));
 
                     if (visitedNeighbor) {
-                        currentCell = CellCoord { row, col };
+                        currentCell = Cell(row, col);
 
                         _grid.carve(currentCell, chosenNeighbor);
                         visitCell(currentCell);

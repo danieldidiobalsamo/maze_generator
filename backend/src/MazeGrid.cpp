@@ -4,7 +4,7 @@
 #include <iostream>
 #include <stdexcept>
 
-MazeGrid::MazeGrid(const int width, const int height, const CellCoord entryPos, const CellCoord exitPos, bool initCellState)
+MazeGrid::MazeGrid(const int width, const int height, const Cell entryPos, const Cell exitPos, bool initCellState)
     : _width(width)
     , _height(height)
     , _entryPos(entryPos)
@@ -33,11 +33,11 @@ MazeGrid::~MazeGrid()
 {
 }
 
-void MazeGrid::carve(const CellCoord src, const CellCoord dest)
+void MazeGrid::carve(const Cell src, const Cell dest)
 {
     try {
-        const bool carvingHorizontally = (src.col != dest.col);
-        const bool carvingVertically = (src.row != dest.row);
+        const bool carvingHorizontally = (src.getCol() != dest.getCol());
+        const bool carvingVertically = (src.getRow() != dest.getRow());
 
         // exception
         if (carvingHorizontally && carvingVertically)
@@ -54,7 +54,7 @@ void MazeGrid::carve(const CellCoord src, const CellCoord dest)
     }
 }
 
-CellCoord MazeGrid::chooseRandomNeighbors(const CellCoord currentCell)
+Cell MazeGrid::chooseRandomNeighbors(const Cell currentCell)
 {
     auto neighbors = getNeighbors(currentCell);
 
@@ -64,30 +64,30 @@ CellCoord MazeGrid::chooseRandomNeighbors(const CellCoord currentCell)
     return neighbors[randomIndex];
 }
 
-std::vector<CellCoord> MazeGrid::getNeighbors(CellCoord cell)
+std::vector<Cell> MazeGrid::getNeighbors(Cell cell)
 {
-    std::vector<CellCoord> neighbors;
+    std::vector<Cell> neighbors;
 
-    if (cell.row - 1 >= 0)
-        neighbors.push_back(getTopNeighbor(cell));
-    if (cell.row + 1 < _height)
-        neighbors.push_back(getBottomNeighbor(cell));
-    if (cell.col - 1 >= 0)
-        neighbors.push_back(getLeftNeighbor(cell));
-    if (cell.col + 1 < _width)
-        neighbors.push_back(getRightNeighbor(cell));
+    if (cell.getRow() - 1 >= 0)
+        neighbors.push_back(cell.getTopNeighbor());
+    if (cell.getRow() + 1 < _height)
+        neighbors.push_back(cell.getBottomNeighbor(_height));
+    if (cell.getCol() - 1 >= 0)
+        neighbors.push_back(cell.getLeftNeighbor());
+    if (cell.getCol() + 1 < _width)
+        neighbors.push_back(cell.getRightNeighbor(_width));
 
     return neighbors;
 }
 
-bool MazeGrid::isDeadEnd(const CellCoord cell)
+bool MazeGrid::isDeadEnd(const Cell cell)
 {
     auto [hasOne, neighbors] = hasVisitedNeighbor(cell);
 
     return !hasOne;
 }
 
-void MazeGrid::carveToAllNeighbors(const CellCoord& cellCoord)
+void MazeGrid::carveToAllNeighbors(const Cell& cellCoord)
 {
     auto neighbors = getNeighbors(cellCoord);
 
@@ -96,12 +96,12 @@ void MazeGrid::carveToAllNeighbors(const CellCoord& cellCoord)
     }
 }
 
-std::tuple<bool, CellCoord> MazeGrid::hasVisitedNeighbor(const CellCoord cell)
+std::tuple<bool, Cell> MazeGrid::hasVisitedNeighbor(const Cell cell)
 {
     auto neighbors = getNeighbors(cell);
-    std::vector<CellCoord>::iterator visitedNeighbor = std::find_if(neighbors.begin(), neighbors.end(),
-        [=](const CellCoord& cell) {
-            return !_visitedMatrix[cell.row][cell.col];
+    std::vector<Cell>::iterator visitedNeighbor = std::find_if(neighbors.begin(), neighbors.end(),
+        [=](const Cell& cell) {
+            return !_visitedMatrix[cell.getRow()][cell.getCol()];
         });
 
     if (visitedNeighbor != neighbors.end()) {
@@ -111,12 +111,12 @@ std::tuple<bool, CellCoord> MazeGrid::hasVisitedNeighbor(const CellCoord cell)
     }
 }
 
-void MazeGrid::setVisited(const CellCoord cell)
+void MazeGrid::setVisited(const Cell cell)
 {
-    _visitedMatrix[cell.row][cell.col] = true;
+    _visitedMatrix[cell.getRow()][cell.getCol()] = true;
 }
 
-CellWalls MazeGrid::getCellWalls(CellCoord cell)
+CellWalls MazeGrid::getCellWalls(Cell cell)
 {
     CellWalls walls = {
         false,
@@ -130,44 +130,44 @@ CellWalls MazeGrid::getCellWalls(CellCoord cell)
 
     // checking if cell is on sides
     if (cell != _entryPos && cell != _exitPos) {
-        if (isCellOnTopSide(cell))
+        if (cell.isOnTopSide())
             walls.north = true;
-        else if (isCellOnBottomSide(cell))
+        else if (cell.isOnBottomSide(_height))
             walls.south = true;
 
-        if (isCellOnRightSide(cell))
+        if (cell.isOnRightSide(_width))
             walls.east = true;
-        else if (isCellOnLeftSide(cell))
+        else if (cell.isOnLeftSide())
             walls.west = true;
     }
 
     for (auto neighbor : neighbors) {
-        if (neighbor.col == cell.col - 1) {
-            const int neighborIndex = mazeCoordToIndex(getLeftNeighbor(cell));
+        if (neighbor.getCol() == cell.getCol() - 1) {
+            const int neighborIndex = mazeCoordToIndex(cell.getLeftNeighbor());
             if (!_adjacencyMatrix[cellIndex][neighborIndex]) {
                 walls.west = true;
                 continue;
             }
         }
 
-        if (neighbor.row == cell.row + 1) {
-            const int neighborIndex = mazeCoordToIndex(getBottomNeighbor(cell));
+        if (neighbor.getRow() == cell.getRow() + 1) {
+            const int neighborIndex = mazeCoordToIndex(cell.getBottomNeighbor(_height));
             if (!_adjacencyMatrix[cellIndex][neighborIndex]) {
                 walls.south = true;
                 continue;
             }
         }
 
-        if (neighbor.col == cell.col + 1) {
-            const int neighborIndex = mazeCoordToIndex(getRightNeighbor(cell));
+        if (neighbor.getCol() == cell.getCol() + 1) {
+            const int neighborIndex = mazeCoordToIndex(cell.getRightNeighbor(_width));
             if (!_adjacencyMatrix[cellIndex][neighborIndex]) {
                 walls.east = true;
                 continue;
             }
         }
 
-        if (neighbor.row == cell.row - 1) {
-            const int neighborIndex = mazeCoordToIndex(getTopNeighbor(cell));
+        if (neighbor.getRow() == cell.getRow() - 1) {
+            const int neighborIndex = mazeCoordToIndex(cell.getTopNeighbor());
             if (!_adjacencyMatrix[cellIndex][neighborIndex]) {
                 walls.north = true;
                 continue;
@@ -178,64 +178,12 @@ CellWalls MazeGrid::getCellWalls(CellCoord cell)
     return walls;
 }
 
-bool MazeGrid::isCellVisited(CellCoord cell)
+bool MazeGrid::isCellVisited(Cell cell)
 {
-    return _visitedMatrix[cell.row][cell.col];
+    return _visitedMatrix[cell.getRow()][cell.getCol()];
 }
 
-int MazeGrid::mazeCoordToIndex(CellCoord coord)
+int MazeGrid::mazeCoordToIndex(Cell coord)
 {
-    return (_width * coord.row) + coord.col;
-}
-
-bool MazeGrid::isCellOnTopSide(CellCoord cell)
-{
-    return cell.row == 0;
-}
-
-bool MazeGrid::isCellOnRightSide(CellCoord cell)
-{
-    return cell.col == _width - 1;
-}
-
-bool MazeGrid::isCellOnBottomSide(CellCoord cell)
-{
-    return cell.row == _height - 1;
-}
-
-bool MazeGrid::isCellOnLeftSide(CellCoord cell)
-{
-    return cell.col == 0;
-}
-
-CellCoord MazeGrid::getLeftNeighbor(CellCoord cell)
-{
-    if (cell.col - 1 >= 0)
-        return CellCoord { cell.row, cell.col - 1 };
-    else
-        return cell;
-}
-
-CellCoord MazeGrid::getBottomNeighbor(CellCoord cell)
-{
-    if (cell.row + 1 < _height)
-        return CellCoord { cell.row + 1, cell.col };
-    else
-        return cell;
-}
-
-CellCoord MazeGrid::getTopNeighbor(CellCoord cell)
-{
-    if (cell.row - 1 >= 0)
-        return CellCoord { cell.row - 1, cell.col };
-    else
-        return cell;
-}
-
-CellCoord MazeGrid::getRightNeighbor(CellCoord cell)
-{
-    if (cell.col + 1 < _width)
-        return CellCoord { cell.row, cell.col + 1 };
-    else
-        return cell;
+    return (_width * coord.getRow()) + coord.getCol();
 }

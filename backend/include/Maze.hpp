@@ -7,20 +7,20 @@ private:
     int _width;
     int _height;
 
-    CellCoord _entryPos;
+    Cell _entryPos;
 
     MazeGrid _grid;
 
 public:
     Maze() = delete;
-    Maze(int width, int height, CellCoord entryPos, CellCoord exitPos, bool initCellState);
+    Maze(int width, int height, Cell entryPos, Cell exitPos, bool initCellState);
     Maze(const Maze& m) = delete;
     ~Maze();
 
     Maze& operator=(const Maze& m) = delete;
 
-    CellWalls getCellWalls(CellCoord cell);
-    void visitCell(CellCoord cell);
+    CellWalls getCellWalls(Cell cell);
+    void visitCell(Cell cell);
 
     void huntAndKill();
 };
