@@ -13,7 +13,7 @@ IF(${EMCC})
     set(CMAKE_CXX_COMPILER emcc) # emscripten compiler
     set(CMAKE_EXECUTABLE_SUFFIX ".js")
 
-    set(EMCC_FLAGS "-sEXPORTED_RUNTIME_METHODS=['ccall'] -sEXPORT_ES6=1 -sMODULARIZE=1 -o MazeGenerator.js -sEXPORT_NAME='MazeGenerator' ")
+    set(EMCC_FLAGS "-sEXPORTED_RUNTIME_METHODS=['ccall'] -sEXPORT_ES6=1 -sMODULARIZE=1 -o MazeGenerator.js -sEXPORT_NAME='MazeGenerator' --bind ")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${EMCC_FLAGS}")
 ELSE()
     find_package(Boost 1.55 REQUIRED COMPONENTS unit_test_framework REQUIRED)

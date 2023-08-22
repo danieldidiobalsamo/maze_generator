@@ -15,18 +15,10 @@ BackEnd::~BackEnd()
     delete _engine;
 }
 
-void BackEnd::setMazeWidth(int width)
+void BackEnd::setGenParams(int width, int height, std::string algo)
 {
     _mazeWidth = width;
-}
-
-void BackEnd::setMazeHeight(int height)
-{
     _mazeHeight = height;
-}
-
-void BackEnd::setAlgo(std::string algo)
-{
     _algo = algo;
 }
 
@@ -42,17 +34,8 @@ void BackEnd::generateMaze()
     _engine->generateMaze(_algo);
 }
 
-std::vector<bool> BackEnd::getCell(int row, int col)
+CellWallsStruct BackEnd::getCell(int row, int col)
 {
-    std::vector<bool> cellWallsList;
-
-    CellWalls walls = _engine->getMaze().getCellWalls(std::make_pair(row, col));
-    // note : getMaze only returns a reference
-
-    cellWallsList.push_back(walls.west);
-    cellWallsList.push_back(walls.south);
-    cellWallsList.push_back(walls.east);
-    cellWallsList.push_back(walls.north);
-
-    return cellWallsList;
+    auto walls = _engine->getMaze().getCellWalls(std::make_pair(row, col));
+    return CellWallsStruct { walls.west, walls.south, walls.east, walls.north };
 }

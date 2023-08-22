@@ -13,12 +13,15 @@ export default {
         return{
             mazeCells: [],
             width: 0,
-            wasmBackend: {}
+            wasmInstance: {},
         }
     },
 
     created(){
-        MazeGenerator().then(back => this.wasmBackend = back)
+      MazeGenerator().then(instance => {
+        this.wasmInstance = instance
+        this.backend = new instance["BackEnd"]()
+      })
     },
 
     components: {
@@ -27,30 +30,27 @@ export default {
 
     methods:{
       generate(algo, width, height){
-        this.mazeCells = this.getMaze(width, height)
+
+        this.backend.setGenParams(width, height, algo)
+        this.backend.generateMaze();
+
+        this.mazeCells = this.getMazeCells(width, height)
         this.width = width
-
-        const hello = this.wasmBackend.ccall('helloWasm',
-          'number',
-          ['null'],
-          [])
-
-        document.getElementById("hello").textContent = hello
       },
 
 
-      getMaze(width, height){
-          // TODO : fetch wasm backend result
-
+      getMazeCells(width, height){
           let maze = []
 
-          for (let col = 0; col < width; col++) {
-              for (let row = 0; row < height; row++) {
-                let cell = {
-                  top: true,
-                  right: false,
-                  bottom: true,
-                  left: true,
+          for (let row = 0; row < height; row++) {
+              for (let col = 0; col < width; col++) {
+                const walls = this.backend.getCell(row, col)
+
+                const cell = {
+                  top: walls.north,
+                  right: walls.east,
+                  bottom: walls.south,
+                  left: walls.west,
                 }
 
                 maze.push(cell)
@@ -69,7 +69,6 @@ export default {
   </aside>
 
   <main>
-    <p id="hello"></p>
     <Maze :maze="this.mazeCells" :width="this.width"/>
   </main>
 </template>
