@@ -1,26 +1,16 @@
 # MazeGenerator
 
+## Warning
+
+This side project is being fully rewritten, in particular Web Assembly / Vue.js frontend are used instead of Qt, and so is still in experimental state.
+
 ## About
 
-This application is a maze generator and visualizer, coded in C++17 / Qt (QML) and CMake.<br>
-Unit tests are managed by Boost Test / ctest
-
-ClangFormat is used to format the code.
-
-![image info](./images/generation_example.png)
+This application is a maze generator and visualizer, using WebAssembly (emscripten) / C++ / Vue.js and CMake.
 
 ## How to launch
 
-- mkdir build
-- cd build
-- cmake ..
-- make
-- ./mazeGenerator
-
-To launch unit tests : 
-- ctest --verbose
-
-Unit tests related classes are in "test" folder, and managed in a separated executable.
-
-To launch KCacheGrind :
-- ../runKCacheGrind.sh
+Future versions will include a docker image, but for now you can just launch this script :
+~~~
+./launch_dev.sh
+~~~
