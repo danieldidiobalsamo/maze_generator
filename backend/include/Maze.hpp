@@ -2,21 +2,18 @@
 
 #include "MazeGrid.hpp"
 
-#include <utility> // pair
-
 class Maze {
 private:
     int _width;
     int _height;
 
-    std::pair<int, int> _entryPos;
-    std::pair<int, int> _exitPos;
+    CellCoord _entryPos;
 
     MazeGrid _grid;
 
 public:
     Maze() = delete;
-    Maze(int width, int height, std::pair<int, int> entryPos, std::pair<int, int> exitPos, bool initCellState);
+    Maze(int width, int height, CellCoord entryPos, CellCoord exitPos, bool initCellState);
     Maze(const Maze& m) = delete;
     ~Maze();
 

@@ -3,11 +3,10 @@
 #include <iostream>
 #include <stdexcept>
 
-Maze::Maze(int width, int height, std::pair<int, int> entryPos, std::pair<int, int> exitPos, bool initCellState)
+Maze::Maze(int width, int height, CellCoord entryPos, CellCoord exitPos, bool initCellState)
     : _width(width)
     , _height(height)
     , _entryPos(entryPos)
-    , _exitPos(exitPos)
     , _grid(width, height, entryPos, exitPos, initCellState)
 {
 }
@@ -18,7 +17,7 @@ Maze::~Maze()
 
 CellWalls Maze::getCellWalls(CellCoord coords)
 {
-    return _grid.getCellWalls(std::make_pair(coords.first, coords.second));
+    return _grid.getCellWalls(coords);
 }
 
 void Maze::visitCell(CellCoord cell)
@@ -28,11 +27,11 @@ void Maze::visitCell(CellCoord cell)
 
 void Maze::huntAndKill()
 {
-    std::pair<int, int> currentCell = _entryPos;
+    CellCoord currentCell = _entryPos;
 
     visitCell(currentCell);
 
-    std::pair<int, int> nextCell;
+    CellCoord nextCell;
     bool allCellsTreated = false;
     bool huntMode = false;
 
@@ -70,13 +69,13 @@ void Maze::huntAndKill()
             int col = 0;
 
             while (col < _width && !selectedCell) {
-                if (_grid.isCellVisited(std::make_pair(row, col))) {
+                if (_grid.isCellVisited(CellCoord { row, col })) {
                     // checking if among its neighbors, there is one who is visited
 
-                    auto [visitedNeighbor, chosenNeighbor] = _grid.hasVisitedNeighbor(std::make_pair(row, col));
+                    auto [visitedNeighbor, chosenNeighbor] = _grid.hasVisitedNeighbor(CellCoord { row, col });
 
                     if (visitedNeighbor) {
-                        currentCell = std::make_pair(row, col);
+                        currentCell = CellCoord { row, col };
 
                         _grid.carve(currentCell, chosenNeighbor);
                         visitCell(currentCell);

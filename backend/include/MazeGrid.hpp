@@ -4,10 +4,22 @@
 #include <random>
 #include <time.h>
 #include <tuple>
-#include <utility> // pair
 #include <vector>
 
-typedef std::pair<int, int> CellCoord;
+struct CellCoord {
+    int row;
+    int col;
+
+    inline bool operator==(const CellCoord& c)
+    {
+        return (row == c.row && col == c.col);
+    }
+
+    inline bool operator!=(const CellCoord& c)
+    {
+        return !(*this == c);
+    }
+};
 
 struct CellWalls {
     bool west;

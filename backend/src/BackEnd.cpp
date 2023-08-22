@@ -26,9 +26,9 @@ void BackEnd::generateMaze()
 {
     std::uniform_int_distribution<int> widthDistrib(0, _mazeWidth - 1);
 
-    std::pair<int, int> randomEntry = std::make_pair(0, widthDistrib(_randomIntGenerator));
+    auto randomEntry = CellCoord { 0, widthDistrib(_randomIntGenerator) };
 
-    auto exit = std::make_pair(_mazeHeight - 1, _mazeWidth - 1);
+    auto exit = CellCoord { _mazeHeight - 1, _mazeWidth - 1 };
 
     _engine = new EngineFacade(_mazeWidth, _mazeHeight, randomEntry, exit, false);
     _engine->generateMaze(_algo);
@@ -36,6 +36,6 @@ void BackEnd::generateMaze()
 
 CellWallsStruct BackEnd::getCell(int row, int col)
 {
-    auto walls = _engine->getMaze().getCellWalls(std::make_pair(row, col));
+    auto walls = _engine->getMaze().getCellWalls(CellCoord { row, col });
     return CellWallsStruct { walls.west, walls.south, walls.east, walls.north };
 }

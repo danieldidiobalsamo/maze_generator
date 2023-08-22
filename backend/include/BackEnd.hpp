@@ -40,8 +40,6 @@ private:
 
     int _mazeWidth;
     int _mazeHeight;
-    CellCoord _entryPos;
-    CellCoord _exitPos;
 
     std::string _algo;
 
