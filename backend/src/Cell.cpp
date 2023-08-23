@@ -71,3 +71,20 @@ int Cell::getCol() const
 {
     return _col;
 }
+
+bool Cell::isTopNeighbor(Cell cell) const
+{
+    return (cell.getRow() == getRow() - 1) && (getRow() - 1 >= 0);
+}
+bool Cell::isRightNeighbor(Cell cell, int mazeWidth) const
+{
+    return (cell.getCol() == getCol() + 1) && (getCol() + 1 < mazeWidth);
+}
+bool Cell::isBottomNeighbor(Cell cell, int mazeHeight) const
+{
+    return (cell.getRow() == getRow() + 1) && (getRow() + 1 < mazeHeight);
+}
+bool Cell::isLeftNeighbor(Cell cell) const
+{
+    return (cell.getCol() == getCol() - 1) && (getCol() - 1 >= 0);
+}

@@ -32,6 +32,11 @@ public:
     Cell getBottomNeighbor(int mazeHeight) const;
     Cell getLeftNeighbor() const;
 
+    bool isTopNeighbor(Cell cell) const;
+    bool isRightNeighbor(Cell cell, int mazeWidth) const;
+    bool isBottomNeighbor(Cell cell, int mazeHeight) const;
+    bool isLeftNeighbor(Cell cell) const;
+
     int getRow() const;
     int getCol() const;
 };
