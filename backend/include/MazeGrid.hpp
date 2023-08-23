@@ -1,19 +1,16 @@
 #pragma once
 
-#include <map>
 #include <random>
 #include <time.h>
 #include <tuple>
-#include <utility> // pair
-#include <vector>
 
-typedef std::pair<int, int> CellCoord;
+#include "MazeGraph.hpp"
 
 struct CellWalls {
-    bool west;
-    bool south;
-    bool east;
-    bool north;
+    bool left;
+    bool bottom;
+    bool right;
+    bool top;
 };
 
 class MazeGrid {
@@ -21,32 +18,30 @@ private:
     int _width;
     int _height;
 
-    CellCoord _entryPos;
-    CellCoord _exitPos;
+    Cell _entryPos;
+    Cell _exitPos;
 
-    std::map<int, std::vector<bool>> _adjacencyMatrix;
-    std::map<int, std::vector<bool>> _visitedMatrix;
+    MazeGraph _graph;
 
     std::default_random_engine _randomEngine;
 
-    int mazeCoordToIndex(CellCoord coord);
-
 public:
     MazeGrid() = delete;
-    MazeGrid(const int width, const int height, const CellCoord entryPos, const CellCoord exitPos, const bool initCellState);
+    MazeGrid(const int width, const int height, const Cell entryPos, const Cell exitPos, const bool initCellState);
     MazeGrid(const MazeGrid& m) = delete;
 
     ~MazeGrid();
 
     MazeGrid& operator=(const MazeGrid& m) = delete;
 
-    void carve(const CellCoord src, const CellCoord dest);
-    void carveToAllNeighbors(const CellCoord& cellCoord);
-    CellCoord chooseRandomNeighbors(const CellCoord currentCell);
-    bool isDeadEnd(const CellCoord cell);
-    std::tuple<bool, CellCoord> hasVisitedNeighbor(const CellCoord cell);
-    std::vector<CellCoord> getNeighbors(const CellCoord cell);
-    void setVisited(const CellCoord cell);
-    CellWalls getCellWalls(CellCoord cell);
-    bool isCellVisited(CellCoord cell);
+    void carve(const Cell src, const Cell dest);
+    void carveToAllNeighbors(const Cell& cellCoord);
+    Cell chooseRandomNeighbors(const Cell currentCell);
+    bool isDeadEnd(const Cell cell);
+    std::tuple<bool, Cell> hasVisitedNeighbor(const Cell cell);
+    std::vector<Cell> getNeighbors(const Cell cell);
+    void setVisited(const Cell cell);
+    CellWalls getCellWalls(Cell cell);
+
+    bool isCellVisited(Cell cell);
 };
