@@ -22,14 +22,14 @@ ENDIF()
 
 #sources
 set(SRC
-    src/BackEnd.cpp
+    src/Backend.cpp
     src/Maze.cpp
     src/EngineFacade.cpp
     src/MazeGrid.cpp
     src/Cell.cpp
     src/MazeGraph.cpp
 
-    include/BackEnd.hpp
+    include/Backend.hpp
     include/Maze.hpp
     include/EngineFacade.hpp
     include/MazeGrid.hpp

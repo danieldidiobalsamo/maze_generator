@@ -22,7 +22,7 @@
         data() {
             return {
                 genAlgos: [
-                    { val: "Hunt and kill", title: 'Hunt and kill' },
+                    { val: "hunt", title: 'Hunt and kill' },
                     ],
                 selectedAlgo: {},
                 width: 40,

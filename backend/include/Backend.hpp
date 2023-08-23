@@ -1,11 +1,8 @@
 #pragma once
 
-#include <emscripten.h>
 #include <emscripten/bind.h>
 #include <functional>
 #include <string>
-#include <utility>
-#include <vector>
 
 #include "EngineFacade.hpp"
 
@@ -27,32 +24,24 @@ EMSCRIPTEN_BINDINGS(CellWallsStruct)
         .field("north", &CellWallsStruct::north);
 }
 
-class BackEnd {
+class Backend {
 
 public:
-    BackEnd();
-    ~BackEnd();
+    Backend();
+    ~Backend();
 
-    void setGenParams(int width, int height, std::string algo);
-    void generateMaze();
+    void generateMaze(int width, int height, std::string algo);
     CellWallsStruct getCell(int row, int col);
 
 private:
-    EngineFacade* _engine;
-
-    int _mazeWidth;
-    int _mazeHeight;
-
-    std::string _algo;
-
-    std::default_random_engine _randomIntGenerator;
+    EngineFacade _engine;
+    std::default_random_engine _randomIntGenerator; // must be init only once
 };
 
-EMSCRIPTEN_BINDINGS(BackEnd)
+EMSCRIPTEN_BINDINGS(Backend)
 {
-    emscripten::class_<BackEnd>("BackEnd")
+    emscripten::class_<Backend>("Backend")
         .constructor<>()
-        .function("setGenParams", std::function<void(BackEnd&, int, int, std::string)>(&BackEnd::setGenParams))
-        .function("generateMaze", &BackEnd::generateMaze)
-        .function("getCell", std::function<CellWallsStruct(BackEnd&, int, int)>(&BackEnd::getCell));
+        .function("generateMaze", std::function<void(Backend&, int, int, std::string)>(&Backend::generateMaze))
+        .function("getCell", std::function<CellWallsStruct(Backend&, int, int)>(&Backend::getCell));
 }

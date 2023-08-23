@@ -28,11 +28,11 @@ private:
 public:
     MazeGrid() = delete;
     MazeGrid(const int width, const int height, const Cell entryPos, const Cell exitPos, const bool initCellState);
-    MazeGrid(const MazeGrid& m) = delete;
+    MazeGrid(const MazeGrid& m) = default;
 
     ~MazeGrid();
 
-    MazeGrid& operator=(const MazeGrid& m) = delete;
+    MazeGrid& operator=(const MazeGrid& m) = default;
 
     void carve(const Cell src, const Cell dest);
     void carveToAllNeighbors(const Cell& cellCoord);

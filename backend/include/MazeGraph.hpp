@@ -18,8 +18,8 @@ private:
 public:
     MazeGraph() = delete;
     MazeGraph(int w, int h, bool initCellState);
-    MazeGraph(const MazeGraph& m) = delete;
-    MazeGraph& operator=(const MazeGraph& m) = delete;
+    MazeGraph(const MazeGraph& m) = default;
+    MazeGraph& operator=(const MazeGraph& m) = default;
     ~MazeGraph();
 
     void linkCells(Cell src, Cell dest);
