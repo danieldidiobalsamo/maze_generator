@@ -31,8 +31,7 @@ export default {
     methods:{
       generate(algo, width, height){
 
-        this.backend.setGenParams(width, height, algo)
-        this.backend.generateMaze();
+        this.backend.generateMaze(width, height, algo);
 
         this.mazeCells = this.getMazeCells(width, height)
         this.width = width
