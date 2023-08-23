@@ -47,12 +47,12 @@ void MazeGraph::linkCells(Cell src, Cell dest)
     }
 }
 
-bool MazeGraph::areCellsLinked(Cell src, Cell dest)
+bool MazeGraph::wallsBetween(Cell src, Cell dest)
 {
     const int srcIndex = mazeCoordToIndex(src);
     const int destIndex = mazeCoordToIndex(dest);
 
-    return _adjacencyMatrix[srcIndex][destIndex];
+    return !_adjacencyMatrix[srcIndex][destIndex];
 }
 
 int MazeGraph::mazeCoordToIndex(Cell coord)

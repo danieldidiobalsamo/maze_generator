@@ -23,7 +23,7 @@ public:
     ~MazeGraph();
 
     void linkCells(Cell src, Cell dest);
-    bool areCellsLinked(Cell src, Cell dest);
+    bool wallsBetween(Cell src, Cell dest);
     bool isCellVisited(Cell cell);
     void setVisited(Cell cell);
 };
