@@ -27,11 +27,11 @@ EMSCRIPTEN_BINDINGS(CellWallsStruct)
         .field("north", &CellWallsStruct::north);
 }
 
-class BackEnd {
+class Backend {
 
 public:
-    BackEnd();
-    ~BackEnd();
+    Backend();
+    ~Backend();
 
     void setGenParams(int width, int height, std::string algo);
     void generateMaze();
@@ -48,11 +48,11 @@ private:
     std::default_random_engine _randomIntGenerator;
 };
 
-EMSCRIPTEN_BINDINGS(BackEnd)
+EMSCRIPTEN_BINDINGS(Backend)
 {
-    emscripten::class_<BackEnd>("BackEnd")
+    emscripten::class_<Backend>("Backend")
         .constructor<>()
-        .function("setGenParams", std::function<void(BackEnd&, int, int, std::string)>(&BackEnd::setGenParams))
-        .function("generateMaze", &BackEnd::generateMaze)
-        .function("getCell", std::function<CellWallsStruct(BackEnd&, int, int)>(&BackEnd::getCell));
+        .function("setGenParams", std::function<void(Backend&, int, int, std::string)>(&Backend::setGenParams))
+        .function("generateMaze", &Backend::generateMaze)
+        .function("getCell", std::function<CellWallsStruct(Backend&, int, int)>(&Backend::getCell));
 }

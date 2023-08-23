@@ -1,8 +1,8 @@
-#include "BackEnd.hpp"
+#include "Backend.hpp"
 
 #include <iostream>
 
-BackEnd::BackEnd()
+Backend::Backend()
     : _engine(nullptr)
     , _mazeWidth(0)
     , _mazeHeight(0)
@@ -10,19 +10,19 @@ BackEnd::BackEnd()
 {
 }
 
-BackEnd::~BackEnd()
+Backend::~Backend()
 {
     delete _engine;
 }
 
-void BackEnd::setGenParams(int width, int height, std::string algo)
+void Backend::setGenParams(int width, int height, std::string algo)
 {
     _mazeWidth = width;
     _mazeHeight = height;
     _algo = algo;
 }
 
-void BackEnd::generateMaze()
+void Backend::generateMaze()
 {
     std::uniform_int_distribution<int> widthDistrib(0, _mazeWidth - 1);
 
@@ -34,7 +34,7 @@ void BackEnd::generateMaze()
     _engine->generateMaze(_algo);
 }
 
-CellWallsStruct BackEnd::getCell(int row, int col)
+CellWallsStruct Backend::getCell(int row, int col)
 {
     auto walls = _engine->getMaze().getCellWalls(Cell(row, col));
     // redefine an equivalent walls struct so that no emscripten dependencies are introduced in inner backend classes (MazeGrid.hpp), but only in Backend class

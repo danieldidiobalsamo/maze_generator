@@ -20,7 +20,7 @@ export default {
     created(){
       MazeGenerator().then(instance => {
         this.wasmInstance = instance
-        this.backend = new instance["BackEnd"]()
+        this.backend = new instance["Backend"]()
       })
     },
 
