@@ -1,12 +1,10 @@
 #pragma once
 
-#include <map>
 #include <random>
 #include <time.h>
 #include <tuple>
-#include <vector>
 
-#include "Cell.hpp"
+#include "MazeGraph.hpp"
 
 struct CellWalls {
     bool west;
@@ -23,12 +21,9 @@ private:
     Cell _entryPos;
     Cell _exitPos;
 
-    std::map<int, std::vector<bool>> _adjacencyMatrix;
-    std::map<int, std::vector<bool>> _visitedMatrix;
+    MazeGraph _graph;
 
     std::default_random_engine _randomEngine;
-
-    int mazeCoordToIndex(Cell coord);
 
 public:
     MazeGrid() = delete;
