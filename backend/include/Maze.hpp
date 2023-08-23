@@ -13,7 +13,7 @@ private:
 
 public:
     Maze() = delete;
-    Maze(int width, int height, Cell entryPos, Cell exitPos, bool initCellState);
+    Maze(int width, int height, Cell entryPos, Cell exitPos);
     Maze(const Maze& m) = default;
     ~Maze();
 

@@ -3,11 +3,11 @@
 #include <iostream>
 #include <stdexcept>
 
-Maze::Maze(int width, int height, Cell entryPos, Cell exitPos, bool initCellState)
+Maze::Maze(int width, int height, Cell entryPos, Cell exitPos)
     : _width(width)
     , _height(height)
     , _entryPos(entryPos)
-    , _grid(width, height, entryPos, exitPos, initCellState)
+    , _grid(width, height, entryPos, exitPos)
 {
 }
 

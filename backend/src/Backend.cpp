@@ -1,7 +1,7 @@
 #include "Backend.hpp"
 
 Backend::Backend()
-    : _engine(0, 0, Cell(0, 0), Cell(0, 0), false)
+    : _engine(0, 0, Cell(0, 0), Cell(0, 0))
     , _randomIntGenerator(static_cast<unsigned int>(time(0)))
 {
 }
@@ -17,7 +17,7 @@ void Backend::generateMaze(int width, int height, std::string algo)
 
     auto exit = Cell(height - 1, width - 1);
 
-    _engine = EngineFacade(width, height, randomEntry, exit, false);
+    _engine = EngineFacade(width, height, randomEntry, exit);
     _engine.generateMaze(algo);
 }
 

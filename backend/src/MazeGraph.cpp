@@ -3,18 +3,11 @@
 #include <iostream>
 #include <stdexcept>
 
-MazeGraph::MazeGraph(int w, int h, bool initCellState)
+MazeGraph::MazeGraph(int w, int h)
     : _width(w)
     , _height(h)
+    , _adjacencyList()
 {
-    const int nbCell = _width * _height;
-
-    for (int row = 0; row < nbCell; ++row) {
-        for (int col = 0; col < nbCell; ++col) {
-            _adjacencyMatrix[row].push_back(initCellState);
-        }
-    }
-
     for (int row = 0; row < _height; ++row) {
         for (int col = 0; col < _width; ++col) {
             _visitedMatrix[row].push_back(false);
@@ -36,11 +29,8 @@ void MazeGraph::linkCells(Cell src, Cell dest)
         if (carvingHorizontally && carvingVertically)
             throw std::invalid_argument("Cells must be connected for carving");
 
-        int srcIndex = mazeCoordToIndex(src);
-        int destIndex = mazeCoordToIndex(dest);
-
-        _adjacencyMatrix[srcIndex].at(destIndex) = true;
-        _adjacencyMatrix[destIndex].at(srcIndex) = true;
+        _adjacencyList[src].push_back(dest);
+        _adjacencyList[dest].push_back(src);
 
     } catch (const std::invalid_argument& e) {
         std::cout << e.what() << std::endl;
@@ -49,15 +39,12 @@ void MazeGraph::linkCells(Cell src, Cell dest)
 
 bool MazeGraph::wallsBetween(Cell src, Cell dest)
 {
-    const int srcIndex = mazeCoordToIndex(src);
-    const int destIndex = mazeCoordToIndex(dest);
+    std::vector<Cell>::iterator cell = std::find_if(_adjacencyList[src].begin(), _adjacencyList[src].end(),
+        [=](const Cell& cell) {
+            return cell == dest;
+        });
 
-    return !_adjacencyMatrix[srcIndex][destIndex];
-}
-
-int MazeGraph::mazeCoordToIndex(Cell coord)
-{
-    return (_width * coord.getRow()) + coord.getCol();
+    return cell == _adjacencyList[src].end();
 }
 
 bool MazeGraph::isCellVisited(Cell cell)
@@ -68,4 +55,20 @@ bool MazeGraph::isCellVisited(Cell cell)
 void MazeGraph::setVisited(Cell cell)
 {
     _visitedMatrix[cell.getRow()][cell.getCol()] = true;
+}
+
+vector<Cell> MazeGraph::getSurroundingCells(Cell cell)
+{
+    std::vector<Cell> surrouding; // not necessary neighbors, just cells around
+
+    if (cell.getRow() - 1 >= 0)
+        surrouding.push_back(cell.getTopNeighbor());
+    if (cell.getRow() + 1 < _height)
+        surrouding.push_back(cell.getBottomNeighbor(_height));
+    if (cell.getCol() - 1 >= 0)
+        surrouding.push_back(cell.getLeftNeighbor());
+    if (cell.getCol() + 1 < _width)
+        surrouding.push_back(cell.getRightNeighbor(_width));
+
+    return surrouding;
 }

@@ -1,5 +1,10 @@
 #pragma once
 
+#include <functional> // std::hash
+
+using std::hash;
+using std::size_t;
+
 class Cell {
 private:
     int _row;
@@ -12,7 +17,7 @@ public:
     Cell& operator=(const Cell& m) = default;
     ~Cell();
 
-    inline bool operator==(const Cell& c)
+    inline bool operator==(const Cell& c) const
     {
         return (_row == c._row && _col == c._col);
     }
@@ -20,6 +25,16 @@ public:
     inline bool operator!=(const Cell& c)
     {
         return !(*this == c);
+    }
+
+    // Cell is used is adjacency list, which is an unordered map
+    // so it needs both operator == and ()
+    inline std::size_t operator()(const Cell& c) const
+    {
+        size_t rowhash = std::hash<int>()(c._row);
+        size_t colhash = std::hash<int>()(c._col) << 1;
+
+        return rowhash ^ colhash;
     }
 
     bool isOnTopSide() const;

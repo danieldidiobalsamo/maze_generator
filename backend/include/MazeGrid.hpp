@@ -27,7 +27,7 @@ private:
 
 public:
     MazeGrid() = delete;
-    MazeGrid(const int width, const int height, const Cell entryPos, const Cell exitPos, const bool initCellState);
+    MazeGrid(const int width, const int height, const Cell entryPos, const Cell exitPos);
     MazeGrid(const MazeGrid& m) = default;
 
     ~MazeGrid();
@@ -39,7 +39,7 @@ public:
     Cell chooseRandomNeighbors(const Cell currentCell);
     bool isDeadEnd(const Cell cell);
     std::tuple<bool, Cell> hasVisitedNeighbor(const Cell cell);
-    std::vector<Cell> getNeighbors(const Cell cell);
+    std::vector<Cell> getSurroundingCells(const Cell cell);
     void setVisited(const Cell cell);
     CellWalls getCellWalls(Cell cell);
 

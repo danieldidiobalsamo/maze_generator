@@ -4,12 +4,12 @@
 #include <iostream>
 #include <stdexcept>
 
-MazeGrid::MazeGrid(const int width, const int height, const Cell entryPos, const Cell exitPos, bool initCellState)
+MazeGrid::MazeGrid(const int width, const int height, const Cell entryPos, const Cell exitPos)
     : _width(width)
     , _height(height)
     , _entryPos(entryPos)
     , _exitPos(exitPos)
-    , _graph(width, height, initCellState)
+    , _graph(width, height)
     , _randomEngine(static_cast<unsigned int>(time(0))) // used to generate random int, better than rand()
 {
 
@@ -29,28 +29,12 @@ void MazeGrid::carve(const Cell src, const Cell dest)
 
 Cell MazeGrid::chooseRandomNeighbors(const Cell currentCell)
 {
-    auto neighbors = getNeighbors(currentCell);
+    auto neighbors = _graph.getSurroundingCells(currentCell);
 
     std::uniform_int_distribution<int> intDistribution(0, static_cast<int>(neighbors.size() - 1));
     int randomIndex = intDistribution(_randomEngine);
 
     return neighbors[randomIndex];
-}
-
-std::vector<Cell> MazeGrid::getNeighbors(Cell cell)
-{
-    std::vector<Cell> neighbors;
-
-    if (cell.getRow() - 1 >= 0)
-        neighbors.push_back(cell.getTopNeighbor());
-    if (cell.getRow() + 1 < _height)
-        neighbors.push_back(cell.getBottomNeighbor(_height));
-    if (cell.getCol() - 1 >= 0)
-        neighbors.push_back(cell.getLeftNeighbor());
-    if (cell.getCol() + 1 < _width)
-        neighbors.push_back(cell.getRightNeighbor(_width));
-
-    return neighbors;
 }
 
 bool MazeGrid::isDeadEnd(const Cell cell)
@@ -62,7 +46,7 @@ bool MazeGrid::isDeadEnd(const Cell cell)
 
 void MazeGrid::carveToAllNeighbors(const Cell& cellCoord)
 {
-    auto neighbors = getNeighbors(cellCoord);
+    auto neighbors = _graph.getSurroundingCells(cellCoord);
 
     for (auto cell : neighbors) {
         carve(cellCoord, cell);
@@ -71,7 +55,7 @@ void MazeGrid::carveToAllNeighbors(const Cell& cellCoord)
 
 std::tuple<bool, Cell> MazeGrid::hasVisitedNeighbor(const Cell cell)
 {
-    auto neighbors = getNeighbors(cell);
+    auto neighbors = _graph.getSurroundingCells(cell);
     std::vector<Cell>::iterator visitedNeighbor = std::find_if(neighbors.begin(), neighbors.end(),
         [=](const Cell& cell) {
             return !_graph.isCellVisited(cell);
@@ -98,7 +82,7 @@ CellWalls MazeGrid::getCellWalls(Cell cell)
         false
     };
 
-    auto neighbors = getNeighbors(cell);
+    auto surrounding = _graph.getSurroundingCells(cell);
 
     // checking if cell is on sides
     if (cell != _entryPos && cell != _exitPos) {
@@ -113,7 +97,7 @@ CellWalls MazeGrid::getCellWalls(Cell cell)
             walls.left = true;
     }
 
-    for (auto neighbor : neighbors) {
+    for (auto neighbor : surrounding) {
 
         if (_graph.wallsBetween(cell, neighbor)) {
             if (cell.isLeftNeighbor(neighbor)) {
