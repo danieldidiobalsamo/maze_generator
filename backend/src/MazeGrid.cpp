@@ -115,28 +115,28 @@ CellWalls MazeGrid::getCellWalls(Cell cell)
 
     for (auto neighbor : neighbors) {
         if (cell.isLeftNeighbor(neighbor)) {
-            if (!_graph.areCellsLinked(cell, cell.getLeftNeighbor())) {
+            if (!_graph.areCellsLinked(cell, neighbor)) {
                 walls.west = true;
                 continue;
             }
         }
 
         if (cell.isBottomNeighbor(neighbor, _height)) {
-            if (!_graph.areCellsLinked(cell, cell.getBottomNeighbor(_height))) {
+            if (!_graph.areCellsLinked(cell, neighbor)) {
                 walls.south = true;
                 continue;
             }
         }
 
         if (cell.isRightNeighbor(neighbor, _width)) {
-            if (!_graph.areCellsLinked(cell, cell.getRightNeighbor(_width))) {
+            if (!_graph.areCellsLinked(cell, neighbor)) {
                 walls.east = true;
                 continue;
             }
         }
 
         if (cell.isTopNeighbor(neighbor)) {
-            if (!_graph.areCellsLinked(cell, cell.getTopNeighbor())) {
+            if (!_graph.areCellsLinked(cell, neighbor)) {
                 walls.north = true;
                 continue;
             }
