@@ -103,36 +103,36 @@ CellWalls MazeGrid::getCellWalls(Cell cell)
     // checking if cell is on sides
     if (cell != _entryPos && cell != _exitPos) {
         if (cell.isOnTopSide())
-            walls.north = true;
+            walls.top = true;
         else if (cell.isOnBottomSide(_height))
-            walls.south = true;
+            walls.bottom = true;
 
         if (cell.isOnRightSide(_width))
-            walls.east = true;
+            walls.right = true;
         else if (cell.isOnLeftSide())
-            walls.west = true;
+            walls.left = true;
     }
 
     for (auto neighbor : neighbors) {
 
         if (_graph.wallsBetween(cell, neighbor)) {
             if (cell.isLeftNeighbor(neighbor)) {
-                walls.west = true;
+                walls.left = true;
                 continue;
             }
 
             if (cell.isBottomNeighbor(neighbor, _height)) {
-                walls.south = true;
+                walls.bottom = true;
                 continue;
             }
 
             if (cell.isRightNeighbor(neighbor, _width)) {
-                walls.east = true;
+                walls.right = true;
                 continue;
             }
 
             if (cell.isTopNeighbor(neighbor)) {
-                walls.north = true;
+                walls.top = true;
                 continue;
             }
         }

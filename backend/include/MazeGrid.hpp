@@ -7,10 +7,10 @@
 #include "MazeGraph.hpp"
 
 struct CellWalls {
-    bool west;
-    bool south;
-    bool east;
-    bool north;
+    bool left;
+    bool bottom;
+    bool right;
+    bool top;
 };
 
 class MazeGrid {

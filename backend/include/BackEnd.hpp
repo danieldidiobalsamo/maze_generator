@@ -9,6 +9,8 @@
 
 #include "EngineFacade.hpp"
 
+// redefine an equivalent walls struct so that no emscripten dependencies are introduced in inner backend classes (MazeGrid.hpp), but only in Backend class
+// and not to make Backend directly depending on inner classes (should only see EngineFacade)
 struct CellWallsStruct {
     bool west;
     bool south;
