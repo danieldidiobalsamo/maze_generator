@@ -3,9 +3,7 @@
 #include <iostream>
 
 EngineFacade::EngineFacade(const int w, const int h, const Cell entryPos, const Cell exitPos, const bool initCellState)
-    : _mazeWidth(w)
-    , _mazeHeight(h)
-    , _maze(w, h, entryPos, exitPos, initCellState)
+    : _maze(w, h, entryPos, exitPos, initCellState)
 {
 }
 

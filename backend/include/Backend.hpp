@@ -38,7 +38,7 @@ public:
     CellWallsStruct getCell(int row, int col);
 
 private:
-    EngineFacade* _engine;
+    EngineFacade _engine;
 
     int _mazeWidth;
     int _mazeHeight;
