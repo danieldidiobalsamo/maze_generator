@@ -1,6 +1,6 @@
 #pragma once
 
-#include "MazeGrid.hpp"
+#include "MazeGraph.hpp"
 
 class Maze {
 private:
@@ -9,7 +9,7 @@ private:
 
     Cell _entryPos;
 
-    MazeGrid _grid;
+    MazeGraph _graph;
 
 public:
     Maze() = delete;

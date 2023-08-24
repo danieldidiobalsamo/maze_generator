@@ -25,14 +25,12 @@ set(SRC
     src/Backend.cpp
     src/Maze.cpp
     src/EngineFacade.cpp
-    src/MazeGrid.cpp
     src/Cell.cpp
     src/MazeGraph.cpp
 
     include/Backend.hpp
     include/Maze.hpp
     include/EngineFacade.hpp
-    include/MazeGrid.hpp
     include/Cell.hpp
     include/MazeGraph.hpp)
 
