@@ -116,7 +116,7 @@ std::tuple<bool, Cell> MazeGraph::hasVisitedNeighbor(const Cell cell)
 {
     auto neighbors = getSurroundingCells(cell);
     std::vector<Cell>::iterator visitedNeighbor = std::find_if(neighbors.begin(), neighbors.end(),
-        [=](const Cell& cell) {
+        [this](const Cell& cell) {
             return !isCellVisited(cell);
         });
 
