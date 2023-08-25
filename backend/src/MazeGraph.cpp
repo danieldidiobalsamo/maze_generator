@@ -1,18 +1,25 @@
 #include "MazeGraph.hpp"
 
+#include <algorithm>
 #include <iostream>
 #include <stdexcept>
 
-MazeGraph::MazeGraph(int w, int h)
+MazeGraph::MazeGraph(int w, int h, Cell entryPos, Cell exitPos)
     : _width(w)
     , _height(h)
+    , _entryPos(entryPos)
+    , _exitPos(exitPos)
     , _adjacencyList()
+    , _randomEngine(static_cast<unsigned int>(time(0))) // used to generate random int, better than rand()
 {
     for (int row = 0; row < _height; ++row) {
         for (int col = 0; col < _width; ++col) {
             _visitedMatrix[row].push_back(false);
         }
     }
+
+    carveToAllNeighbors(_entryPos);
+    carveToAllNeighbors(_exitPos);
 }
 
 MazeGraph::~MazeGraph()
@@ -71,4 +78,103 @@ vector<Cell> MazeGraph::getSurroundingCells(Cell cell)
         surrouding.push_back(cell.getRightNeighbor(_width));
 
     return surrouding;
+}
+
+void MazeGraph::carve(const Cell src, const Cell dest)
+{
+    linkCells(src, dest);
+    linkCells(dest, src);
+}
+
+void MazeGraph::carveToAllNeighbors(const Cell cell)
+{
+    auto neighbors = getSurroundingCells(cell);
+
+    for (auto neighbor : neighbors) {
+        carve(cell, neighbor);
+    }
+}
+
+Cell MazeGraph::chooseRandomNeighbors(const Cell cell)
+{
+    auto neighbors = getSurroundingCells(cell);
+
+    std::uniform_int_distribution<int> intDistribution(0, static_cast<int>(neighbors.size() - 1));
+    int randomIndex = intDistribution(_randomEngine);
+
+    return neighbors[randomIndex];
+}
+
+bool MazeGraph::isDeadEnd(const Cell cell)
+{
+    auto [hasOne, neighbors] = hasVisitedNeighbor(cell);
+
+    return !hasOne;
+}
+
+std::tuple<bool, Cell> MazeGraph::hasVisitedNeighbor(const Cell cell)
+{
+    auto neighbors = getSurroundingCells(cell);
+    std::vector<Cell>::iterator visitedNeighbor = std::find_if(neighbors.begin(), neighbors.end(),
+        [this](const Cell& cell) {
+            return !isCellVisited(cell);
+        });
+
+    if (visitedNeighbor != neighbors.end()) {
+        return std::make_tuple(true, *visitedNeighbor);
+    } else {
+        return std::make_tuple(false, *visitedNeighbor);
+    }
+}
+
+CellWalls MazeGraph::getCellWalls(Cell cell)
+{
+    CellWalls walls = {
+        false,
+        false,
+        false,
+        false
+    };
+
+    auto surrounding = getSurroundingCells(cell);
+
+    // checking if cell is on sides
+    if (cell != _entryPos && cell != _exitPos) {
+        if (cell.isOnTopSide())
+            walls.top = true;
+        else if (cell.isOnBottomSide(_height))
+            walls.bottom = true;
+
+        if (cell.isOnRightSide(_width))
+            walls.right = true;
+        else if (cell.isOnLeftSide())
+            walls.left = true;
+    }
+
+    for (auto neighbor : surrounding) {
+
+        if (wallsBetween(cell, neighbor)) {
+            if (cell.isLeftNeighbor(neighbor)) {
+                walls.left = true;
+                continue;
+            }
+
+            if (cell.isBottomNeighbor(neighbor, _height)) {
+                walls.bottom = true;
+                continue;
+            }
+
+            if (cell.isRightNeighbor(neighbor, _width)) {
+                walls.right = true;
+                continue;
+            }
+
+            if (cell.isTopNeighbor(neighbor)) {
+                walls.top = true;
+                continue;
+            }
+        }
+    }
+
+    return walls;
 }
