@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.10)
+cmake_minimum_required(VERSION 3.20)
 
 project(MazeGenerator)
 
@@ -26,6 +26,8 @@ IF(${EMCC})
 
     set(EMCC_FLAGS "-sEXPORTED_RUNTIME_METHODS=['ccall'] -sEXPORT_ES6=1 -sMODULARIZE=1 -o MazeGenerator.js -sEXPORT_NAME='MazeGenerator' --bind ")
     set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${EMCC_FLAGS}")
+
+    # Backend class is about emcc bindings
     set(SRC ${SRC} src/Backend.cpp include/Backend.hpp)
 ELSE()
     find_package(Boost 1.55 REQUIRED COMPONENTS unit_test_framework REQUIRED)
