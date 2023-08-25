@@ -23,8 +23,11 @@ CellWalls Maze::getCellWalls(Cell coords)
 
 void Maze::huntAndKill()
 {
-    std::map<int, std::vector<bool>> visited;
+    std::unordered_map<int, std::vector<bool>> visited;
+    visited.reserve(_height);
+
     for (int row = 0; row < _height; ++row) {
+        visited[row].reserve(_width);
         visited[row] = std::vector<bool>(_width, false);
     }
 
@@ -97,14 +100,14 @@ void Maze::huntAndKill()
     } while (!allCellsTreated);
 }
 
-bool Maze::isDeadEnd(const Cell cell, std::map<int, std::vector<bool>>& visited)
+bool Maze::isDeadEnd(const Cell cell, std::unordered_map<int, std::vector<bool>>& visited)
 {
     auto [hasOne, neighbors] = hasVisitedNeighbor(cell, visited);
 
     return !hasOne;
 }
 
-std::tuple<bool, Cell> Maze::hasVisitedNeighbor(const Cell cell, std::map<int, std::vector<bool>>& visited)
+std::tuple<bool, Cell> Maze::hasVisitedNeighbor(const Cell cell, std::unordered_map<int, std::vector<bool>>& visited)
 {
     auto neighbors = _graph.getSurroundingCells(cell);
     std::vector<Cell>::iterator visitedNeighbor = std::find_if(neighbors.begin(), neighbors.end(),
