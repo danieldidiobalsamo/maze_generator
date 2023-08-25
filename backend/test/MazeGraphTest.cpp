@@ -142,13 +142,4 @@ BOOST_FIXTURE_TEST_CASE(getSurroundingCells, MazeFixture)
     BOOST_CHECK_EQUAL(neighbors.size(), 4);
 }
 
-/////////////////TESTING chooseRandomNeighbors FUNCTION
-
-BOOST_FIXTURE_TEST_CASE(RandomNeighbor, MazeFixture)
-{
-    auto neighbor = graph.chooseRandomNeighbors(testedCell);
-
-    BOOST_CHECK_EQUAL(checkIsInNeighbors(neighbor), true);
-}
-
 BOOST_AUTO_TEST_SUITE_END()

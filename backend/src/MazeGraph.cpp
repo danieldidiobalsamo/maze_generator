@@ -10,14 +10,7 @@ MazeGraph::MazeGraph(int w, int h, Cell entryPos, Cell exitPos)
     , _entryPos(entryPos)
     , _exitPos(exitPos)
     , _adjacencyList()
-    , _randomEngine(static_cast<unsigned int>(time(0))) // used to generate random int, better than rand()
 {
-    for (int row = 0; row < _height; ++row) {
-        for (int col = 0; col < _width; ++col) {
-            _visitedMatrix[row].push_back(false);
-        }
-    }
-
     carveToAllNeighbors(_entryPos);
     carveToAllNeighbors(_exitPos);
 }
@@ -54,16 +47,6 @@ bool MazeGraph::wallsBetween(Cell src, Cell dest)
     return cell == _adjacencyList[src].end();
 }
 
-bool MazeGraph::isCellVisited(Cell cell)
-{
-    return _visitedMatrix[cell.getRow()][cell.getCol()];
-}
-
-void MazeGraph::setVisited(Cell cell)
-{
-    _visitedMatrix[cell.getRow()][cell.getCol()] = true;
-}
-
 vector<Cell> MazeGraph::getSurroundingCells(Cell cell)
 {
     std::vector<Cell> surrouding; // not necessary neighbors, just cells around
@@ -92,38 +75,6 @@ void MazeGraph::carveToAllNeighbors(const Cell cell)
 
     for (auto neighbor : neighbors) {
         carve(cell, neighbor);
-    }
-}
-
-Cell MazeGraph::chooseRandomNeighbors(const Cell cell)
-{
-    auto neighbors = getSurroundingCells(cell);
-
-    std::uniform_int_distribution<int> intDistribution(0, static_cast<int>(neighbors.size() - 1));
-    int randomIndex = intDistribution(_randomEngine);
-
-    return neighbors[randomIndex];
-}
-
-bool MazeGraph::isDeadEnd(const Cell cell)
-{
-    auto [hasOne, neighbors] = hasVisitedNeighbor(cell);
-
-    return !hasOne;
-}
-
-std::tuple<bool, Cell> MazeGraph::hasVisitedNeighbor(const Cell cell)
-{
-    auto neighbors = getSurroundingCells(cell);
-    std::vector<Cell>::iterator visitedNeighbor = std::find_if(neighbors.begin(), neighbors.end(),
-        [this](const Cell& cell) {
-            return !isCellVisited(cell);
-        });
-
-    if (visitedNeighbor != neighbors.end()) {
-        return std::make_tuple(true, *visitedNeighbor);
-    } else {
-        return std::make_tuple(false, *visitedNeighbor);
     }
 }
 

@@ -29,9 +29,7 @@ private:
     Cell _exitPos;
 
     unordered_map<Cell, vector<Cell>, Cell> _adjacencyList;
-    std::map<int, std::vector<bool>> _visitedMatrix;
 
-    std::default_random_engine _randomEngine;
     void linkCells(Cell src, Cell dest);
 
 public:
@@ -47,11 +45,4 @@ public:
     vector<Cell> getSurroundingCells(Cell cell);
     void carve(const Cell src, const Cell dest);
     void carveToAllNeighbors(const Cell cell);
-
-    Cell chooseRandomNeighbors(const Cell cell);
-    bool isDeadEnd(const Cell cell);
-
-    std::tuple<bool, Cell> hasVisitedNeighbor(const Cell cell);
-    void setVisited(const Cell cell);
-    bool isCellVisited(Cell cell);
 };
