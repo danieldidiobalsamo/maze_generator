@@ -49,9 +49,8 @@ void Maze::huntAndKill()
                 huntMode = true;
             } else {
                 // choosing an unvisited cell
-
                 do {
-                    nextCell = chooseRandomNeighbors(currentCell);
+                    nextCell = chooseRandomNeighbors(_graph.getSurroundingCells(currentCell));
                 } while (visited[nextCell.getRow()][nextCell.getCol()]);
 
                 visited[nextCell.getRow()][nextCell.getCol()] = true;
@@ -122,10 +121,8 @@ std::tuple<bool, Cell> Maze::hasVisitedNeighbor(const Cell cell, std::unordered_
     }
 }
 
-Cell Maze::chooseRandomNeighbors(const Cell cell)
+Cell Maze::chooseRandomNeighbors(const std::vector<Cell>& neighbors)
 {
-    auto neighbors = _graph.getSurroundingCells(cell);
-
     std::uniform_int_distribution<int> intDistribution(0, static_cast<int>(neighbors.size() - 1));
     int randomIndex = intDistribution(_randomEngine);
 

@@ -13,7 +13,7 @@ private:
 
     bool isDeadEnd(const Cell cell, std::unordered_map<int, std::vector<bool>>& visited);
     std::tuple<bool, Cell> hasVisitedNeighbor(const Cell cell, std::unordered_map<int, std::vector<bool>>& visited);
-    Cell chooseRandomNeighbors(const Cell cell);
+    Cell chooseRandomNeighbors(const std::vector<Cell>& neighbors);
 
     std::default_random_engine _randomEngine;
 
