@@ -87,8 +87,6 @@ CellWalls MazeGraph::getCellWalls(Cell cell)
         false
     };
 
-    auto surrounding = getSurroundingCells(cell);
-
     // checking if cell is on sides
     if (cell != _entryPos && cell != _exitPos) {
         if (cell.isOnTopSide())
@@ -102,29 +100,20 @@ CellWalls MazeGraph::getCellWalls(Cell cell)
             walls.left = true;
     }
 
-    for (auto neighbor : surrounding) {
+    if (wallsBetween(cell, cell.getTopNeighbor())) {
+        walls.top = true;
+    }
 
-        if (wallsBetween(cell, neighbor)) {
-            if (cell.isLeftNeighbor(neighbor)) {
-                walls.left = true;
-                continue;
-            }
+    if (wallsBetween(cell, cell.getLeftNeighbor())) {
+        walls.left = true;
+    }
 
-            if (cell.isBottomNeighbor(neighbor, _height)) {
-                walls.bottom = true;
-                continue;
-            }
+    if (wallsBetween(cell, cell.getBottomNeighbor(_height))) {
+        walls.bottom = true;
+    }
 
-            if (cell.isRightNeighbor(neighbor, _width)) {
-                walls.right = true;
-                continue;
-            }
-
-            if (cell.isTopNeighbor(neighbor)) {
-                walls.top = true;
-                continue;
-            }
-        }
+    if (wallsBetween(cell, cell.getRightNeighbor(_width))) {
+        walls.right = true;
     }
 
     return walls;
