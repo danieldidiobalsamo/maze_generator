@@ -1,7 +1,8 @@
 <script setup>
 import Menu from './components/Menu.vue'
 import Maze from './components/Maze.vue'
-import Cell from './components/Cell.vue'
+
+import { defineComponent } from 'vue'
 </script>
 
 <script>
@@ -11,9 +12,10 @@ export default {
 
     data(){
         return{
-            mazeCells: [],
             width: 0,
+            height: 0,
             wasmInstance: {},
+            wallsList: [],
         }
     },
 
@@ -33,30 +35,16 @@ export default {
 
         this.backend.generateMaze(width, height, algo);
 
-        this.mazeCells = this.getMazeCells(width, height)
+        const wallsVector = this.backend.getWallsList()
+        this.wallsList = []
+
+        for (var i = 0; i < wallsVector.size(); i++) {
+          this.wallsList.push(wallsVector.get(i))
+        }
+
         this.width = width
+        this.height = height
       },
-
-
-      getMazeCells(width, height){
-          let maze = []
-
-          for (let row = 0; row < height; row++) {
-              for (let col = 0; col < width; col++) {
-                const walls = this.backend.getCell(row, col)
-
-                const cell = {
-                  top: walls.north,
-                  right: walls.east,
-                  bottom: walls.south,
-                  left: walls.west,
-                }
-
-                maze.push(cell)
-              }
-          }
-          return maze
-      }
   }
 }
 </script>
@@ -68,7 +56,7 @@ export default {
   </aside>
 
   <main>
-    <Maze :maze="this.mazeCells" :width="this.width"/>
+    <Maze :wallsList="this.wallsList" :width="this.width"/>
   </main>
 </template>
 
@@ -80,5 +68,10 @@ export default {
   main{
     float:left;
     margin-left: 3vw;
+  }
+
+  #maze {
+    display: grid;
+    grid-template-columns: repeat(v-bind(width), 1fr);
   }
 </style>

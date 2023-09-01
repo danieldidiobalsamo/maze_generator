@@ -1,8 +1,10 @@
 #pragma once
 
 #include <functional> // std::hash
+#include <iostream>
 
 using std::hash;
+using std::ostream;
 using std::size_t;
 
 class Cell {
@@ -25,6 +27,12 @@ public:
     inline bool operator!=(const Cell& c)
     {
         return !(*this == c);
+    }
+
+    friend ostream& operator<<(ostream& os, const Cell& c)
+    {
+        os << "(" << c._row << "," << c._col << ")" << std::endl;
+        return os;
     }
 
     // Cell is used is adjacency list, which is an unordered map

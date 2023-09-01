@@ -25,7 +25,7 @@ public:
 
     Maze& operator=(const Maze& m) = default;
 
-    CellWalls getCellWalls(Cell cell);
+    vector<CellWalls> getWallsList();
     void visitCell(Cell cell);
 
     void huntAndKill();

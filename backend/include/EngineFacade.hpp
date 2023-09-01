@@ -20,7 +20,7 @@ public:
     void generateMaze(const std::string& algo);
 
     // generation algo
-
     void huntAndKillGeneration();
-    Maze& getMaze();
+
+    vector<CellWalls> getWallsList();
 };
