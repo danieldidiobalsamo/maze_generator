@@ -4,7 +4,7 @@ import Cell from './Cell.vue'
 
 <template>
 	<div id="maze">
-		<div class="cell" v-for="cell in maze">
+		<div class="cell" v-for="cell in this.wallsList">
 			<Cell :top=cell.top :right=cell.right :bottom=cell.bottom :left=cell.left ></Cell>
 		</div>
 	</div>
@@ -14,9 +14,10 @@ import Cell from './Cell.vue'
 	export default {
         props : {
             width: Number,
-            maze: Array
+            wallsList: Array,
         },
     }
+
 </script>
 
 <style>

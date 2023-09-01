@@ -16,9 +16,9 @@ Maze::~Maze()
 {
 }
 
-CellWalls Maze::getCellWalls(Cell coords)
+vector<CellWalls> Maze::getWallsList()
 {
-    return _graph.getCellWalls(coords);
+    return _graph.getWallsList();
 }
 
 void Maze::huntAndKill()

@@ -11,40 +11,21 @@ MazeGraph::MazeGraph(int w, int h, Cell entryPos, Cell exitPos)
     , _exitPos(exitPos)
     , _adjacencyList()
 {
+
+    _wallsList.reserve(_width * _height);
+    for (int i = 0; i < _width * _height; ++i) {
+        _wallsList.push_back(CellWalls { true, true, true, true });
+    }
+
+    _wallsList[mazeCoordToIndex(_entryPos)] = CellWalls { false, false, false, false };
+    _wallsList[mazeCoordToIndex(_exitPos)] = CellWalls { false, false, false, false };
+
     carveToAllNeighbors(_entryPos);
     carveToAllNeighbors(_exitPos);
 }
 
 MazeGraph::~MazeGraph()
 {
-}
-
-void MazeGraph::linkCells(Cell src, Cell dest)
-{
-    try {
-        const bool carvingHorizontally = (src.getCol() != dest.getCol());
-        const bool carvingVertically = (src.getRow() != dest.getRow());
-
-        // exception
-        if (carvingHorizontally && carvingVertically)
-            throw std::invalid_argument("Cells must be connected for carving");
-
-        _adjacencyList[src].push_back(dest);
-        _adjacencyList[dest].push_back(src);
-
-    } catch (const std::invalid_argument& e) {
-        std::cout << e.what() << std::endl;
-    }
-}
-
-bool MazeGraph::wallsBetween(Cell src, Cell dest)
-{
-    std::vector<Cell>::iterator cell = std::find_if(_adjacencyList[src].begin(), _adjacencyList[src].end(),
-        [=](const Cell& cell) {
-            return cell == dest;
-        });
-
-    return cell == _adjacencyList[src].end();
 }
 
 vector<Cell> MazeGraph::getSurroundingCells(Cell cell)
@@ -65,8 +46,33 @@ vector<Cell> MazeGraph::getSurroundingCells(Cell cell)
 
 void MazeGraph::carve(const Cell src, const Cell dest)
 {
-    linkCells(src, dest);
-    linkCells(dest, src);
+    try {
+        const bool carvingHorizontally = (src.getCol() != dest.getCol());
+        const bool carvingVertically = (src.getRow() != dest.getRow());
+
+        if (carvingHorizontally && carvingVertically)
+            throw std::invalid_argument("Cells must be connected for carving");
+
+        _adjacencyList[src].push_back(dest);
+        _adjacencyList[dest].push_back(src);
+
+        if (src.isLeftNeighbor(dest)) {
+            _wallsList[mazeCoordToIndex(src)].left = false;
+            _wallsList[mazeCoordToIndex(dest)].right = false;
+        } else if (src.isBottomNeighbor(dest, _height)) {
+            _wallsList[mazeCoordToIndex(src)].bottom = false;
+            _wallsList[mazeCoordToIndex(dest)].top = false;
+        } else if (src.isRightNeighbor(dest, _width)) {
+            _wallsList[mazeCoordToIndex(src)].right = false;
+            _wallsList[mazeCoordToIndex(dest)].left = false;
+        } else if (src.isTopNeighbor(dest)) {
+            _wallsList[mazeCoordToIndex(src)].top = false;
+            _wallsList[mazeCoordToIndex(dest)].bottom = false;
+        }
+
+    } catch (const std::invalid_argument& e) {
+        std::cout << e.what() << std::endl;
+    }
 }
 
 void MazeGraph::carveToAllNeighbors(const Cell cell)
@@ -78,54 +84,12 @@ void MazeGraph::carveToAllNeighbors(const Cell cell)
     }
 }
 
-CellWalls MazeGraph::getCellWalls(Cell cell)
+vector<CellWalls> MazeGraph::getWallsList()
 {
-    CellWalls walls = {
-        false,
-        false,
-        false,
-        false
-    };
+    return _wallsList;
+}
 
-    auto surrounding = getSurroundingCells(cell);
-
-    // checking if cell is on sides
-    if (cell != _entryPos && cell != _exitPos) {
-        if (cell.isOnTopSide())
-            walls.top = true;
-        else if (cell.isOnBottomSide(_height))
-            walls.bottom = true;
-
-        if (cell.isOnRightSide(_width))
-            walls.right = true;
-        else if (cell.isOnLeftSide())
-            walls.left = true;
-    }
-
-    for (auto neighbor : surrounding) {
-
-        if (wallsBetween(cell, neighbor)) {
-            if (cell.isLeftNeighbor(neighbor)) {
-                walls.left = true;
-                continue;
-            }
-
-            if (cell.isBottomNeighbor(neighbor, _height)) {
-                walls.bottom = true;
-                continue;
-            }
-
-            if (cell.isRightNeighbor(neighbor, _width)) {
-                walls.right = true;
-                continue;
-            }
-
-            if (cell.isTopNeighbor(neighbor)) {
-                walls.top = true;
-                continue;
-            }
-        }
-    }
-
-    return walls;
+int MazeGraph::mazeCoordToIndex(Cell coord)
+{
+    return (_width * coord.getRow()) + coord.getCol();
 }

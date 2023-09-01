@@ -21,10 +21,7 @@ void Backend::generateMaze(int width, int height, std::string algo)
     _engine.generateMaze(algo);
 }
 
-CellWallsStruct Backend::getCell(int row, int col)
+const std::vector<CellWalls> Backend::getWallsList()
 {
-    auto walls = _engine.getMaze().getCellWalls(Cell(row, col));
-    // redefine an equivalent walls struct so that no emscripten dependencies are introduced in inner backend classes (MazeGrid.hpp), but only in Backend class
-    // and not to make Backend directly depending on inner classes (should only see EngineFacade)
-    return CellWallsStruct { walls.left, walls.bottom, walls.right, walls.top };
+    return _engine.getWallsList();
 }

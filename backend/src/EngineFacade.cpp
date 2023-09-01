@@ -25,7 +25,7 @@ void EngineFacade::huntAndKillGeneration()
     _maze.huntAndKill();
 }
 
-Maze& EngineFacade::getMaze()
+vector<CellWalls> EngineFacade::getWallsList()
 {
-    return _maze;
+    return _maze.getWallsList();
 }
