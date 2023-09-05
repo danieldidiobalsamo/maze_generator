@@ -11,7 +11,7 @@ private:
 public:
     EngineFacade() = delete;
     EngineFacade(const int w, const int h);
-    EngineFacade(const int w, const int h, const Cell entryPos, const Cell exitPos);
+    EngineFacade(const int w, const int h, const Cell& entryPos, const Cell& exitPos);
     EngineFacade(const EngineFacade& e) = default;
     EngineFacade& operator=(const EngineFacade& f) = default;
     ~EngineFacade() = default;

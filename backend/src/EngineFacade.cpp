@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-EngineFacade::EngineFacade(const int w, const int h, const Cell entryPos, const Cell exitPos)
+EngineFacade::EngineFacade(const int w, const int h, const Cell& entryPos, const Cell& exitPos)
     : _maze(w, h, entryPos, exitPos)
 {
 }
