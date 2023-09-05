@@ -7,10 +7,6 @@ EngineFacade::EngineFacade(const int w, const int h, const Cell entryPos, const 
 {
 }
 
-EngineFacade::~EngineFacade()
-{
-}
-
 void EngineFacade::generateMaze(const std::string& algo)
 {
     if (algo == "hunt")
