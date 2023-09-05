@@ -17,7 +17,9 @@ public:
     Cell(int row, int col);
     Cell(const Cell& c) = default;
     Cell& operator=(const Cell& m) = default;
-    ~Cell();
+    ~Cell() = default;
+    Cell(Cell&& cell) = default;
+    Cell& operator=(Cell&& cell) = default;
 
     inline bool operator==(const Cell& c) const
     {

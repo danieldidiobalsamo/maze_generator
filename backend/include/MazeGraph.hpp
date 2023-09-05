@@ -47,7 +47,9 @@ public:
     MazeGraph(int w, int h, Cell entryPos, Cell exitPos);
     MazeGraph(const MazeGraph& m) = default;
     MazeGraph& operator=(const MazeGraph& m) = default;
-    ~MazeGraph();
+    ~MazeGraph() = default;
+    MazeGraph(MazeGraph&& graph) = default;
+    MazeGraph& operator=(MazeGraph&& graph) = default;
 
     vector<CellWalls> getWallsList();
 

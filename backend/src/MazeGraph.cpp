@@ -24,10 +24,6 @@ MazeGraph::MazeGraph(int w, int h, Cell entryPos, Cell exitPos)
     carveToAllNeighbors(_exitPos);
 }
 
-MazeGraph::~MazeGraph()
-{
-}
-
 vector<Cell> MazeGraph::getSurroundingCells(Cell cell)
 {
     std::vector<Cell> surrouding; // not necessary neighbors, just cells around

@@ -6,10 +6,6 @@ Cell::Cell(int row, int col)
 {
 }
 
-Cell::~Cell()
-{
-}
-
 bool Cell::isOnTopSide() const
 {
     return _row == 0;
