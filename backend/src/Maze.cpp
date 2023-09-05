@@ -5,7 +5,7 @@
 #include <time.h>
 #include <tuple>
 
-Maze::Maze(int width, int height, Cell entryPos, Cell exitPos)
+Maze::Maze(int width, int height, Cell& entryPos, Cell& exitPos)
     : _width(width)
     , _height(height)
     , _entryPos(entryPos)
