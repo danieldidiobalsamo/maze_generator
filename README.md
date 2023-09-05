@@ -1,16 +1,24 @@
-# MazeGenerator
+# About
 
-## Warning
+This app consists in a maze generator taking advantage of web assembly : the C++ backend is imported from Vue.js frontend as a javascript module, using Emscripten.
 
-This side project is being fully rewritten, in particular Web Assembly / Vue.js frontend are used instead of Qt, and so is still in experimental state.
+![image info](./img/example.png)
 
-## About
+# How to launch
 
-This application is a maze generator and visualizer, using WebAssembly (emscripten) / C++ / Vue.js and CMake.
+## Dev instance
 
-## How to launch
+CMake and Emscripten must be installed.
 
-Future versions will include a docker image, but for now you can just launch this script :
 ~~~
 ./launch_dev.sh
 ~~~
+
+Compile and launch unit tests without the http server :
+~~~
+./launch_dev.sh --no-wasm
+~~~
+
+## Prod instance
+
+Future versions will include a docker image, which will allow you to only call docker run to launch the app.
