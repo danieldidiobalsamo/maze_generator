@@ -20,7 +20,11 @@ class Backend {
 
 public:
     Backend();
-    ~Backend();
+    ~Backend() = default;
+    Backend(const Backend& backend) = default;
+    Backend& operator=(const Backend& backend) = default;
+    Backend(Backend&& backend) = default;
+    Backend& operator=(Backend&& backend) = default;
 
     void generateMaze(int width, int height, std::string algo);
     const std::vector<CellWalls> getWallsList();
