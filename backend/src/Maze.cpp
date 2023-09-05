@@ -18,7 +18,7 @@ Maze::~Maze()
 {
 }
 
-vector<CellWalls> Maze::getWallsList()
+std::vector<CellWalls> Maze::getWallsList()
 {
     return _graph.getWallsList();
 }
