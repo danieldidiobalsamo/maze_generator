@@ -33,7 +33,7 @@ void Maze::huntAndKill()
 
     visited[currentCell.getRow()][currentCell.getCol()] = true;
 
-    Cell nextCell;
+    Cell nextCell {};
     bool allCellsTreated = false;
     bool huntMode = false;
 
