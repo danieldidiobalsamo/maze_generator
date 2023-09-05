@@ -28,6 +28,6 @@ else
 
 	if [[ $* == *--clang-tidy* ]]
 	then
-		clang-tidy --config-file=./.clang-tidy backend/src/*.cpp backend/include/*.hpp -- -Ibackend/include
+		clang-tidy --config-file=./.clang-tidy backend/src/*.cpp backend/include/*.hpp -- -Ibackend/include -std=c++20
 	fi
 fi
