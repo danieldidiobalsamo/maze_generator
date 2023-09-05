@@ -24,5 +24,5 @@ public:
     // generation algo
     void huntAndKillGeneration();
 
-    vector<CellWalls> getWallsList();
+    std::vector<CellWalls> getWallsList();
 };
