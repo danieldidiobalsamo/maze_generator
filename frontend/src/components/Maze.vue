@@ -3,19 +3,82 @@ import Cell from './Cell.vue'
 </script>
 
 <template>
-	<div id="maze">
-		<div class="cell" v-for="cell in this.wallsList">
-			<Cell :top=cell.top :right=cell.right :bottom=cell.bottom :left=cell.left ></Cell>
-		</div>
-	</div>
+    <canvas id="mazeCanvas">Maze</canvas>
 </template>
 
 <script>
-	export default {
+    export default {
         props : {
-            width: Number,
+            mazeWidth: Number,
+            mazeHeight: Number,
             wallsList: Array,
         },
+
+        data(){
+            return{
+                canvas: {},
+                ctx: {},
+                cellWidth: 20,
+                cellHeight: 20,
+            }
+        },
+
+        mounted(){
+            let canvas = document.getElementById("mazeCanvas");
+            let ctx = canvas.getContext("2d");
+            this.ctx = ctx;
+            this.canvas = canvas;
+        },
+
+        watch:{
+            wallsList(list){
+                this.ctx.canvas.width = (this.mazeWidth * this.cellWidth) + this.cellWidth
+                this.ctx.canvas.height = (this.mazeHeight * this.cellHeight) + this.cellHeight
+
+                this.ctx.beginPath();
+
+                list.forEach((walls, index)=>{
+                    const row = (Math.floor(index % this.mazeWidth) * this.cellWidth) + this.cellWidth
+                    // "+ this.cellWidth" to not start at borders, otherwise walls won't be rendered
+                    const col = (Math.floor(index / this.mazeWidth) * this.cellHeight) + this.cellHeight
+
+                    this.drawCell(row, col, this.cellWidth, this.cellHeight, walls)
+                })
+
+                this.ctx.stroke();
+            }
+        },
+
+        methods:{
+            drawCell(x, y, w, h, walls){
+                if(walls.top){
+                    this.drawWall(x - w/2, y - h/2, w + (h / 10), h / 10, false)
+                }
+
+                if(walls.bottom){
+                    this.drawWall(x - w/2, y + h/2, w + (h / 10), h / 10, false)
+                }
+
+                if(walls.left){
+                    this.drawWall(x - w/2, y - h/2, w, h / 10, true)
+                }
+
+                if(walls.right){
+                    this.drawWall(x + w/2, y - h/2, w, h / 10, true)
+                }
+            },
+
+            drawWall(x, y, w, h, vertical){
+
+                if(vertical)
+                {
+                    this.ctx.fillRect(x, y, h, w);
+                }
+                else{
+                    this.ctx.fillRect(x, y, w, h);
+                }
+            }
+        }
     }
 
 </script>
@@ -23,8 +86,8 @@ import Cell from './Cell.vue'
 <style>
 
 #maze {
-	display: grid;
-	grid-template-columns: repeat(v-bind(width), 1fr);
+    display: grid;
+    grid-template-columns: repeat(v-bind(mazeWidth), 1fr);
 }
 
 </style>

@@ -56,7 +56,7 @@ export default {
   </aside>
 
   <main>
-    <Maze :wallsList="this.wallsList" :width="this.width"/>
+    <Maze :wallsList="this.wallsList" :mazeWidth="this.width" :mazeHeight="this.height"/>
   </main>
 </template>
 
