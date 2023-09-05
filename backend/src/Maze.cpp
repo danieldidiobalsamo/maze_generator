@@ -14,10 +14,6 @@ Maze::Maze(int width, int height, const Cell& entryPos, const Cell& exitPos)
 {
 }
 
-Maze::~Maze()
-{
-}
-
 std::vector<CellWalls> Maze::getWallsList()
 {
     return _graph.getWallsList();

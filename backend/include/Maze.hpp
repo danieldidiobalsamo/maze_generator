@@ -22,7 +22,9 @@ public:
     Maze() = delete;
     Maze(int width, int height, const Cell& entryPos, const Cell& exitPos);
     Maze(const Maze& m) = default;
-    ~Maze();
+    ~Maze() = default;
+    Maze(Maze&& facade) = default;
+    Maze& operator=(Maze&& maze) = default;
 
     Maze& operator=(const Maze& m) = default;
 
