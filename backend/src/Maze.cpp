@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <time.h>
+#include <tuple>
 
 Maze::Maze(int width, int height, Cell entryPos, Cell exitPos)
     : _width(width)

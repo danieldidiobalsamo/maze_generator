@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MazeGraph.hpp"
+#include <random>
 
 class Maze {
 private:

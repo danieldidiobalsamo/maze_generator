@@ -2,9 +2,6 @@
 
 #include <iostream>
 #include <map>
-#include <random>
-#include <time.h>
-#include <tuple>
 #include <unordered_map>
 
 #include "Cell.hpp"
