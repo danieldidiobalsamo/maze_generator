@@ -1,6 +1,7 @@
 #pragma once
 
 #include "MazeGraph.hpp"
+#include <random>
 
 class Maze {
 private:
@@ -11,22 +12,23 @@ private:
 
     MazeGraph _graph;
 
-    bool isDeadEnd(const Cell cell, std::unordered_map<int, std::vector<bool>>& visited);
-    std::tuple<bool, Cell> hasVisitedNeighbor(const Cell cell, std::unordered_map<int, std::vector<bool>>& visited);
+    bool isDeadEnd(const Cell& cell, std::unordered_map<int, std::vector<bool>>& visited);
+    std::tuple<bool, Cell> hasVisitedNeighbor(const Cell& cell, std::unordered_map<int, std::vector<bool>>& visited);
     Cell chooseRandomNeighbors(const std::vector<Cell>& neighbors);
 
     std::default_random_engine _randomEngine;
 
 public:
     Maze() = delete;
-    Maze(int width, int height, Cell entryPos, Cell exitPos);
+    Maze(int width, int height, const Cell& entryPos, const Cell& exitPos);
     Maze(const Maze& m) = default;
-    ~Maze();
+    ~Maze() = default;
+    Maze(Maze&& facade) = default;
+    Maze& operator=(Maze&& maze) = default;
 
     Maze& operator=(const Maze& m) = default;
 
-    vector<CellWalls> getWallsList();
-    void visitCell(Cell cell);
+    std::vector<CellWalls> getWallsList();
 
     void huntAndKill();
 };

@@ -6,10 +6,6 @@ Backend::Backend()
 {
 }
 
-Backend::~Backend()
-{
-}
-
 void Backend::generateMaze(int width, int height, std::string algo)
 {
     std::uniform_int_distribution<int> widthDistrib(0, width - 1);

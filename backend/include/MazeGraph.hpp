@@ -2,10 +2,8 @@
 
 #include <iostream>
 #include <map>
-#include <random>
-#include <time.h>
-#include <tuple>
 #include <unordered_map>
+#include <vector>
 
 #include "Cell.hpp"
 
@@ -43,18 +41,20 @@ private:
     unordered_map<Cell, vector<Cell>, Cell> _adjacencyList;
     vector<CellWalls> _wallsList;
 
-    int mazeCoordToIndex(Cell coord);
+    int mazeCoordToIndex(const Cell& coord);
 
 public:
     MazeGraph() = delete;
-    MazeGraph(int w, int h, Cell entryPos, Cell exitPos);
+    MazeGraph(int w, int h, const Cell& entryPos, const Cell& exitPos);
     MazeGraph(const MazeGraph& m) = default;
     MazeGraph& operator=(const MazeGraph& m) = default;
-    ~MazeGraph();
+    ~MazeGraph() = default;
+    MazeGraph(MazeGraph&& graph) = default;
+    MazeGraph& operator=(MazeGraph&& graph) = default;
 
     vector<CellWalls> getWallsList();
 
-    vector<Cell> getSurroundingCells(Cell cell);
-    void carve(const Cell src, const Cell dest);
-    void carveToAllNeighbors(const Cell cell);
+    vector<Cell> getSurroundingCells(const Cell& cell);
+    void carve(const Cell& src, const Cell& dest);
+    void carveToAllNeighbors(const Cell& cell);
 };

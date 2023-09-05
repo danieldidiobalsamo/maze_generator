@@ -17,7 +17,9 @@ public:
     Cell(int row, int col);
     Cell(const Cell& c) = default;
     Cell& operator=(const Cell& m) = default;
-    ~Cell();
+    ~Cell() = default;
+    Cell(Cell&& cell) = default;
+    Cell& operator=(Cell&& cell) = default;
 
     inline bool operator==(const Cell& c) const
     {
@@ -55,10 +57,10 @@ public:
     Cell getBottomNeighbor(int mazeHeight) const;
     Cell getLeftNeighbor() const;
 
-    bool isTopNeighbor(Cell cell) const;
-    bool isRightNeighbor(Cell cell, int mazeWidth) const;
-    bool isBottomNeighbor(Cell cell, int mazeHeight) const;
-    bool isLeftNeighbor(Cell cell) const;
+    bool isTopNeighbor(const Cell& cell) const;
+    bool isRightNeighbor(const Cell& cell, int mazeWidth) const;
+    bool isBottomNeighbor(const Cell& cell, int mazeHeight) const;
+    bool isLeftNeighbor(const Cell& cell) const;
 
     int getRow() const;
     int getCol() const;

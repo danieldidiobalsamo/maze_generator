@@ -4,7 +4,7 @@
 #include <iostream>
 #include <stdexcept>
 
-MazeGraph::MazeGraph(int w, int h, Cell entryPos, Cell exitPos)
+MazeGraph::MazeGraph(int w, int h, const Cell& entryPos, const Cell& exitPos)
     : _width(w)
     , _height(h)
     , _entryPos(entryPos)
@@ -24,11 +24,7 @@ MazeGraph::MazeGraph(int w, int h, Cell entryPos, Cell exitPos)
     carveToAllNeighbors(_exitPos);
 }
 
-MazeGraph::~MazeGraph()
-{
-}
-
-vector<Cell> MazeGraph::getSurroundingCells(Cell cell)
+vector<Cell> MazeGraph::getSurroundingCells(const Cell& cell)
 {
     std::vector<Cell> surrouding; // not necessary neighbors, just cells around
 
@@ -44,7 +40,7 @@ vector<Cell> MazeGraph::getSurroundingCells(Cell cell)
     return surrouding;
 }
 
-void MazeGraph::carve(const Cell src, const Cell dest)
+void MazeGraph::carve(const Cell& src, const Cell& dest)
 {
     try {
         const bool carvingHorizontally = (src.getCol() != dest.getCol());
@@ -75,7 +71,7 @@ void MazeGraph::carve(const Cell src, const Cell dest)
     }
 }
 
-void MazeGraph::carveToAllNeighbors(const Cell cell)
+void MazeGraph::carveToAllNeighbors(const Cell& cell)
 {
     auto neighbors = getSurroundingCells(cell);
 
@@ -89,7 +85,7 @@ vector<CellWalls> MazeGraph::getWallsList()
     return _wallsList;
 }
 
-int MazeGraph::mazeCoordToIndex(Cell coord)
+int MazeGraph::mazeCoordToIndex(const Cell& coord)
 {
     return (_width * coord.getRow()) + coord.getCol();
 }

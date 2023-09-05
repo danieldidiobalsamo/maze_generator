@@ -2,8 +2,10 @@
 
 #include <iostream>
 #include <stdexcept>
+#include <time.h>
+#include <tuple>
 
-Maze::Maze(int width, int height, Cell entryPos, Cell exitPos)
+Maze::Maze(int width, int height, const Cell& entryPos, const Cell& exitPos)
     : _width(width)
     , _height(height)
     , _entryPos(entryPos)
@@ -12,11 +14,7 @@ Maze::Maze(int width, int height, Cell entryPos, Cell exitPos)
 {
 }
 
-Maze::~Maze()
-{
-}
-
-vector<CellWalls> Maze::getWallsList()
+std::vector<CellWalls> Maze::getWallsList()
 {
     return _graph.getWallsList();
 }
@@ -35,7 +33,7 @@ void Maze::huntAndKill()
 
     visited[currentCell.getRow()][currentCell.getCol()] = true;
 
-    Cell nextCell;
+    Cell nextCell {};
     bool allCellsTreated = false;
     bool huntMode = false;
 
@@ -99,14 +97,14 @@ void Maze::huntAndKill()
     } while (!allCellsTreated);
 }
 
-bool Maze::isDeadEnd(const Cell cell, std::unordered_map<int, std::vector<bool>>& visited)
+bool Maze::isDeadEnd(const Cell& cell, std::unordered_map<int, std::vector<bool>>& visited)
 {
     auto [hasOne, neighbors] = hasVisitedNeighbor(cell, visited);
 
     return !hasOne;
 }
 
-std::tuple<bool, Cell> Maze::hasVisitedNeighbor(const Cell cell, std::unordered_map<int, std::vector<bool>>& visited)
+std::tuple<bool, Cell> Maze::hasVisitedNeighbor(const Cell& cell, std::unordered_map<int, std::vector<bool>>& visited)
 {
     auto neighbors = _graph.getSurroundingCells(cell);
     std::vector<Cell>::iterator visitedNeighbor = std::find_if(neighbors.begin(), neighbors.end(),

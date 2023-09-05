@@ -6,10 +6,6 @@ Cell::Cell(int row, int col)
 {
 }
 
-Cell::~Cell()
-{
-}
-
 bool Cell::isOnTopSide() const
 {
     return _row == 0;
@@ -72,19 +68,19 @@ int Cell::getCol() const
     return _col;
 }
 
-bool Cell::isTopNeighbor(Cell cell) const
+bool Cell::isTopNeighbor(const Cell& cell) const
 {
     return (cell.getRow() == getRow() - 1) && (getRow() - 1 >= 0);
 }
-bool Cell::isRightNeighbor(Cell cell, int mazeWidth) const
+bool Cell::isRightNeighbor(const Cell& cell, int mazeWidth) const
 {
     return (cell.getCol() == getCol() + 1) && (getCol() + 1 < mazeWidth);
 }
-bool Cell::isBottomNeighbor(Cell cell, int mazeHeight) const
+bool Cell::isBottomNeighbor(const Cell& cell, int mazeHeight) const
 {
     return (cell.getRow() == getRow() + 1) && (getRow() + 1 < mazeHeight);
 }
-bool Cell::isLeftNeighbor(Cell cell) const
+bool Cell::isLeftNeighbor(const Cell& cell) const
 {
     return (cell.getCol() == getCol() - 1) && (getCol() - 1 >= 0);
 }

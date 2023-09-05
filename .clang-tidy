@@ -1,0 +1,6 @@
+---
+Checks: -*
+ cert-*,
+ cppcoreguidelines-*,
+ performance-*,
+FormatStyle: 'file'

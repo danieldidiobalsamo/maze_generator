@@ -11,10 +11,12 @@ private:
 public:
     EngineFacade() = delete;
     EngineFacade(const int w, const int h);
-    EngineFacade(const int w, const int h, const Cell entryPos, const Cell exitPos);
+    EngineFacade(const int w, const int h, const Cell& entryPos, const Cell& exitPos);
     EngineFacade(const EngineFacade& e) = default;
     EngineFacade& operator=(const EngineFacade& f) = default;
-    ~EngineFacade();
+    ~EngineFacade() = default;
+    EngineFacade(EngineFacade&& facade) = default;
+    EngineFacade& operator=(EngineFacade&& facade) = default;
 
     void initMaze();
     void generateMaze(const std::string& algo);
@@ -22,5 +24,5 @@ public:
     // generation algo
     void huntAndKillGeneration();
 
-    vector<CellWalls> getWallsList();
+    std::vector<CellWalls> getWallsList();
 };

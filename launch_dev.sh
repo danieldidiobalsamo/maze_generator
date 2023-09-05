@@ -25,4 +25,9 @@ then
 	npm run dev --prefix frontend/
 else
 	ctest --test-dir backend/build --verbose
+
+	if [[ $* == *--clang-tidy* ]]
+	then
+		clang-tidy --config-file=./.clang-tidy backend/src/*.cpp backend/include/*.hpp -- -Ibackend/include -std=c++20
+	fi
 fi
