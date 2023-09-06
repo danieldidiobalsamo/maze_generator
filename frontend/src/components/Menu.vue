@@ -2,8 +2,8 @@
     <div id="main-item">
     <form id="sidebar" @submit.prevent="generate">
       <input id="generate-btn" type="submit" value="Generate" />
-      <button disabled id="solve-btn">Solve</button>
-      <button disabled id="download-btn">Download as image <img src="" alt=""></button>
+      <button disabled id="solve-btn" type="button">Solve</button>
+      <button id="download-btn" @click="downloadMazeAsImg" type="button">Download as image</button>
 
     <select required name="algos" v-model="selectedAlgo">
       <option v-for="algo in genAlgos" :value="algo">{{ algo.title }}</option>
@@ -33,6 +33,16 @@
         methods:{
             generate(){
                 this.$emit('generateMaze', this.selectedAlgo.val, this.width, this.height)
+            },
+
+            downloadMazeAsImg(){
+                const canvas = document.getElementById("mazeCanvas")
+                const img = canvas.toDataURL("image/png")
+
+                let link = document.createElement('a');
+                link.download = 'canvas_image.png';
+                link.href = img;
+                link.click();
             }
         },
     }
