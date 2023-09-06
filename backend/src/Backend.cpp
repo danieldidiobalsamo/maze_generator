@@ -31,7 +31,7 @@ void Backend::generateMaze(int width, int height, std::string algo)
     _engine.generateMaze(algo);
 }
 
-const std::vector<CellWalls> Backend::getWallsList()
+const std::vector<CellMetadata> Backend::getCellsMetadata()
 {
-    return _engine.getWallsList();
+    return _engine.getCellsMetadata();
 }

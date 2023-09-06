@@ -28,7 +28,7 @@ public:
 
     Maze& operator=(const Maze& m) = default;
 
-    std::vector<CellWalls> getWallsList();
+    std::vector<CellMetadata> getCellsMetadata();
 
     void huntAndKill();
 };

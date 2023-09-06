@@ -14,9 +14,9 @@ Maze::Maze(int width, int height, const Cell& entryPos, const Cell& exitPos)
 {
 }
 
-std::vector<CellWalls> Maze::getWallsList()
+std::vector<CellMetadata> Maze::getCellsMetadata()
 {
-    return _graph.getWallsList();
+    return _graph.getCellsMetadata();
 }
 
 void Maze::huntAndKill()

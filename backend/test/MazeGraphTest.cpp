@@ -76,10 +76,10 @@ BOOST_FIXTURE_TEST_CASE(CarvingRight, MazeFixture)
     auto destCell = Cell(testedCell.getRow(), testedCell.getCol() + 1);
 
     graph.carve(testedCell, destCell);
-    std::vector<CellWalls> wallsList = graph.getWallsList();
+    std::vector<CellMetadata> cellsMetadata = graph.getCellsMetadata();
 
-    CellWalls firstCellWalls = wallsList[mazeCoordToIndex(testedCell)];
-    CellWalls secondCellWalls = wallsList[mazeCoordToIndex(destCell)];
+    CellWalls firstCellWalls = cellsMetadata[mazeCoordToIndex(testedCell)].walls;
+    CellWalls secondCellWalls = cellsMetadata[mazeCoordToIndex(destCell)].walls;
 
     // uppercase means "wall built"
     // lowercase means "no wall"
@@ -95,10 +95,10 @@ BOOST_FIXTURE_TEST_CASE(CarvingBottom, MazeFixture)
     auto destCell = Cell(testedCell.getRow() + 1, testedCell.getCol());
 
     graph.carve(testedCell, destCell);
-    std::vector<CellWalls> wallsList = graph.getWallsList();
+    std::vector<CellMetadata> cellsMetadata = graph.getCellsMetadata();
 
-    CellWalls firstCellWalls = wallsList[mazeCoordToIndex(testedCell)];
-    CellWalls secondCellWalls = wallsList[mazeCoordToIndex(destCell)];
+    CellWalls firstCellWalls = cellsMetadata[mazeCoordToIndex(testedCell)].walls;
+    CellWalls secondCellWalls = cellsMetadata[mazeCoordToIndex(destCell)].walls;
 
     // uppercase means "wall built"
     // lowercase means "no wall"
@@ -113,10 +113,10 @@ BOOST_FIXTURE_TEST_CASE(CarvingLeft, MazeFixture)
     auto destCell = Cell(testedCell.getRow(), testedCell.getCol() - 1);
 
     graph.carve(testedCell, destCell);
-    std::vector<CellWalls> wallsList = graph.getWallsList();
+    std::vector<CellMetadata> cellsMetadata = graph.getCellsMetadata();
 
-    CellWalls firstCellWalls = wallsList[mazeCoordToIndex(testedCell)];
-    CellWalls secondCellWalls = wallsList[mazeCoordToIndex(destCell)];
+    CellWalls firstCellWalls = cellsMetadata[mazeCoordToIndex(testedCell)].walls;
+    CellWalls secondCellWalls = cellsMetadata[mazeCoordToIndex(destCell)].walls;
 
     // uppercase means "wall built"
     // lowercase means "no wall"
@@ -131,10 +131,10 @@ BOOST_FIXTURE_TEST_CASE(CarvingTop, MazeFixture)
     auto destCell = Cell(testedCell.getRow() - 1, testedCell.getCol());
 
     graph.carve(testedCell, destCell);
-    std::vector<CellWalls> wallsList = graph.getWallsList();
+    std::vector<CellMetadata> cellsMetadata = graph.getCellsMetadata();
 
-    CellWalls firstCellWalls = wallsList[mazeCoordToIndex(testedCell)];
-    CellWalls secondCellWalls = wallsList[mazeCoordToIndex(destCell)];
+    CellWalls firstCellWalls = cellsMetadata[mazeCoordToIndex(testedCell)].walls;
+    CellWalls secondCellWalls = cellsMetadata[mazeCoordToIndex(destCell)].walls;
 
     // uppercase means "wall built"
     // lowercase means "no wall"
@@ -162,32 +162,32 @@ BOOST_FIXTURE_TEST_CASE(getSurroundingCells, MazeFixture)
     BOOST_CHECK_EQUAL(neighbors.size(), 4);
 }
 
-BOOST_FIXTURE_TEST_CASE(getWallsList, MazeFixture)
+BOOST_FIXTURE_TEST_CASE(getCellsMetadata, MazeFixture)
 {
     auto destCell = Cell(testedCell.getRow(), testedCell.getCol() + 1);
 
     graph.carve(testedCell, destCell);
-    auto list = graph.getWallsList();
+    auto list = graph.getCellsMetadata();
 
-    vector<CellWalls> goodList;
+    vector<CellMetadata> goodList;
     for (int i = 0; i < width * height; ++i) {
-        goodList.push_back(CellWalls { true, true, true, true });
+        goodList.push_back(CellMetadata { CellWalls { true, true, true, true }, false });
     }
 
-    goodList[mazeCoordToIndex(entry)] = CellWalls { false, false, false, false }; // entry
-    goodList[mazeCoordToIndex(entry.getTopNeighbor())].bottom = false;
-    goodList[mazeCoordToIndex(entry.getBottomNeighbor(height))].top = false;
-    goodList[mazeCoordToIndex(entry.getLeftNeighbor())].right = false;
-    goodList[mazeCoordToIndex(entry.getRightNeighbor(width))].left = false;
+    goodList[mazeCoordToIndex(entry)] = CellMetadata { CellWalls { false, false, false, false }, true }; // entry
+    goodList[mazeCoordToIndex(entry.getTopNeighbor())].walls.bottom = false;
+    goodList[mazeCoordToIndex(entry.getBottomNeighbor(height))].walls.top = false;
+    goodList[mazeCoordToIndex(entry.getLeftNeighbor())].walls.right = false;
+    goodList[mazeCoordToIndex(entry.getRightNeighbor(width))].walls.left = false;
 
-    goodList[mazeCoordToIndex(exit)] = CellWalls { false, false, false, false }; // exit
-    goodList[mazeCoordToIndex(exit.getTopNeighbor())].bottom = false;
-    goodList[mazeCoordToIndex(exit.getBottomNeighbor(height))].top = false;
-    goodList[mazeCoordToIndex(exit.getLeftNeighbor())].right = false;
-    goodList[mazeCoordToIndex(exit.getRightNeighbor(width))].left = false;
+    goodList[mazeCoordToIndex(exit)] = CellMetadata { CellWalls { false, false, false, false }, true }; // exit
+    goodList[mazeCoordToIndex(exit.getTopNeighbor())].walls.bottom = false;
+    goodList[mazeCoordToIndex(exit.getBottomNeighbor(height))].walls.top = false;
+    goodList[mazeCoordToIndex(exit.getLeftNeighbor())].walls.right = false;
+    goodList[mazeCoordToIndex(exit.getRightNeighbor(width))].walls.left = false;
 
-    goodList[mazeCoordToIndex(testedCell)] = CellWalls { true, true, false, true };
-    goodList[mazeCoordToIndex(destCell)] = CellWalls { false, true, true, true };
+    goodList[mazeCoordToIndex(testedCell)] = CellMetadata { CellWalls { true, true, false, true }, false };
+    goodList[mazeCoordToIndex(destCell)] = CellMetadata { CellWalls { false, true, true, true }, false };
 
     BOOST_CHECK_EQUAL_COLLECTIONS(list.begin(), list.end(), goodList.begin(), goodList.end());
 }
