@@ -13,7 +13,8 @@ EMSCRIPTEN_BINDINGS(CellWalls)
         .field("left", &CellWalls::left)
         .field("bottom", &CellWalls::bottom)
         .field("right", &CellWalls::right)
-        .field("top", &CellWalls::top);
+        .field("top", &CellWalls::top)
+        .field("isPath", &CellWalls::isPath);
 }
 
 class Backend {

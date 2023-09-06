@@ -51,6 +51,12 @@ import Cell from './Cell.vue'
 
         methods:{
             drawCell(x, y, w, h, walls){
+                if(walls.isPath){
+                    this.ctx.fillStyle = "red";
+                    this.ctx.fillRect(x - w / 4, y - h / 4, w*0.5, h*0.5);
+                    this.ctx.fillStyle = "black";
+                }
+
                 if(walls.top){
                     this.drawWall(x - w/2, y - h/2, w + (h / 10), h / 10, false)
                 }

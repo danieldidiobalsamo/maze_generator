@@ -14,11 +14,11 @@ MazeGraph::MazeGraph(int w, int h, const Cell& entryPos, const Cell& exitPos)
 
     _wallsList.reserve(_width * _height);
     for (int i = 0; i < _width * _height; ++i) {
-        _wallsList.push_back(CellWalls { true, true, true, true });
+        _wallsList.push_back(CellWalls { true, true, true, true, false });
     }
 
-    _wallsList[mazeCoordToIndex(_entryPos)] = CellWalls { false, false, false, false };
-    _wallsList[mazeCoordToIndex(_exitPos)] = CellWalls { false, false, false, false };
+    _wallsList[mazeCoordToIndex(_entryPos)] = CellWalls { false, false, false, false, true };
+    _wallsList[mazeCoordToIndex(_exitPos)] = CellWalls { false, false, false, false, true };
 
     carveToAllNeighbors(_entryPos);
     carveToAllNeighbors(_exitPos);

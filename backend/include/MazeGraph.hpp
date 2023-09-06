@@ -18,6 +18,8 @@ struct CellWalls {
     bool right;
     bool top;
 
+    bool isPath;
+
     inline bool operator==(const CellWalls& c) const
     {
         return (left == c.left && bottom == c.bottom && right == c.right && top == c.top);
