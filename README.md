@@ -1,6 +1,6 @@
 # About
 
-This app consists in a maze generator taking advantage of web assembly : the C++ backend is imported from Vue.js frontend as a javascript module, using Emscripten.
+This app consists in a maze generator and solver taking advantage of web assembly : the C++ backend is imported from Vue.js frontend as a javascript module, using Emscripten.
 
 ![image info](./img/example.png)
 
