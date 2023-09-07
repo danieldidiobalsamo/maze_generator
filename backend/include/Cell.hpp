@@ -62,32 +62,6 @@ public:
     Cell(Cell&& cell) = default;
     Cell& operator=(Cell&& cell) = default;
 
-    inline bool operator==(const Cell& c) const
-    {
-        return (_row == c._row && _col == c._col);
-    }
-
-    inline bool operator!=(const Cell& c)
-    {
-        return !(*this == c);
-    }
-
-    friend ostream& operator<<(ostream& os, const Cell& c)
-    {
-        os << "(" << c._row << "," << c._col << ")" << std::endl;
-        return os;
-    }
-
-    // Cell is used is adjacency list, which is an unordered map
-    // so it needs both operator == and ()
-    inline std::size_t operator()(const Cell& c) const
-    {
-        size_t rowhash = std::hash<int>()(c._row);
-        size_t colhash = std::hash<int>()(c._col) << 1;
-
-        return rowhash ^ colhash;
-    }
-
     bool isOnTopSide() const;
     bool isOnRightSide(int mazeWidth) const;
     bool isOnBottomSide(int mazeHeight) const;
