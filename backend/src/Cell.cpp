@@ -3,6 +3,14 @@
 Cell::Cell(int row, int col)
     : _row(row)
     , _col(col)
+    , _metadata()
+{
+}
+
+Cell::Cell(int row, int col, CellMetadata metadata)
+    : _row(row)
+    , _col(col)
+    , _metadata(metadata)
 {
 }
 
@@ -83,4 +91,9 @@ bool Cell::isBottomNeighbor(const Cell& cell, int mazeHeight) const
 bool Cell::isLeftNeighbor(const Cell& cell) const
 {
     return (cell.getCol() == getCol() - 1) && (getCol() - 1 >= 0);
+}
+
+CellMetadata Cell::getMetaData()
+{
+    return _metadata;
 }

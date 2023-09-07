@@ -12,13 +12,16 @@ MazeGraph::MazeGraph(int w, int h, const Cell& entryPos, const Cell& exitPos)
     , _adjacencyList()
 {
 
-    _cellsMetadata.reserve(_width * _height);
-    for (int i = 0; i < _width * _height; ++i) {
-        _cellsMetadata.push_back(CellMetadata { CellWalls { true, true, true, true }, false });
+    _cells.reserve(_width * _height);
+
+    for (int row = 0; row < _height; ++row) {
+        for (int col = 0; col < _width; ++col) {
+            _cells.push_back(Cell(row, col, CellMetadata { CellWalls { true, true, true, true }, false }));
+        }
     }
 
-    _cellsMetadata[mazeCoordToIndex(_entryPos)] = CellMetadata { CellWalls { false, false, false, false }, true };
-    _cellsMetadata[mazeCoordToIndex(_exitPos)] = CellMetadata { CellWalls { false, false, false, false }, true };
+    _cells[mazeCoordToIndex(_entryPos)]._metadata = CellMetadata { CellWalls { false, false, false, false }, true };
+    _cells[mazeCoordToIndex(_exitPos)]._metadata = CellMetadata { CellWalls { false, false, false, false }, true };
 
     carveToAllNeighbors(_entryPos);
     carveToAllNeighbors(_exitPos);
@@ -53,17 +56,17 @@ void MazeGraph::carve(const Cell& src, const Cell& dest)
         _adjacencyList[dest].push_back(src);
 
         if (src.isLeftNeighbor(dest)) {
-            _cellsMetadata[mazeCoordToIndex(src)].walls.left = false;
-            _cellsMetadata[mazeCoordToIndex(dest)].walls.right = false;
+            _cells[mazeCoordToIndex(src)]._metadata.walls.left = false;
+            _cells[mazeCoordToIndex(dest)]._metadata.walls.right = false;
         } else if (src.isBottomNeighbor(dest, _height)) {
-            _cellsMetadata[mazeCoordToIndex(src)].walls.bottom = false;
-            _cellsMetadata[mazeCoordToIndex(dest)].walls.top = false;
+            _cells[mazeCoordToIndex(src)]._metadata.walls.bottom = false;
+            _cells[mazeCoordToIndex(dest)]._metadata.walls.top = false;
         } else if (src.isRightNeighbor(dest, _width)) {
-            _cellsMetadata[mazeCoordToIndex(src)].walls.right = false;
-            _cellsMetadata[mazeCoordToIndex(dest)].walls.left = false;
+            _cells[mazeCoordToIndex(src)]._metadata.walls.right = false;
+            _cells[mazeCoordToIndex(dest)]._metadata.walls.left = false;
         } else if (src.isTopNeighbor(dest)) {
-            _cellsMetadata[mazeCoordToIndex(src)].walls.top = false;
-            _cellsMetadata[mazeCoordToIndex(dest)].walls.bottom = false;
+            _cells[mazeCoordToIndex(src)]._metadata.walls.top = false;
+            _cells[mazeCoordToIndex(dest)]._metadata.walls.bottom = false;
         }
 
     } catch (const std::invalid_argument& e) {
@@ -82,7 +85,13 @@ void MazeGraph::carveToAllNeighbors(const Cell& cell)
 
 vector<CellMetadata> MazeGraph::getCellsMetadata()
 {
-    return _cellsMetadata;
+    vector<CellMetadata> metadataList;
+
+    for (auto i = _cells.begin(); i != _cells.end(); ++i) {
+        metadataList.push_back(i->_metadata);
+    }
+
+    return metadataList;
 }
 
 int MazeGraph::mazeCoordToIndex(const Cell& coord)

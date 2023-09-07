@@ -12,41 +12,6 @@ using std::ostream;
 using std::unordered_map;
 using std::vector;
 
-struct CellWalls {
-    bool left;
-    bool bottom;
-    bool right;
-    bool top;
-
-    inline bool operator==(const CellWalls& w) const
-    {
-        return (w.left == left && w.bottom == bottom && w.right == right && w.top == top);
-    }
-
-    friend ostream& operator<<(ostream& os, const CellWalls& w)
-    {
-        os << "left: " << w.left << " bottom: " << w.bottom << " right: " << w.right << " top: " << w.top << std::endl;
-        return os;
-    }
-};
-
-struct CellMetadata {
-
-    CellWalls walls;
-    bool isPath;
-
-    inline bool operator==(const CellMetadata& c) const
-    {
-        return (c.walls == walls && c.isPath == isPath);
-    }
-
-    friend ostream& operator<<(ostream& os, const CellMetadata& c)
-    {
-        os << c.walls << "belongs to path: " << c.isPath << std::endl;
-        return os;
-    }
-};
-
 class MazeGraph {
 private:
     int _width;
@@ -56,7 +21,7 @@ private:
     Cell _exitPos;
 
     unordered_map<Cell, vector<Cell>, Cell> _adjacencyList;
-    vector<CellMetadata> _cellsMetadata;
+    vector<Cell> _cells;
 
     int mazeCoordToIndex(const Cell& coord);
 
