@@ -55,7 +55,7 @@ import Cell from './Cell.vue'
 
                 if(metadata.isPath){
                     this.ctx.fillStyle = "red";
-                    this.ctx.fillRect(x - w / 4, y - h / 4, w*0.5, h*0.5);
+                    this.ctx.fillRect(x - w/2, y - h/2, w, h);
                     this.ctx.fillStyle = "black";
                 }
 

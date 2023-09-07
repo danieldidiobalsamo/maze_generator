@@ -45,6 +45,18 @@ export default {
         this.width = width
         this.height = height
       },
+
+      solve(){
+        this.backend.solve();
+
+        const metadataVector = this.backend.getCellsMetadata()
+        this.cellsMetadata = []
+
+        for (let i = 0; i < metadataVector.size(); i++) {
+          this.cellsMetadata.push(metadataVector.get(i))
+        }
+
+      },
   }
 }
 </script>
@@ -52,7 +64,7 @@ export default {
 <template>
 
   <aside>
-    <Menu @generateMaze="(algo, w, h) => this.generate(algo, w, h)" />
+    <Menu @generateMaze="(algo, w, h) => this.generate(algo, w, h)" @solve="() => this.solve()"/>
   </aside>
 
   <main>

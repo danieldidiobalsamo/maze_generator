@@ -52,8 +52,11 @@ void MazeGraph::carve(const Cell& src, const Cell& dest)
         if (carvingHorizontally && carvingVertically)
             throw std::invalid_argument("Cells must be connected for carving");
 
-        _adjacencyList[src].push_back(dest);
-        _adjacencyList[dest].push_back(src);
+        int srcIndex = mazeCoordToIndex(src);
+        int destIndex = mazeCoordToIndex(dest);
+
+        _adjacencyList[srcIndex].push_back(destIndex);
+        _adjacencyList[destIndex].push_back(srcIndex);
 
         if (src.isLeftNeighbor(dest)) {
             _cells[mazeCoordToIndex(src)]._metadata.walls.left = false;
@@ -97,4 +100,19 @@ vector<CellMetadata> MazeGraph::getCellsMetadata()
 int MazeGraph::mazeCoordToIndex(const Cell& coord)
 {
     return (_width * coord.getRow()) + coord.getCol();
+}
+
+Cell MazeGraph::indexToMazeCoord(int index)
+{
+    return Cell(index % _width, index / _width);
+}
+
+const unordered_map<int, vector<int>>& MazeGraph::getAdjacencyList()
+{
+    return _adjacencyList;
+}
+
+void MazeGraph::addToPath(int cellIndex)
+{
+    _cells[cellIndex]._metadata.isPath = true;
 }

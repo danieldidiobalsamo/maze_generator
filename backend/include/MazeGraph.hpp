@@ -20,10 +20,8 @@ private:
     Cell _entryPos;
     Cell _exitPos;
 
-    unordered_map<Cell, vector<Cell>, Cell> _adjacencyList;
+    unordered_map<int, vector<int>> _adjacencyList;
     vector<Cell> _cells;
-
-    int mazeCoordToIndex(const Cell& coord);
 
 public:
     MazeGraph() = delete;
@@ -39,4 +37,11 @@ public:
     vector<Cell> getSurroundingCells(const Cell& cell);
     void carve(const Cell& src, const Cell& dest);
     void carveToAllNeighbors(const Cell& cell);
+
+    const unordered_map<int, vector<int>>& getAdjacencyList();
+
+    int mazeCoordToIndex(const Cell& coord);
+    Cell indexToMazeCoord(int index);
+
+    void addToPath(int cellIndex);
 };

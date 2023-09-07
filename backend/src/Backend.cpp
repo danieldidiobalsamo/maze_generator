@@ -35,3 +35,8 @@ const std::vector<CellMetadata> Backend::getCellsMetadata()
 {
     return _engine.getCellsMetadata();
 }
+
+void Backend::solve()
+{
+    _engine.solve();
+}

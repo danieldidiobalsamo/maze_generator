@@ -18,6 +18,7 @@ public:
     Backend& operator=(Backend&& backend) = default;
 
     void generateMaze(int width, int height, std::string algo);
+    void solve();
     const std::vector<CellMetadata> getCellsMetadata();
 
 private:
@@ -47,5 +48,6 @@ EMSCRIPTEN_BINDINGS(Backend)
     emscripten::class_<Backend>("Backend")
         .constructor<>()
         .function("generateMaze", std::function<void(Backend&, int, int, std::string)>(&Backend::generateMaze))
-        .function("getCellsMetadata", std::function<const std::vector<CellMetadata>(Backend&)>(&Backend::getCellsMetadata));
+        .function("getCellsMetadata", std::function<const std::vector<CellMetadata>(Backend&)>(&Backend::getCellsMetadata))
+        .function("solve", &Backend::solve);
 }

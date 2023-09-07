@@ -25,3 +25,8 @@ std::vector<CellMetadata> EngineFacade::getCellsMetadata()
 {
     return _maze.getCellsMetadata();
 }
+
+void EngineFacade::solve()
+{
+    _maze.solveWithAStar();
+}
