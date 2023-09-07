@@ -47,15 +47,16 @@ export default {
       },
 
       solve(){
-        this.backend.solve();
+        if(this.width != 0 || this.height !=0){
+          this.backend.solve();
 
-        const metadataVector = this.backend.getCellsMetadata()
-        this.cellsMetadata = []
+          const metadataVector = this.backend.getCellsMetadata()
+          this.cellsMetadata = []
 
-        for (let i = 0; i < metadataVector.size(); i++) {
-          this.cellsMetadata.push(metadataVector.get(i))
+          for (let i = 0; i < metadataVector.size(); i++) {
+            this.cellsMetadata.push(metadataVector.get(i))
+          }
         }
-
       },
   }
 }
