@@ -1,6 +1,7 @@
 #include "Maze.hpp"
 
 #include <iostream>
+#include <limits>
 #include <stdexcept>
 #include <time.h>
 #include <tuple>
@@ -9,14 +10,15 @@ Maze::Maze(int width, int height, const Cell& entryPos, const Cell& exitPos)
     : _width(width)
     , _height(height)
     , _entryPos(entryPos)
+    , _exitPos(exitPos)
     , _graph(width, height, entryPos, exitPos)
     , _randomEngine(static_cast<unsigned int>(time(0)))
 {
 }
 
-std::vector<CellWalls> Maze::getWallsList()
+std::vector<CellMetadata> Maze::getCellsMetadata()
 {
-    return _graph.getWallsList();
+    return _graph.getCellsMetadata();
 }
 
 void Maze::huntAndKill()
@@ -125,4 +127,77 @@ Cell Maze::chooseRandomNeighbors(const std::vector<Cell>& neighbors)
     int randomIndex = intDistribution(_randomEngine);
 
     return neighbors[randomIndex];
+}
+
+bool Maze::solveWithAStar()
+{
+    std::vector<int> open; // used with std::make_heap as min heap
+    open.push_back(_graph.mazeCoordToIndex(_entryPos));
+
+    unordered_map<int, int> cameFrom;
+    unordered_map<int, int> gScore;
+    gScore.reserve(_width * _height);
+
+    unordered_map<int, int> fScore;
+    fScore.reserve(_width * _height);
+
+    for (int i = 0; i < _width * _height; ++i) {
+        gScore[i] = std::numeric_limits<int>::max();
+        fScore[i] = std::numeric_limits<int>::max();
+    }
+
+    int entry = _graph.mazeCoordToIndex(_entryPos);
+    int exit = _graph.mazeCoordToIndex(_exitPos);
+    gScore[entry] = 0;
+    fScore[entry] = a_star_heuristic(entry);
+
+    auto adjacencyList = _graph.getAdjacencyList();
+
+    while (!open.empty()) {
+        int current = open.front();
+
+        if (current == exit) {
+            _graph.addToPath(current);
+            while (cameFrom.contains(current)) {
+                current = cameFrom[current];
+                _graph.addToPath(current);
+            }
+
+            return true;
+        }
+
+        std::pop_heap(open.begin(), open.end(), std::greater<> {});
+        open.pop_back();
+        auto neighbors = adjacencyList[current];
+
+        for (auto neighbor = neighbors.begin(); neighbor != neighbors.end(); ++neighbor) {
+            int tentativeGScore = gScore[current] + euclidianDistance(current, *neighbor);
+
+            if (tentativeGScore < gScore[*neighbor]) {
+                cameFrom[*neighbor] = current;
+                gScore[*neighbor] = tentativeGScore;
+                fScore[*neighbor] = tentativeGScore + a_star_heuristic(*neighbor);
+
+                if (std::find(open.begin(), open.end(), *neighbor) == open.end()) {
+                    open.push_back(*neighbor);
+                    std::make_heap(open.begin(), open.end(), std::greater<> {});
+                }
+            }
+        }
+    }
+
+    return false; // no solution
+}
+
+int Maze::euclidianDistance(int cellA, int cellB)
+{
+    Cell a = _graph.indexToMazeCoord(cellA);
+    Cell b = _graph.indexToMazeCoord(cellB);
+
+    return (a.getRow() - b.getRow()) * (a.getRow() - b.getRow()) + (a.getCol() - b.getCol()) * (a.getCol() - b.getCol());
+}
+
+int Maze::a_star_heuristic(int index)
+{
+    return euclidianDistance(index, _graph.mazeCoordToIndex(_exitPos));
 }

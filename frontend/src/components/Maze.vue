@@ -11,7 +11,7 @@ import Cell from './Cell.vue'
         props : {
             mazeWidth: Number,
             mazeHeight: Number,
-            wallsList: Array,
+            cellsMetadata: Array,
         },
 
         data(){
@@ -31,18 +31,18 @@ import Cell from './Cell.vue'
         },
 
         watch:{
-            wallsList(list){
+            cellsMetadata(list){
                 this.ctx.canvas.width = (this.mazeWidth * this.cellWidth) + this.cellWidth
                 this.ctx.canvas.height = (this.mazeHeight * this.cellHeight) + this.cellHeight
 
                 this.ctx.beginPath();
 
-                list.forEach((walls, index)=>{
+                list.forEach((metadata, index)=>{
                     const row = (Math.floor(index % this.mazeWidth) * this.cellWidth) + this.cellWidth
                     // "+ this.cellWidth" to not start at borders, otherwise walls won't be rendered
                     const col = (Math.floor(index / this.mazeWidth) * this.cellHeight) + this.cellHeight
 
-                    this.drawCell(row, col, this.cellWidth, this.cellHeight, walls)
+                    this.drawCell(row, col, this.cellWidth, this.cellHeight, metadata)
                 })
 
                 this.ctx.stroke();
@@ -50,7 +50,15 @@ import Cell from './Cell.vue'
         },
 
         methods:{
-            drawCell(x, y, w, h, walls){
+            drawCell(x, y, w, h, metadata){
+                const walls = metadata.walls;
+
+                if(metadata.isPath){
+                    this.ctx.fillStyle = "red";
+                    this.ctx.fillRect(x - w/2, y - h/2, w, h);
+                    this.ctx.fillStyle = "black";
+                }
+
                 if(walls.top){
                     this.drawWall(x - w/2, y - h/2, w + (h / 10), h / 10, false)
                 }

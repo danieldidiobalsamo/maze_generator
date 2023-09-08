@@ -2,7 +2,7 @@
     <div id="main-item">
     <form id="sidebar" @submit.prevent="generate">
       <input id="generate-btn" type="submit" value="Generate" />
-      <button disabled id="solve-btn" type="button">Solve</button>
+      <button id="solve-btn" @click="solve" type="button">Solve with A*</button>
       <button id="download-btn" @click="downloadMazeAsImg" type="button">Download as image</button>
 
     <select required name="algos" v-model="selectedAlgo">
@@ -18,7 +18,7 @@
 
 <script>
     export default {
-        emits: ['generateMaze'],
+        emits: ['generateMaze', 'solve'],
         data() {
             return {
                 genAlgos: [
@@ -43,6 +43,10 @@
                 link.download = 'canvas_image.png';
                 link.href = img;
                 link.click();
+            },
+
+            solve(){
+                this.$emit('solve')
             }
         },
     }

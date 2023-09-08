@@ -15,7 +15,7 @@ export default {
             width: 0,
             height: 0,
             wasmInstance: {},
-            wallsList: [],
+            cellsMetadata: [],
         }
     },
 
@@ -35,15 +35,28 @@ export default {
 
         this.backend.generateMaze(width, height, algo);
 
-        const wallsVector = this.backend.getWallsList()
-        this.wallsList = []
+        const metadataVector = this.backend.getCellsMetadata()
+        this.cellsMetadata = []
 
-        for (var i = 0; i < wallsVector.size(); i++) {
-          this.wallsList.push(wallsVector.get(i))
+        for (let i = 0; i < metadataVector.size(); i++) {
+          this.cellsMetadata.push(metadataVector.get(i))
         }
 
         this.width = width
         this.height = height
+      },
+
+      solve(){
+        if(this.width != 0 || this.height !=0){
+          this.backend.solve();
+
+          const metadataVector = this.backend.getCellsMetadata()
+          this.cellsMetadata = []
+
+          for (let i = 0; i < metadataVector.size(); i++) {
+            this.cellsMetadata.push(metadataVector.get(i))
+          }
+        }
       },
   }
 }
@@ -52,11 +65,11 @@ export default {
 <template>
 
   <aside>
-    <Menu @generateMaze="(algo, w, h) => this.generate(algo, w, h)" />
+    <Menu @generateMaze="(algo, w, h) => this.generate(algo, w, h)" @solve="() => this.solve()"/>
   </aside>
 
   <main>
-    <Maze :wallsList="this.wallsList" :mazeWidth="this.width" :mazeHeight="this.height"/>
+    <Maze :cellsMetadata="this.cellsMetadata" :mazeWidth="this.width" :mazeHeight="this.height"/>
   </main>
 </template>
 

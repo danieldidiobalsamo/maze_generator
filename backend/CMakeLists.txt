@@ -36,7 +36,10 @@ IF(${EMCC})
     set_target_properties(mazeGenerator PROPERTIES LINK_FLAGS "-o mazeGenerator.html")
 ELSE()
     find_package(Boost 1.55 REQUIRED COMPONENTS unit_test_framework REQUIRED)
-    set(TEST_FILES test/MazeGraphTest.cpp)
+    set(TEST_FILES
+        test/mainTest.cpp
+        test/MazeGraphTest.cpp
+        test/MazeTest.cpp)
 
     enable_testing()
     add_executable(test_exe ${SRC} ${TEST_FILES})

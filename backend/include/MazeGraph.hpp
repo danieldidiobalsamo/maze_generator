@@ -12,24 +12,6 @@ using std::ostream;
 using std::unordered_map;
 using std::vector;
 
-struct CellWalls {
-    bool left;
-    bool bottom;
-    bool right;
-    bool top;
-
-    inline bool operator==(const CellWalls& c) const
-    {
-        return (left == c.left && bottom == c.bottom && right == c.right && top == c.top);
-    }
-
-    friend ostream& operator<<(ostream& os, const CellWalls& c)
-    {
-        os << "left: " << c.left << " bottom: " << c.bottom << " right: " << c.right << " top: " << c.top << std::endl;
-        return os;
-    }
-};
-
 class MazeGraph {
 private:
     int _width;
@@ -38,10 +20,8 @@ private:
     Cell _entryPos;
     Cell _exitPos;
 
-    unordered_map<Cell, vector<Cell>, Cell> _adjacencyList;
-    vector<CellWalls> _wallsList;
-
-    int mazeCoordToIndex(const Cell& coord);
+    unordered_map<int, vector<int>> _adjacencyList;
+    vector<Cell> _cells;
 
 public:
     MazeGraph() = delete;
@@ -52,9 +32,16 @@ public:
     MazeGraph(MazeGraph&& graph) = default;
     MazeGraph& operator=(MazeGraph&& graph) = default;
 
-    vector<CellWalls> getWallsList();
+    vector<CellMetadata> getCellsMetadata();
 
     vector<Cell> getSurroundingCells(const Cell& cell);
     void carve(const Cell& src, const Cell& dest);
     void carveToAllNeighbors(const Cell& cell);
+
+    const unordered_map<int, vector<int>>& getAdjacencyList();
+
+    int mazeCoordToIndex(const Cell& coord);
+    Cell indexToMazeCoord(int index);
+
+    void addToPath(int cellIndex);
 };
