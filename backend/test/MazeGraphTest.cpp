@@ -1,5 +1,4 @@
 #define BOOST_TEST_DYN_LINK
-#define BOOST_TEST_MODULE MazeGraphTests
 
 #include <boost/test/unit_test.hpp>
 #include <iostream>
@@ -12,7 +11,7 @@ using boost::unit_test::test_suite;
 
 ///////////////// BOOST Test fixture
 
-struct MazeFixture {
+struct MazeGraphFixture {
     Cell testedCell;
     Cell entry;
     Cell exit;
@@ -22,7 +21,7 @@ struct MazeFixture {
 
     MazeGraph graph; // is initialized with all walls built there
 
-    MazeFixture()
+    MazeGraphFixture()
         : testedCell(Cell(2, 2))
         , entry(Cell(0, 0))
         , exit(Cell(4, 4))
@@ -32,7 +31,7 @@ struct MazeFixture {
     {
     }
 
-    ~MazeFixture()
+    ~MazeGraphFixture()
     {
     }
 
@@ -66,10 +65,10 @@ struct MazeFixture {
     }
 };
 
-BOOST_FIXTURE_TEST_SUITE(s, MazeFixture)
+BOOST_FIXTURE_TEST_SUITE(s, MazeGraphFixture)
 
 /////////////////TESTING CARVE FUNCTION IN THE 4 DIRECTIONS (4 NEXT UNIT TESTS)
-BOOST_FIXTURE_TEST_CASE(CarvingRight, MazeFixture)
+BOOST_FIXTURE_TEST_CASE(CarvingRight, MazeGraphFixture)
 {
     /// carving right
 
@@ -88,7 +87,7 @@ BOOST_FIXTURE_TEST_CASE(CarvingRight, MazeFixture)
     BOOST_CHECK_EQUAL("TlBR", checkWalls(secondCellWalls));
 }
 
-BOOST_FIXTURE_TEST_CASE(CarvingBottom, MazeFixture)
+BOOST_FIXTURE_TEST_CASE(CarvingBottom, MazeGraphFixture)
 {
     /// carving bottom
 
@@ -106,7 +105,7 @@ BOOST_FIXTURE_TEST_CASE(CarvingBottom, MazeFixture)
     BOOST_CHECK_EQUAL("tLBR", checkWalls(secondCellWalls));
 }
 
-BOOST_FIXTURE_TEST_CASE(CarvingLeft, MazeFixture)
+BOOST_FIXTURE_TEST_CASE(CarvingLeft, MazeGraphFixture)
 {
     /// carving left
 
@@ -124,7 +123,7 @@ BOOST_FIXTURE_TEST_CASE(CarvingLeft, MazeFixture)
     BOOST_CHECK_EQUAL("TLBr", checkWalls(secondCellWalls));
 }
 
-BOOST_FIXTURE_TEST_CASE(CarvingTop, MazeFixture)
+BOOST_FIXTURE_TEST_CASE(CarvingTop, MazeGraphFixture)
 {
     /// carving top
 
@@ -144,7 +143,7 @@ BOOST_FIXTURE_TEST_CASE(CarvingTop, MazeFixture)
 
 /////////////////TESTING getNeighbors FUNCTION
 
-BOOST_FIXTURE_TEST_CASE(getSurroundingCells, MazeFixture)
+BOOST_FIXTURE_TEST_CASE(getSurroundingCells, MazeGraphFixture)
 {
     auto neighbors = graph.getSurroundingCells(testedCell);
 
@@ -162,7 +161,7 @@ BOOST_FIXTURE_TEST_CASE(getSurroundingCells, MazeFixture)
     BOOST_CHECK_EQUAL(neighbors.size(), 4);
 }
 
-BOOST_FIXTURE_TEST_CASE(getCellsMetadata, MazeFixture)
+BOOST_FIXTURE_TEST_CASE(getCellsMetadata, MazeGraphFixture)
 {
     auto destCell = Cell(testedCell.getRow(), testedCell.getCol() + 1);
 

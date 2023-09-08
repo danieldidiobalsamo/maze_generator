@@ -129,7 +129,7 @@ Cell Maze::chooseRandomNeighbors(const std::vector<Cell>& neighbors)
     return neighbors[randomIndex];
 }
 
-void Maze::solveWithAStar()
+bool Maze::solveWithAStar()
 {
     std::vector<int> open; // used with std::make_heap as min heap
     open.push_back(_graph.mazeCoordToIndex(_entryPos));
@@ -163,7 +163,7 @@ void Maze::solveWithAStar()
                 _graph.addToPath(current);
             }
 
-            return;
+            return true;
         }
 
         std::pop_heap(open.begin(), open.end(), std::greater<> {});
@@ -185,6 +185,8 @@ void Maze::solveWithAStar()
             }
         }
     }
+
+    return false; // no solution
 }
 
 int Maze::euclidianDistance(int cellA, int cellB)

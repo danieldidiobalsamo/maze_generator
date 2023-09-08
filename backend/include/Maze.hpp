@@ -34,5 +34,5 @@ public:
     std::vector<CellMetadata> getCellsMetadata();
 
     void huntAndKill();
-    void solveWithAStar();
+    bool solveWithAStar();
 };
