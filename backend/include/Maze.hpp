@@ -14,8 +14,8 @@ private:
     MazeGraph _graph;
 
     bool allAdjacentVisited(int cellIndex, std::unordered_map<int, bool>& visited);
-    std::tuple<bool, int> hasVisitedNeighbor(int cellIndex, std::unordered_map<int, bool>& visited);
-    int chooseRandomNeighbors(const std::vector<int>& neighbors);
+    int chooseRandomAdjacent(vector<int>& adjacents);
+    std::vector<int> getAdjacents(int cellIndex, std::unordered_map<int, bool>& visited, bool visitedValue);
 
     std::default_random_engine _randomEngine;
 
