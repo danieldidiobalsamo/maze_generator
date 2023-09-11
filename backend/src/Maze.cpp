@@ -43,13 +43,13 @@ void Maze::huntAndKill()
 
         do // looping until a cell where all adjacents cells are visited
         {
-            if (allAdjacentVisited(current, visited)) {
+            auto adjacents = getAdjacents(current, visited, false);
+
+            if (adjacents.empty()) {
                 // launching hunt mode
                 huntMode = true;
             } else {
                 // choosing an unvisited cell
-
-                auto adjacents = getAdjacents(current, visited, false);
                 nextCell = chooseRandomAdjacent(adjacents);
 
                 visited[nextCell] = true;
@@ -134,11 +134,6 @@ void Maze::backtracking()
             current = neighbor;
         }
     }
-}
-
-bool Maze::allAdjacentVisited(int cellIndex, std::unordered_map<int, bool>& visited)
-{
-    return getAdjacents(cellIndex, visited, false).empty();
 }
 
 std::vector<int> Maze::getAdjacents(int cellIndex, std::unordered_map<int, bool>& visited, bool visitedValue)

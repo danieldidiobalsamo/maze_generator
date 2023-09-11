@@ -13,7 +13,6 @@ private:
 
     MazeGraph _graph;
 
-    bool allAdjacentVisited(int cellIndex, std::unordered_map<int, bool>& visited);
     int chooseRandomAdjacent(vector<int>& adjacents);
     std::vector<int> getAdjacents(int cellIndex, std::unordered_map<int, bool>& visited, bool visitedValue);
 
