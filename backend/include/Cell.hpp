@@ -81,4 +81,10 @@ public:
     int getCol() const;
 
     CellMetadata getMetaData();
+
+    friend ostream& operator<<(ostream& os, const Cell& c)
+    {
+        os << "(" << c._row << "," << c._col << ") : " << c._metadata << std::endl;
+        return os;
+    }
 };

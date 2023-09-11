@@ -71,10 +71,12 @@ BOOST_FIXTURE_TEST_SUITE(s, MazeGraphFixture)
 BOOST_FIXTURE_TEST_CASE(CarvingRight, MazeGraphFixture)
 {
     /// carving right
-
     auto destCell = Cell(testedCell.getRow(), testedCell.getCol() + 1);
 
-    graph.carve(testedCell, destCell);
+    int testedIndex = graph.mazeCoordToIndex(testedCell);
+    int destIndex = graph.mazeCoordToIndex(destCell);
+
+    graph.carve(testedIndex, destIndex);
     std::vector<CellMetadata> cellsMetadata = graph.getCellsMetadata();
 
     CellWalls firstCellWalls = cellsMetadata[mazeCoordToIndex(testedCell)].walls;
@@ -93,7 +95,10 @@ BOOST_FIXTURE_TEST_CASE(CarvingBottom, MazeGraphFixture)
 
     auto destCell = Cell(testedCell.getRow() + 1, testedCell.getCol());
 
-    graph.carve(testedCell, destCell);
+    int testedIndex = graph.mazeCoordToIndex(testedCell);
+    int destIndex = graph.mazeCoordToIndex(destCell);
+
+    graph.carve(testedIndex, destIndex);
     std::vector<CellMetadata> cellsMetadata = graph.getCellsMetadata();
 
     CellWalls firstCellWalls = cellsMetadata[mazeCoordToIndex(testedCell)].walls;
@@ -111,7 +116,10 @@ BOOST_FIXTURE_TEST_CASE(CarvingLeft, MazeGraphFixture)
 
     auto destCell = Cell(testedCell.getRow(), testedCell.getCol() - 1);
 
-    graph.carve(testedCell, destCell);
+    int testedIndex = graph.mazeCoordToIndex(testedCell);
+    int destIndex = graph.mazeCoordToIndex(destCell);
+
+    graph.carve(testedIndex, destIndex);
     std::vector<CellMetadata> cellsMetadata = graph.getCellsMetadata();
 
     CellWalls firstCellWalls = cellsMetadata[mazeCoordToIndex(testedCell)].walls;
@@ -129,7 +137,10 @@ BOOST_FIXTURE_TEST_CASE(CarvingTop, MazeGraphFixture)
 
     auto destCell = Cell(testedCell.getRow() - 1, testedCell.getCol());
 
-    graph.carve(testedCell, destCell);
+    int testedIndex = graph.mazeCoordToIndex(testedCell);
+    int destIndex = graph.mazeCoordToIndex(destCell);
+
+    graph.carve(testedIndex, destIndex);
     std::vector<CellMetadata> cellsMetadata = graph.getCellsMetadata();
 
     CellWalls firstCellWalls = cellsMetadata[mazeCoordToIndex(testedCell)].walls;
@@ -145,7 +156,8 @@ BOOST_FIXTURE_TEST_CASE(CarvingTop, MazeGraphFixture)
 
 BOOST_FIXTURE_TEST_CASE(getSurroundingCells, MazeGraphFixture)
 {
-    auto neighbors = graph.getSurroundingCells(testedCell);
+    int testedIndex = graph.mazeCoordToIndex(testedCell);
+    auto neighbors = graph.getSurroundingCells(testedIndex);
 
     bool inNeighbors = true;
 
@@ -153,7 +165,7 @@ BOOST_FIXTURE_TEST_CASE(getSurroundingCells, MazeGraphFixture)
     auto neighborEnd = neighbors.end();
 
     while (inNeighbors && it != neighborEnd) {
-        inNeighbors = checkIsInNeighbors(*it);
+        inNeighbors = checkIsInNeighbors(graph.indexToMazeCoord(*it));
         ++it;
     }
 
@@ -165,7 +177,10 @@ BOOST_FIXTURE_TEST_CASE(getCellsMetadata, MazeGraphFixture)
 {
     auto destCell = Cell(testedCell.getRow(), testedCell.getCol() + 1);
 
-    graph.carve(testedCell, destCell);
+    int testedIndex = graph.mazeCoordToIndex(testedCell);
+    int destIndex = graph.mazeCoordToIndex(destCell);
+
+    graph.carve(testedIndex, destIndex);
     auto list = graph.getCellsMetadata();
 
     vector<CellMetadata> goodList;
