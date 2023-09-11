@@ -1,7 +1,7 @@
 #include "Backend.hpp"
 
 Backend::Backend()
-    : _engine(0, 0, Cell(0, 0), Cell(0, 0))
+    : _engine(10, 10, Cell(0, 0), Cell(9, 9))
     , _randomIntGenerator(static_cast<unsigned int>(time(0)))
 {
 }

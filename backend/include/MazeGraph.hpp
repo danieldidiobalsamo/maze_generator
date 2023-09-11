@@ -34,13 +34,14 @@ public:
 
     vector<CellMetadata> getCellsMetadata();
 
-    vector<Cell> getSurroundingCells(const Cell& cell);
-    void carve(const Cell& src, const Cell& dest);
+    vector<int> getSurroundingCells(int cellIndex);
+    void carve(int srcIndex, int destIndex);
     void carveToAllNeighbors(const Cell& cell);
 
     const unordered_map<int, vector<int>>& getAdjacencyList();
 
     int mazeCoordToIndex(const Cell& coord);
+    int mazeCoordToIndex(int row, int col);
     Cell indexToMazeCoord(int index);
 
     void addToPath(int cellIndex);

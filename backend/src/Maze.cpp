@@ -23,40 +23,39 @@ std::vector<CellMetadata> Maze::getCellsMetadata()
 
 void Maze::huntAndKill()
 {
-    std::unordered_map<int, std::vector<bool>> visited;
-    visited.reserve(_height);
+    std::unordered_map<int, bool> visited;
+    int nbCells = _width * _height;
+    visited.reserve(nbCells);
 
-    for (int row = 0; row < _height; ++row) {
-        visited[row].reserve(_width);
-        visited[row] = std::vector<bool>(_width, false);
+    for (int cell = 0; cell < nbCells; ++cell) {
+        visited[cell] = false;
     }
 
-    Cell currentCell = _entryPos;
+    int current = _graph.mazeCoordToIndex(_entryPos);
+    visited[current] = true;
 
-    visited[currentCell.getRow()][currentCell.getCol()] = true;
-
-    Cell nextCell {};
+    int nextCell;
     bool allCellsTreated = false;
     bool huntMode = false;
 
     // looping on the whole maze
     do {
 
-        do // looping until a dead end is reached
+        do // looping until a cell where all adjacents cells are visited
         {
-            if (isDeadEnd(currentCell, visited)) {
+            if (allAdjacentVisited(current, visited)) {
                 // launching hunt mode
                 huntMode = true;
             } else {
                 // choosing an unvisited cell
                 do {
-                    nextCell = chooseRandomNeighbors(_graph.getSurroundingCells(currentCell));
-                } while (visited[nextCell.getRow()][nextCell.getCol()]);
+                    nextCell = chooseRandomNeighbors(_graph.getSurroundingCells(current));
+                } while (visited[nextCell]);
 
-                visited[nextCell.getRow()][nextCell.getCol()] = true;
-                _graph.carve(currentCell, nextCell);
+                visited[nextCell] = true;
+                _graph.carve(current, nextCell);
 
-                currentCell = nextCell;
+                current = nextCell;
             }
 
         } while (!huntMode);
@@ -72,16 +71,18 @@ void Maze::huntAndKill()
             int col = 0;
 
             while (col < _width && !selectedCell) {
-                if (visited[row][col]) {
+
+                int tmpIndex = _graph.mazeCoordToIndex(row, col);
+                if (visited[tmpIndex]) {
                     // checking if among its neighbors, there is one who is visited
 
-                    auto [visitedNeighbor, chosenNeighbor] = hasVisitedNeighbor(Cell(row, col), visited);
+                    auto [visitedNeighbor, chosenNeighbor] = hasVisitedNeighbor(tmpIndex, visited);
 
                     if (visitedNeighbor) {
-                        currentCell = Cell(row, col);
+                        current = tmpIndex;
 
-                        _graph.carve(currentCell, chosenNeighbor);
-                        visited[currentCell.getRow()][currentCell.getCol()] = true;
+                        _graph.carve(current, chosenNeighbor);
+                        visited[current] = true;
                         selectedCell = true;
                     }
                 }
@@ -99,19 +100,19 @@ void Maze::huntAndKill()
     } while (!allCellsTreated);
 }
 
-bool Maze::isDeadEnd(const Cell& cell, std::unordered_map<int, std::vector<bool>>& visited)
+bool Maze::allAdjacentVisited(int cellIndex, std::unordered_map<int, bool>& visited)
 {
-    auto [hasOne, neighbors] = hasVisitedNeighbor(cell, visited);
+    auto [hasOne, neighbors] = hasVisitedNeighbor(cellIndex, visited);
 
     return !hasOne;
 }
 
-std::tuple<bool, Cell> Maze::hasVisitedNeighbor(const Cell& cell, std::unordered_map<int, std::vector<bool>>& visited)
+std::tuple<bool, int> Maze::hasVisitedNeighbor(int cellIndex, std::unordered_map<int, bool>& visited)
 {
-    auto neighbors = _graph.getSurroundingCells(cell);
-    std::vector<Cell>::iterator visitedNeighbor = std::find_if(neighbors.begin(), neighbors.end(),
-        [&visited](const Cell& cell) {
-            return !visited[cell.getRow()][cell.getCol()];
+    std::vector<int> neighbors = _graph.getSurroundingCells(cellIndex);
+    auto visitedNeighbor = std::find_if(neighbors.begin(), neighbors.end(),
+        [&visited](int cell) {
+            return !visited[cell];
         });
 
     if (visitedNeighbor != neighbors.end()) {
@@ -121,7 +122,7 @@ std::tuple<bool, Cell> Maze::hasVisitedNeighbor(const Cell& cell, std::unordered
     }
 }
 
-Cell Maze::chooseRandomNeighbors(const std::vector<Cell>& neighbors)
+int Maze::chooseRandomNeighbors(const std::vector<int>& neighbors)
 {
     std::uniform_int_distribution<int> intDistribution(0, static_cast<int>(neighbors.size() - 1));
     int randomIndex = intDistribution(_randomEngine);
