@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <limits>
+#include <stack>
 #include <stdexcept>
 #include <time.h>
 #include <tuple>
@@ -98,6 +99,44 @@ void Maze::huntAndKill()
 
         huntMode = false;
     } while (!allCellsTreated);
+}
+
+void Maze::backtracking()
+{
+    std::unordered_map<int, bool> visited;
+    int nbCells = _width * _height;
+    visited.reserve(nbCells);
+
+    for (int cell = 0; cell < nbCells; ++cell) {
+        visited[cell] = false;
+    }
+
+    int entryIndex = _graph.mazeCoordToIndex(_entryPos);
+    visited[entryIndex] = true;
+
+    std::stack<int> cellStack;
+    cellStack.push(entryIndex);
+    int current = entryIndex;
+
+    while (!cellStack.empty()) {
+
+        if (allAdjacentVisited(current, visited)) {
+            current = cellStack.top();
+            cellStack.pop();
+        } else {
+            int neighbor;
+
+            do {
+                neighbor = chooseRandomNeighbors(_graph.getSurroundingCells(current));
+            } while (visited[neighbor]);
+
+            _graph.carve(current, neighbor);
+
+            visited[neighbor] = true;
+            cellStack.push(neighbor);
+            current = neighbor;
+        }
+    }
 }
 
 bool Maze::allAdjacentVisited(int cellIndex, std::unordered_map<int, bool>& visited)

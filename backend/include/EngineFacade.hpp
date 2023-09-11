@@ -23,6 +23,7 @@ public:
 
     // generation algo
     void huntAndKillGeneration();
+    void backtrackingGeneration();
 
     void solve();
 
