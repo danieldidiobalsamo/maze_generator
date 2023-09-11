@@ -2,9 +2,9 @@
 
 #include <iostream>
 #include <limits>
+#include <stack>
 #include <stdexcept>
 #include <time.h>
-#include <tuple>
 
 Maze::Maze(int width, int height, const Cell& entryPos, const Cell& exitPos)
     : _width(width)
@@ -43,14 +43,14 @@ void Maze::huntAndKill()
 
         do // looping until a cell where all adjacents cells are visited
         {
-            if (allAdjacentVisited(current, visited)) {
+            auto adjacents = getAdjacents(current, visited, false);
+
+            if (adjacents.empty()) {
                 // launching hunt mode
                 huntMode = true;
             } else {
                 // choosing an unvisited cell
-                do {
-                    nextCell = chooseRandomNeighbors(_graph.getSurroundingCells(current));
-                } while (visited[nextCell]);
+                nextCell = chooseRandomAdjacent(adjacents);
 
                 visited[nextCell] = true;
                 _graph.carve(current, nextCell);
@@ -73,15 +73,17 @@ void Maze::huntAndKill()
             while (col < _width && !selectedCell) {
 
                 int tmpIndex = _graph.mazeCoordToIndex(row, col);
+
                 if (visited[tmpIndex]) {
                     // checking if among its neighbors, there is one who is visited
 
-                    auto [visitedNeighbor, chosenNeighbor] = hasVisitedNeighbor(tmpIndex, visited);
+                    auto adjacents = getAdjacents(tmpIndex, visited, false);
 
-                    if (visitedNeighbor) {
+                    if (!adjacents.empty()) {
+                        int adj = chooseRandomAdjacent(adjacents);
+
                         current = tmpIndex;
-
-                        _graph.carve(current, chosenNeighbor);
+                        _graph.carve(current, adj);
                         visited[current] = true;
                         selectedCell = true;
                     }
@@ -100,34 +102,79 @@ void Maze::huntAndKill()
     } while (!allCellsTreated);
 }
 
-bool Maze::allAdjacentVisited(int cellIndex, std::unordered_map<int, bool>& visited)
+void Maze::backtracking()
 {
-    auto [hasOne, neighbors] = hasVisitedNeighbor(cellIndex, visited);
+    std::unordered_map<int, bool> visited;
+    int nbCells = _width * _height;
+    visited.reserve(nbCells);
 
-    return !hasOne;
-}
+    for (int cell = 0; cell < nbCells; ++cell) {
+        visited[cell] = false;
+    }
 
-std::tuple<bool, int> Maze::hasVisitedNeighbor(int cellIndex, std::unordered_map<int, bool>& visited)
-{
-    std::vector<int> neighbors = _graph.getSurroundingCells(cellIndex);
-    auto visitedNeighbor = std::find_if(neighbors.begin(), neighbors.end(),
-        [&visited](int cell) {
-            return !visited[cell];
-        });
+    int entryIndex = _graph.mazeCoordToIndex(_entryPos);
+    visited[entryIndex] = true;
 
-    if (visitedNeighbor != neighbors.end()) {
-        return std::make_tuple(true, *visitedNeighbor);
-    } else {
-        return std::make_tuple(false, *visitedNeighbor);
+    std::stack<int> cellStack;
+    cellStack.push(entryIndex);
+    int current = entryIndex;
+
+    while (!cellStack.empty()) {
+        auto adjacents = getAdjacents(current, visited, false);
+
+        if (adjacents.empty()) {
+            current = cellStack.top();
+            cellStack.pop();
+        } else {
+            int neighbor = chooseRandomAdjacent(adjacents);
+            _graph.carve(current, neighbor);
+
+            visited[neighbor] = true;
+            cellStack.push(neighbor);
+            current = neighbor;
+        }
     }
 }
 
-int Maze::chooseRandomNeighbors(const std::vector<int>& neighbors)
+std::vector<int> Maze::getAdjacents(int cellIndex, std::unordered_map<int, bool>& visited, bool visitedValue)
 {
-    std::uniform_int_distribution<int> intDistribution(0, static_cast<int>(neighbors.size() - 1));
+    Cell cell = _graph.indexToMazeCoord(cellIndex);
+    std::vector<int> surrounding;
+
+    int row = cell.getRow();
+    int col = cell.getCol();
+
+    int top = _graph.mazeCoordToIndex(row - 1, col);
+    int bottom = _graph.mazeCoordToIndex(row + 1, col);
+    int left = _graph.mazeCoordToIndex(row, col - 1);
+    int right = _graph.mazeCoordToIndex(row, col + 1);
+
+    if (row - 1 >= 0 && visited[top] == visitedValue)
+        surrounding.push_back(top);
+    if (row + 1 < _height && visited[bottom] == visitedValue)
+        surrounding.push_back(bottom);
+    if (col - 1 >= 0 && visited[left] == visitedValue)
+        surrounding.push_back(left);
+    if (col + 1 < _width && visited[right] == visitedValue)
+        surrounding.push_back(right);
+
+    return surrounding;
+}
+
+int Maze::chooseRandomAdjacent(vector<int>& adjacents)
+{
+    try {
+        if (adjacents.empty()) {
+            throw std::out_of_range("Adjacent cells vector is empty");
+        }
+    } catch (const std::invalid_argument& e) {
+        std::cout << e.what() << std::endl;
+    }
+
+    std::uniform_int_distribution<int> intDistribution(0, static_cast<int>(adjacents.size() - 1));
     int randomIndex = intDistribution(_randomEngine);
 
-    return neighbors[randomIndex];
+    return adjacents[randomIndex];
 }
 
 bool Maze::solveWithAStar()

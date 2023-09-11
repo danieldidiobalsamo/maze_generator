@@ -23,8 +23,9 @@
             return {
                 genAlgos: [
                     { val: "hunt", title: 'Hunt and kill' },
+                    { val: "backtracking", title: 'Backtracking' },
                     ],
-                selectedAlgo: {},
+                selectedAlgo: { val: "backtracking", title: 'Backtracking' },
                 width: 40,
                 height: 30,
             }
