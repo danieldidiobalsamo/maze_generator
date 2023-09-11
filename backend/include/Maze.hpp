@@ -13,7 +13,7 @@ private:
 
     MazeGraph _graph;
 
-    bool isDeadEnd(int cellIndex, std::unordered_map<int, bool>& visited);
+    bool allAdjacentVisited(int cellIndex, std::unordered_map<int, bool>& visited);
     std::tuple<bool, int> hasVisitedNeighbor(int cellIndex, std::unordered_map<int, bool>& visited);
     int chooseRandomNeighbors(const std::vector<int>& neighbors);
 

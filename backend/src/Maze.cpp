@@ -41,9 +41,9 @@ void Maze::huntAndKill()
     // looping on the whole maze
     do {
 
-        do // looping until a dead end is reached
+        do // looping until a cell where all adjacents cells are visited
         {
-            if (isDeadEnd(current, visited)) {
+            if (allAdjacentVisited(current, visited)) {
                 // launching hunt mode
                 huntMode = true;
             } else {
@@ -100,7 +100,7 @@ void Maze::huntAndKill()
     } while (!allCellsTreated);
 }
 
-bool Maze::isDeadEnd(int cellIndex, std::unordered_map<int, bool>& visited)
+bool Maze::allAdjacentVisited(int cellIndex, std::unordered_map<int, bool>& visited)
 {
     auto [hasOne, neighbors] = hasVisitedNeighbor(cellIndex, visited);
 
