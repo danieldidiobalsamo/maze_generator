@@ -178,12 +178,17 @@ bool Maze::solveWithAStar()
     std::vector<int> open; // used with std::make_heap as min heap
     open.push_back(_graph.mazeCoordToIndex(_entryPos));
 
-    unordered_map<int, int> cameFrom;
-    unordered_map<int, int> gScore;
-    gScore.reserve(_width * _height);
+    int nbCells = _width * _height;
 
-    unordered_map<int, int> fScore;
-    fScore.reserve(_width * _height);
+    std::vector<int> cameFrom;
+    cameFrom.reserve(nbCells);
+    cameFrom.assign(nbCells, -1);
+
+    std::vector<int> gScore;
+    gScore.reserve(nbCells);
+
+    std::vector<int> fScore;
+    fScore.reserve(nbCells);
 
     for (int i = 0; i < _width * _height; ++i) {
         gScore[i] = std::numeric_limits<int>::max();
@@ -202,7 +207,7 @@ bool Maze::solveWithAStar()
 
         if (current == exit) {
             _graph.addToPath(current);
-            while (cameFrom.contains(current)) {
+            while (cameFrom[current] != -1) {
                 current = cameFrom[current];
                 _graph.addToPath(current);
             }
