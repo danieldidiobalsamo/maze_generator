@@ -56,16 +56,16 @@ void MazeGraph::carve(int srcIndex, int destIndex)
         _adjacencyList[srcIndex].push_back(destIndex);
         _adjacencyList[destIndex].push_back(srcIndex);
 
-        if (src.isLeftNeighbor(dest)) {
+        if (src.getCol() - 1 >= 0 && src.getCol() - 1 == dest.getCol()) {
             _cells[srcIndex]._metadata.walls.left = false;
             _cells[destIndex]._metadata.walls.right = false;
-        } else if (src.isBottomNeighbor(dest, _height)) {
+        } else if (src.getRow() + 1 < _height && src.getRow() + 1 == dest.getRow()) {
             _cells[srcIndex]._metadata.walls.bottom = false;
             _cells[destIndex]._metadata.walls.top = false;
-        } else if (src.isRightNeighbor(dest, _width)) {
+        } else if (src.getCol() + 1 < _width && src.getCol() + 1 == dest.getCol()) {
             _cells[srcIndex]._metadata.walls.right = false;
             _cells[destIndex]._metadata.walls.left = false;
-        } else if (src.isTopNeighbor(dest)) {
+        } else if (src.getRow() - 1 >= 0 && src.getRow() - 1 == dest.getRow()) {
             _cells[srcIndex]._metadata.walls.top = false;
             _cells[destIndex]._metadata.walls.bottom = false;
         }
