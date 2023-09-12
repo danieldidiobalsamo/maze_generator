@@ -13,8 +13,8 @@
         </select>
 
         <button id="download-btn" @click="downloadMazeAsImg" type="button">Download as image</button>
-        <label for="width">Width</label><input required min="5" max="50" id="maze-width" type="number" v-model=width>
-        <label for="height">Height</label><input required min="5" max="50" id="maze-height" type="number" v-model=height>
+        <label for="width">Width</label><input required min="5" max="200" id="maze-width" type="number" v-model=width>
+        <label for="height">Height</label><input required min="5" max="200" id="maze-height" type="number" v-model=height>
     </form>
     </div>
 </template>

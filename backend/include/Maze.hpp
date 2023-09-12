@@ -36,5 +36,5 @@ public:
     void backtracking();
 
     bool solveWithAStar();
-    bool solveWithDijkstra();
+    void solveWithDijkstra();
 };
