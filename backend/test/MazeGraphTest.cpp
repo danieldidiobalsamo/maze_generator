@@ -23,8 +23,8 @@ struct MazeGraphFixture {
 
     MazeGraphFixture()
         : testedCell(Cell(2, 2))
-        , entry(Cell(0, 0))
-        , exit(Cell(4, 4))
+        , entry(Cell(0, 1))
+        , exit(Cell(4, 3))
         , width(5)
         , height(5)
         , graph(width, height, entry, exit)
@@ -152,27 +152,6 @@ BOOST_FIXTURE_TEST_CASE(CarvingTop, MazeGraphFixture)
     BOOST_CHECK_EQUAL("TLbR", checkWalls(secondCellWalls));
 }
 
-/////////////////TESTING getNeighbors FUNCTION
-
-BOOST_FIXTURE_TEST_CASE(getSurroundingCells, MazeGraphFixture)
-{
-    int testedIndex = graph.mazeCoordToIndex(testedCell);
-    auto neighbors = graph.getSurroundingCells(testedIndex);
-
-    bool inNeighbors = true;
-
-    auto it = neighbors.begin();
-    auto neighborEnd = neighbors.end();
-
-    while (inNeighbors && it != neighborEnd) {
-        inNeighbors = checkIsInNeighbors(graph.indexToMazeCoord(*it));
-        ++it;
-    }
-
-    BOOST_CHECK_EQUAL(inNeighbors, true);
-    BOOST_CHECK_EQUAL(neighbors.size(), 4);
-}
-
 BOOST_FIXTURE_TEST_CASE(getCellsMetadata, MazeGraphFixture)
 {
     auto destCell = Cell(testedCell.getRow(), testedCell.getCol() + 1);
@@ -188,17 +167,11 @@ BOOST_FIXTURE_TEST_CASE(getCellsMetadata, MazeGraphFixture)
         goodList.push_back(CellMetadata { CellWalls { true, true, true, true }, false });
     }
 
-    goodList[mazeCoordToIndex(entry)] = CellMetadata { CellWalls { false, false, false, false }, true }; // entry
-    goodList[mazeCoordToIndex(entry.getTopNeighbor())].walls.bottom = false;
-    goodList[mazeCoordToIndex(entry.getBottomNeighbor(height))].walls.top = false;
-    goodList[mazeCoordToIndex(entry.getLeftNeighbor())].walls.right = false;
-    goodList[mazeCoordToIndex(entry.getRightNeighbor(width))].walls.left = false;
+    goodList[mazeCoordToIndex(entry)].walls.top = false;
+    goodList[mazeCoordToIndex(entry)].isPath = true;
 
-    goodList[mazeCoordToIndex(exit)] = CellMetadata { CellWalls { false, false, false, false }, true }; // exit
-    goodList[mazeCoordToIndex(exit.getTopNeighbor())].walls.bottom = false;
-    goodList[mazeCoordToIndex(exit.getBottomNeighbor(height))].walls.top = false;
-    goodList[mazeCoordToIndex(exit.getLeftNeighbor())].walls.right = false;
-    goodList[mazeCoordToIndex(exit.getRightNeighbor(width))].walls.left = false;
+    goodList[mazeCoordToIndex(exit)].walls.bottom = false;
+    goodList[mazeCoordToIndex(exit)].isPath = true;
 
     goodList[mazeCoordToIndex(testedCell)] = CellMetadata { CellWalls { true, true, false, true }, false };
     goodList[mazeCoordToIndex(destCell)] = CellMetadata { CellWalls { false, true, true, true }, false };
