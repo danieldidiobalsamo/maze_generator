@@ -46,9 +46,9 @@ export default {
         this.height = height
       },
 
-      solve(){
+      solve(algo){
         if(this.width != 0 || this.height !=0){
-          this.backend.solve();
+          this.backend.solve(algo);
 
           const metadataVector = this.backend.getCellsMetadata()
           this.cellsMetadata = []
@@ -65,7 +65,7 @@ export default {
 <template>
 
   <aside>
-    <Menu @generateMaze="(algo, w, h) => this.generate(algo, w, h)" @solve="() => this.solve()"/>
+    <Menu @generateMaze="(algo, w, h) => this.generate(algo, w, h)" @solve="(algo) => this.solve(algo)"/>
   </aside>
 
   <main>

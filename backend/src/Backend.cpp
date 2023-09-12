@@ -36,7 +36,7 @@ const std::vector<CellMetadata> Backend::getCellsMetadata()
     return _engine.getCellsMetadata();
 }
 
-void Backend::solve()
+void Backend::solve(const std::string algo)
 {
-    _engine.solve();
+    _engine.solve(algo);
 }

@@ -10,22 +10,12 @@ EngineFacade::EngineFacade(const int w, const int h, const Cell& entryPos, const
 void EngineFacade::generateMaze(const std::string& algo)
 {
     if (algo == "hunt")
-        huntAndKillGeneration();
+        _maze.huntAndKill();
     else if (algo == "backtracking")
-        backtrackingGeneration();
+        _maze.backtracking();
     else {
         std::cout << "Bad algorithm name : " << algo << std::endl;
     }
-}
-
-void EngineFacade::huntAndKillGeneration()
-{
-    _maze.huntAndKill();
-}
-
-void EngineFacade::backtrackingGeneration()
-{
-    _maze.backtracking();
 }
 
 std::vector<CellMetadata> EngineFacade::getCellsMetadata()
@@ -33,7 +23,13 @@ std::vector<CellMetadata> EngineFacade::getCellsMetadata()
     return _maze.getCellsMetadata();
 }
 
-void EngineFacade::solve()
+void EngineFacade::solve(std::string algo)
 {
-    _maze.solveWithAStar();
+    if (algo == "a_star")
+        _maze.solveWithAStar();
+    else if (algo == "dijkstra")
+        _maze.solveWithDijkstra();
+    else {
+        std::cout << "Bad solver name : " << algo << std::endl;
+    }
 }

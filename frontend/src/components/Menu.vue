@@ -1,17 +1,20 @@
 <template>
     <div id="main-item">
     <form id="sidebar" @submit.prevent="generate">
-      <input id="generate-btn" type="submit" value="Generate" />
-      <button id="solve-btn" @click="solve" type="button">Solve with A*</button>
-      <button id="download-btn" @click="downloadMazeAsImg" type="button">Download as image</button>
+        <input id="generate-btn" type="submit" value="Generate" />
 
-    <select required name="algos" v-model="selectedAlgo">
-      <option v-for="algo in genAlgos" :value="algo">{{ algo.title }}</option>
-    </select>
+        <select required name="algos" v-model="selectedAlgo">
+          <option v-for="algo in genAlgos" :value="algo">{{ algo.title }}</option>
+        </select>
 
-    <label for="width">Width</label><input required min="5" max="50" id="maze-width" type="number" v-model=width>
-    <label for="height">Height</label><input required min="5" max="50" id="maze-height" type="number" v-model=height>
+        <button id="solve-btn" @click="solve" type="button">Solve</button>
+        <select required name="solver" v-model="selectedSolver">
+          <option v-for="solver in solverAlgos" :value="solver">{{ solver.title }}</option>
+        </select>
 
+        <button id="download-btn" @click="downloadMazeAsImg" type="button">Download as image</button>
+        <label for="width">Width</label><input required min="5" max="200" id="maze-width" type="number" v-model=width>
+        <label for="height">Height</label><input required min="5" max="200" id="maze-height" type="number" v-model=height>
     </form>
     </div>
 </template>
@@ -26,6 +29,11 @@
                     { val: "backtracking", title: 'Backtracking' },
                     ],
                 selectedAlgo: { val: "backtracking", title: 'Backtracking' },
+                solverAlgos : [
+                    { val: "a_star", title: 'A*' },
+                    { val: "dijkstra", title: 'Dijkstra' },
+                    ],
+                selectedSolver: { val: "a_star", title: 'A*' },
                 width: 40,
                 height: 30,
             }
@@ -47,7 +55,7 @@
             },
 
             solve(){
-                this.$emit('solve')
+                this.$emit('solve', this.selectedSolver.val);
             }
         },
     }

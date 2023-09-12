@@ -2,6 +2,7 @@
 
 #include <iostream>
 #include <limits>
+#include <set>
 #include <stack>
 #include <stdexcept>
 #include <time.h>
@@ -248,4 +249,48 @@ int Maze::a_star_heuristic(int index)
 std::vector<CellMetadata> Maze::getCellsMetadata()
 {
     return _graph.getCellsMetadata();
+}
+
+void Maze::solveWithDijkstra()
+{
+    auto adjacencyList = _graph.getAdjacencyList();
+
+    int nbCells = _width * _height;
+
+    std::vector<int> dist;
+    dist.reserve(nbCells);
+    dist.assign(nbCells, std::numeric_limits<int>::max());
+    dist[_graph.mazeCoordToIndex(_entryPos)] = 0;
+
+    std::vector<int> prev;
+    prev.reserve(nbCells);
+    prev.assign(nbCells, -1);
+
+    int entryIndex = _graph.mazeCoordToIndex(_entryPos);
+
+    std::set<std::pair<int, int>> nodes;
+    nodes.insert({ 0, entryIndex });
+
+    while (!nodes.empty()) {
+        int current = nodes.begin()->second;
+        nodes.erase(nodes.begin());
+
+        auto neighbors = adjacencyList[current];
+        for (auto n = neighbors.begin(); n != neighbors.end(); ++n) {
+            int alt = dist[current] + 1;
+
+            if (alt < dist[*n]) {
+                dist[*n] = alt;
+                prev[*n] = current;
+                nodes.insert({ dist[*n], *n });
+            }
+        }
+    }
+
+    int current = prev[_graph.mazeCoordToIndex(_exitPos)];
+
+    do {
+        _graph.addToPath(current);
+        current = prev[current];
+    } while (current != entryIndex);
 }
