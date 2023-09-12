@@ -249,3 +249,9 @@ std::vector<CellMetadata> Maze::getCellsMetadata()
 {
     return _graph.getCellsMetadata();
 }
+
+bool Maze::solveWithDijkstra()
+{
+    printf("dijkstra\n");
+    return true;
+}

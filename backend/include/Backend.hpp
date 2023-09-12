@@ -18,7 +18,7 @@ public:
     Backend& operator=(Backend&& backend) = default;
 
     void generateMaze(int width, int height, std::string algo);
-    void solve();
+    void solve(std::string algo);
     const std::vector<CellMetadata> getCellsMetadata();
 
 private:

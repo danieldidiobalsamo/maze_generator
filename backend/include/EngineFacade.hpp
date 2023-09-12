@@ -20,12 +20,7 @@ public:
 
     void initMaze();
     void generateMaze(const std::string& algo);
-
-    // generation algo
-    void huntAndKillGeneration();
-    void backtrackingGeneration();
-
-    void solve();
+    void solve(const std::string algo);
 
     std::vector<CellMetadata> getCellsMetadata();
 };
