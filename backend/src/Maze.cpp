@@ -215,7 +215,7 @@ bool Maze::solveWithAStar()
         auto neighbors = adjacencyList[current];
 
         for (auto neighbor = neighbors.begin(); neighbor != neighbors.end(); ++neighbor) {
-            int tentativeGScore = gScore[current] + euclidianDistance(current, *neighbor);
+            int tentativeGScore = gScore[current] + 1;
 
             if (tentativeGScore < gScore[*neighbor]) {
                 cameFrom[*neighbor] = current;
