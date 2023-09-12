@@ -23,6 +23,8 @@ private:
     unordered_map<int, vector<int>> _adjacencyList;
     vector<Cell> _cells;
 
+    void carveOutsideMaze(Cell& cell);
+
 public:
     MazeGraph() = delete;
     MazeGraph(int w, int h, const Cell& entryPos, const Cell& exitPos);
@@ -34,9 +36,7 @@ public:
 
     vector<CellMetadata> getCellsMetadata();
 
-    vector<int> getSurroundingCells(int cellIndex);
     void carve(int srcIndex, int destIndex);
-    void carveToAllNeighbors(const Cell& cell);
 
     const unordered_map<int, vector<int>>& getAdjacencyList();
 

@@ -16,11 +16,6 @@ Maze::Maze(int width, int height, const Cell& entryPos, const Cell& exitPos)
 {
 }
 
-std::vector<CellMetadata> Maze::getCellsMetadata()
-{
-    return _graph.getCellsMetadata();
-}
-
 void Maze::huntAndKill()
 {
     std::unordered_map<int, bool> visited;
@@ -248,4 +243,9 @@ int Maze::euclidianDistance(int cellA, int cellB)
 int Maze::a_star_heuristic(int index)
 {
     return euclidianDistance(index, _graph.mazeCoordToIndex(_exitPos));
+}
+
+std::vector<CellMetadata> Maze::getCellsMetadata()
+{
+    return _graph.getCellsMetadata();
 }

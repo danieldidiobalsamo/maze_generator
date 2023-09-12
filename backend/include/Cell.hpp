@@ -62,21 +62,6 @@ public:
     Cell(Cell&& cell) = default;
     Cell& operator=(Cell&& cell) = default;
 
-    bool isOnTopSide() const;
-    bool isOnRightSide(int mazeWidth) const;
-    bool isOnBottomSide(int mazeHeight) const;
-    bool isOnLeftSide() const;
-
-    Cell getTopNeighbor() const;
-    Cell getRightNeighbor(int mazeWidth) const;
-    Cell getBottomNeighbor(int mazeHeight) const;
-    Cell getLeftNeighbor() const;
-
-    bool isTopNeighbor(const Cell& cell) const;
-    bool isRightNeighbor(const Cell& cell, int mazeWidth) const;
-    bool isBottomNeighbor(const Cell& cell, int mazeHeight) const;
-    bool isLeftNeighbor(const Cell& cell) const;
-
     int getRow() const;
     int getCol() const;
 
