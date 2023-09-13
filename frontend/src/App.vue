@@ -22,7 +22,7 @@ export default {
     created(){
       MazeGenerator().then(instance => {
         this.wasmInstance = instance
-        this.backend = new instance["Backend"]()
+        this.engineFacade = new instance["EngineFacade"]()
       })
     },
 
@@ -33,9 +33,9 @@ export default {
     methods:{
       generate(algo, width, height){
 
-        this.backend.generateMaze(width, height, algo);
+        this.engineFacade.generateMaze(width, height, algo);
 
-        const metadataVector = this.backend.getCellsMetadata()
+        const metadataVector = this.engineFacade.getCellsMetadata()
         this.cellsMetadata = []
 
         for (let i = 0; i < metadataVector.size(); i++) {
@@ -48,9 +48,9 @@ export default {
 
       solve(algo){
         if(this.width != 0 || this.height !=0){
-          this.backend.solve(algo);
+          this.engineFacade.solve(algo);
 
-          const metadataVector = this.backend.getCellsMetadata()
+          const metadataVector = this.engineFacade.getCellsMetadata()
           this.cellsMetadata = []
 
           for (let i = 0; i < metadataVector.size(); i++) {
