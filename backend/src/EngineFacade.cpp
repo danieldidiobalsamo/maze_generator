@@ -9,13 +9,7 @@ EngineFacade::EngineFacade(const int w, const int h, const Cell& entryPos, const
 
 void EngineFacade::generateMaze(const std::string& algo)
 {
-    if (algo == "hunt")
-        _maze.huntAndKill();
-    else if (algo == "backtracking")
-        _maze.backtracking();
-    else {
-        std::cout << "Bad algorithm name : " << algo << std::endl;
-    }
+    _maze.generate(algo);
 }
 
 std::vector<CellMetadata> EngineFacade::getCellsMetadata()

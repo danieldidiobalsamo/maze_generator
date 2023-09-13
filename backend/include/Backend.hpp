@@ -12,10 +12,10 @@ class Backend {
 public:
     Backend();
     ~Backend() = default;
-    Backend(const Backend& backend) = default;
-    Backend& operator=(const Backend& backend) = default;
-    Backend(Backend&& backend) = default;
-    Backend& operator=(Backend&& backend) = default;
+    Backend(const Backend& backend) = delete;
+    Backend& operator=(const Backend& backend) = delete;
+    Backend(Backend&& backend) = delete;
+    Backend& operator=(Backend&& backend) = delete;
 
     void generateMaze(int width, int height, std::string algo);
     void solve(std::string algo);

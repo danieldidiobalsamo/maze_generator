@@ -8,17 +8,23 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "-pedantic -Wall -Wextra -Werror -Wold-style-cast -Wno-unused-command-line-argument")
 
 set(SRC
-    src/Maze.cpp
-    src/EngineFacade.cpp
-    src/Cell.cpp
-    src/MazeGraph.cpp
-
+    include/generators/GenerateBehavior.hpp
+    include/generators/Backtracking.hpp
+    include/generators/HuntAndKill.hpp
     include/Maze.hpp
     include/EngineFacade.hpp
     include/Cell.hpp
-    include/MazeGraph.hpp)
+    include/MazeGraph.hpp
 
-include_directories(include ${Boost_INCLUDE_DIR})
+    src/generators/Backtracking.cpp
+    src/generators/HuntAndKill.cpp
+    src/Maze.cpp
+    src/EngineFacade.cpp
+    src/Cell.cpp
+    src/MazeGraph.cpp)
+
+
+include_directories(include include/generators ${Boost_INCLUDE_DIR})
 
 option(EMCC "Compile with emcc" OFF) # emscripten
 

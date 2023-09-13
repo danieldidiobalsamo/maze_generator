@@ -1,7 +1,9 @@
 #pragma once
 
+#include "GenerateBehavior.hpp"
 #include "MazeGraph.hpp"
-#include <random>
+
+#include <memory>
 
 class Maze {
 private:
@@ -13,10 +15,7 @@ private:
 
     MazeGraph _graph;
 
-    int chooseRandomAdjacent(vector<int>& adjacents);
-    std::vector<int> getAdjacents(int cellIndex, std::unordered_map<int, bool>& visited, bool visitedValue);
-
-    std::default_random_engine _randomEngine;
+    std::shared_ptr<GenerateBehavior> _generateBehavior;
 
     int a_star_heuristic(int index);
     int euclidianDistance(int cellA, int cellB);
@@ -25,15 +24,14 @@ public:
     Maze() = delete;
     Maze(int width, int height, const Cell& entryPos, const Cell& exitPos);
     Maze(const Maze& m) = default;
-    ~Maze() = default;
+    ~Maze();
     Maze(Maze&& facade) = default;
     Maze& operator=(Maze&& maze) = default;
     Maze& operator=(const Maze& m) = default;
 
     std::vector<CellMetadata> getCellsMetadata();
 
-    void huntAndKill();
-    void backtracking();
+    void generate(std::string algo);
 
     bool solveWithAStar();
     void solveWithDijkstra();

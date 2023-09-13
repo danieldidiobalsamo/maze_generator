@@ -33,7 +33,7 @@ BOOST_FIXTURE_TEST_SUITE(s, MazeFixture)
 
 BOOST_FIXTURE_TEST_CASE(HuntAndKill, MazeFixture)
 {
-    maze.huntAndKill();
+    maze.generate("hunt");
     bool solutionExists = maze.solveWithAStar();
 
     BOOST_CHECK_EQUAL(true, solutionExists);
@@ -41,7 +41,7 @@ BOOST_FIXTURE_TEST_CASE(HuntAndKill, MazeFixture)
 
 BOOST_FIXTURE_TEST_CASE(backtracking, MazeFixture)
 {
-    maze.backtracking();
+    maze.generate("backtracking");
     bool solutionExists = maze.solveWithAStar();
 
     BOOST_CHECK_EQUAL(true, solutionExists);

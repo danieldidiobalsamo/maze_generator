@@ -8,7 +8,6 @@ Backend::Backend()
 
 void Backend::generateMaze(int width, int height, std::string algo)
 {
-
     Cell entry {}, exit {};
     std::uniform_int_distribution<int> intDistrib(0, 10);
 
