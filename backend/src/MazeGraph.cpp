@@ -12,7 +12,11 @@ MazeGraph::MazeGraph(int w, int h, const Cell& entryPos, const Cell& exitPos)
     , _adjacencyList()
     , _randomEngine(static_cast<unsigned int>(time(0)))
 {
+    initCells();
+}
 
+void MazeGraph::initCells()
+{
     _cells.reserve(_width * _height);
 
     for (int row = 0; row < _height; ++row) {
@@ -170,4 +174,16 @@ int MazeGraph::chooseRandomAdjacent(std::vector<int>& adjacents)
     int randomIndex = intDistribution(_randomEngine);
 
     return adjacents[randomIndex];
+}
+
+void MazeGraph::setParams(const int w, const int h, const Cell& entryPos, const Cell& exitPos)
+{
+    _width = w;
+    _height = h;
+    _entryPos = entryPos;
+    _exitPos = exitPos;
+
+    _adjacencyList.clear();
+    _cells.clear();
+    initCells();
 }

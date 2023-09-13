@@ -27,3 +27,8 @@ void EngineFacade::solve(std::string algo)
         std::cout << "Bad solver name : " << algo << std::endl;
     }
 }
+
+void EngineFacade::setParams(const int w, const int h, const Cell& entryPos, const Cell& exitPos)
+{
+    _maze.setParams(w, h, entryPos, exitPos);
+}

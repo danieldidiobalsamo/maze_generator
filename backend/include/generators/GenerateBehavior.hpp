@@ -10,4 +10,5 @@ class GenerateBehavior {
 
 public:
     virtual void generate(MazeGraph& graph) = 0;
+    virtual ~GenerateBehavior() {};
 };

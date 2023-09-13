@@ -26,7 +26,7 @@ void Backend::generateMaze(int width, int height, std::string algo)
         exit = Cell(distrib(_randomIntGenerator), width - 1);
     }
 
-    _engine = EngineFacade(width, height, entry, exit);
+    _engine.setParams(width, height, entry, exit);
     _engine.generateMaze(algo);
 }
 

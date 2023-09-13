@@ -22,11 +22,6 @@ Maze::Maze(int width, int height, const Cell& entryPos, const Cell& exitPos)
     _generateBehavior = std::make_unique<Backtracking>();
 }
 
-Maze::~Maze()
-{
-    _generateBehavior.reset();
-}
-
 bool Maze::solveWithAStar()
 {
     std::vector<int> open; // used with std::make_heap as min heap
@@ -165,4 +160,18 @@ void Maze::generate(std::string algo)
     }
 
     _generateBehavior->generate(_graph);
+}
+
+void Maze::setParams(const int w, const int h, const Cell& entryPos, const Cell& exitPos)
+{
+    _generateBehavior.reset();
+
+    // TMP: will be remove after solver moved to strategy design pattern
+    // since those algo are still in this class, they need the new dimensions
+    _width = w;
+    _height = h;
+    _entryPos = entryPos;
+    _exitPos = exitPos;
+
+    _graph.setParams(w, h, entryPos, exitPos);
 }

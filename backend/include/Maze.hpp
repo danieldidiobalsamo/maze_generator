@@ -15,7 +15,7 @@ private:
 
     MazeGraph _graph;
 
-    std::shared_ptr<GenerateBehavior> _generateBehavior;
+    std::unique_ptr<GenerateBehavior> _generateBehavior;
 
     int a_star_heuristic(int index);
     int euclidianDistance(int cellA, int cellB);
@@ -23,11 +23,13 @@ private:
 public:
     Maze() = delete;
     Maze(int width, int height, const Cell& entryPos, const Cell& exitPos);
-    Maze(const Maze& m) = default;
-    ~Maze();
-    Maze(Maze&& facade) = default;
-    Maze& operator=(Maze&& maze) = default;
-    Maze& operator=(const Maze& m) = default;
+    Maze(const Maze& m) = delete;
+    ~Maze() = default;
+    Maze(Maze&& facade) = delete;
+    Maze& operator=(Maze&& maze) = delete;
+    Maze& operator=(const Maze& m) = delete;
+
+    void setParams(const int w, const int h, const Cell& entryPos, const Cell& exitPos);
 
     std::vector<CellMetadata> getCellsMetadata();
 
