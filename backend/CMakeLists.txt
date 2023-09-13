@@ -11,20 +11,27 @@ set(SRC
     include/generators/GenerateBehavior.hpp
     include/generators/Backtracking.hpp
     include/generators/HuntAndKill.hpp
+    src/generators/Backtracking.cpp
+    src/generators/HuntAndKill.cpp
+
+    include/solvers/SolveBehavior.hpp
+    include/solvers/AStar.hpp
+    include/solvers/Dijkstra.hpp
+    src/solvers/AStar.cpp
+    src/solvers/Dijkstra.cpp
+
     include/Maze.hpp
     include/EngineFacade.hpp
     include/Cell.hpp
     include/MazeGraph.hpp
 
-    src/generators/Backtracking.cpp
-    src/generators/HuntAndKill.cpp
     src/Maze.cpp
     src/EngineFacade.cpp
     src/Cell.cpp
     src/MazeGraph.cpp)
 
 
-include_directories(include include/generators ${Boost_INCLUDE_DIR})
+include_directories(include include/generators include/solvers ${Boost_INCLUDE_DIR})
 
 option(EMCC "Compile with emcc" OFF) # emscripten
 

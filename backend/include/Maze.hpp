@@ -2,23 +2,16 @@
 
 #include "GenerateBehavior.hpp"
 #include "MazeGraph.hpp"
+#include "SolveBehavior.hpp"
 
 #include <memory>
 
 class Maze {
 private:
-    int _width;
-    int _height;
-
-    Cell _entryPos;
-    Cell _exitPos;
-
     MazeGraph _graph;
 
     std::unique_ptr<GenerateBehavior> _generateBehavior;
-
-    int a_star_heuristic(int index);
-    int euclidianDistance(int cellA, int cellB);
+    std::unique_ptr<SolveBehavior> _solveBehavior;
 
 public:
     Maze() = delete;
@@ -34,7 +27,5 @@ public:
     std::vector<CellMetadata> getCellsMetadata();
 
     void generate(std::string algo);
-
-    bool solveWithAStar();
-    void solveWithDijkstra();
+    bool solve(std::string algo);
 };

@@ -19,13 +19,7 @@ std::vector<CellMetadata> EngineFacade::getCellsMetadata()
 
 void EngineFacade::solve(std::string algo)
 {
-    if (algo == "a_star")
-        _maze.solveWithAStar();
-    else if (algo == "dijkstra")
-        _maze.solveWithDijkstra();
-    else {
-        std::cout << "Bad solver name : " << algo << std::endl;
-    }
+    _maze.solve(algo);
 }
 
 void EngineFacade::setParams(const int w, const int h, const Cell& entryPos, const Cell& exitPos)
