@@ -1,6 +1,7 @@
 #define BOOST_TEST_DYN_LINK
 
 #include "Maze.hpp"
+
 #include <boost/test/unit_test.hpp>
 
 using boost::unit_test::test_suite;
@@ -33,16 +34,16 @@ BOOST_FIXTURE_TEST_SUITE(s, MazeFixture)
 
 BOOST_FIXTURE_TEST_CASE(HuntAndKill, MazeFixture)
 {
-    maze.huntAndKill();
-    bool solutionExists = maze.solveWithAStar();
+    maze.generate(GenerationAlgo::HuntAndKill);
+    bool solutionExists = maze.solve(SolverAlgo::AStar);
 
     BOOST_CHECK_EQUAL(true, solutionExists);
 }
 
 BOOST_FIXTURE_TEST_CASE(backtracking, MazeFixture)
 {
-    maze.backtracking();
-    bool solutionExists = maze.solveWithAStar();
+    maze.generate(GenerationAlgo::Backtracking);
+    bool solutionExists = maze.solve(SolverAlgo::AStar);
 
     BOOST_CHECK_EQUAL(true, solutionExists);
 }

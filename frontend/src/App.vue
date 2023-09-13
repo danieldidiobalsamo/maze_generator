@@ -7,6 +7,7 @@ import { defineComponent } from 'vue'
 
 <script>
 import MazeGenerator from './assets/wasm/mazeGenerator.js'; // generated file (emcc wasm compiler)
+import {GenAlgos, SolveAlgos} from "./enums.js"
 
 export default {
 
@@ -22,7 +23,7 @@ export default {
     created(){
       MazeGenerator().then(instance => {
         this.wasmInstance = instance
-        this.backend = new instance["Backend"]()
+        this.engineFacade = new instance["EngineFacade"]()
       })
     },
 
@@ -33,9 +34,20 @@ export default {
     methods:{
       generate(algo, width, height){
 
-        this.backend.generateMaze(width, height, algo);
+        let cppEnum = {};
 
-        const metadataVector = this.backend.getCellsMetadata()
+        switch(algo){
+          case GenAlgos.HUNT:
+            cppEnum = this.wasmInstance.GenerationAlgo.HuntAndKill
+            break;
+          case GenAlgos.BACKTRACKING:
+            cppEnum = this.wasmInstance.GenerationAlgo.Backtracking
+            break;
+        }
+
+        this.engineFacade.generateMaze(width, height, cppEnum);
+
+        const metadataVector = this.engineFacade.getCellsMetadata()
         this.cellsMetadata = []
 
         for (let i = 0; i < metadataVector.size(); i++) {
@@ -48,9 +60,20 @@ export default {
 
       solve(algo){
         if(this.width != 0 || this.height !=0){
-          this.backend.solve(algo);
+          let cppEnum = {};
 
-          const metadataVector = this.backend.getCellsMetadata()
+          switch(algo){
+            case SolveAlgos.A_STAR:
+              cppEnum = this.wasmInstance.SolverAlgo.AStar
+              break;
+            case SolveAlgos.DIJKSTRA:
+              cppEnum = this.wasmInstance.SolverAlgo.Dijkstra
+              break;
+          }
+
+          let r = this.engineFacade.solve(cppEnum);
+
+          const metadataVector = this.engineFacade.getCellsMetadata()
           this.cellsMetadata = []
 
           for (let i = 0; i < metadataVector.size(); i++) {

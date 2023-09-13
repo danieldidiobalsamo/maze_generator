@@ -4,12 +4,12 @@
         <input id="generate-btn" type="submit" value="Generate" />
 
         <select required name="algos" v-model="selectedAlgo">
-          <option v-for="algo in genAlgos" :value="algo">{{ algo.title }}</option>
+          <option v-for="algo in genAlgos" :value="algo">{{ algo }}</option>
         </select>
 
         <button id="solve-btn" @click="solve" type="button">Solve</button>
         <select required name="solver" v-model="selectedSolver">
-          <option v-for="solver in solverAlgos" :value="solver">{{ solver.title }}</option>
+          <option v-for="solver in solverAlgos" :value="solver">{{ solver }}</option>
         </select>
 
         <button id="download-btn" @click="downloadMazeAsImg" type="button">Download as image</button>
@@ -20,20 +20,17 @@
 </template>
 
 <script>
+
+    import {GenAlgos, SolveAlgos} from "../enums.js"
+
     export default {
         emits: ['generateMaze', 'solve'],
         data() {
             return {
-                genAlgos: [
-                    { val: "hunt", title: 'Hunt and kill' },
-                    { val: "backtracking", title: 'Backtracking' },
-                    ],
-                selectedAlgo: { val: "backtracking", title: 'Backtracking' },
-                solverAlgos : [
-                    { val: "a_star", title: 'A*' },
-                    { val: "dijkstra", title: 'Dijkstra' },
-                    ],
-                selectedSolver: { val: "a_star", title: 'A*' },
+                genAlgos: [GenAlgos.HUNT, GenAlgos.BACKTRACKING],
+                selectedAlgo: GenAlgos.BACKTRACKING,
+                solverAlgos : [SolveAlgos.A_STAR, SolveAlgos.DIJKSTRA],
+                selectedSolver: SolveAlgos.A_STAR,
                 width: 40,
                 height: 30,
             }
@@ -41,7 +38,7 @@
 
         methods:{
             generate(){
-                this.$emit('generateMaze', this.selectedAlgo.val, this.width, this.height)
+                this.$emit('generateMaze', this.selectedAlgo, this.width, this.height)
             },
 
             downloadMazeAsImg(){
@@ -55,7 +52,7 @@
             },
 
             solve(){
-                this.$emit('solve', this.selectedSolver.val);
+                this.$emit('solve', this.selectedSolver);
             }
         },
     }

@@ -1,40 +1,41 @@
 #pragma once
 
+#include "GenerateBehavior.hpp"
 #include "MazeGraph.hpp"
-#include <random>
+#include "SolveBehavior.hpp"
+
+#include <memory>
+
+enum class GenerationAlgo {
+    HuntAndKill,
+    Backtracking,
+};
+
+enum class SolverAlgo {
+    AStar,
+    Dijkstra,
+};
 
 class Maze {
 private:
-    int _width;
-    int _height;
-
-    Cell _entryPos;
-    Cell _exitPos;
-
     MazeGraph _graph;
 
-    int chooseRandomAdjacent(vector<int>& adjacents);
-    std::vector<int> getAdjacents(int cellIndex, std::unordered_map<int, bool>& visited, bool visitedValue);
-
-    std::default_random_engine _randomEngine;
-
-    int a_star_heuristic(int index);
-    int euclidianDistance(int cellA, int cellB);
+    std::unique_ptr<GenerateBehavior> _generateBehavior;
+    std::unique_ptr<SolveBehavior> _solveBehavior;
 
 public:
     Maze() = delete;
     Maze(int width, int height, const Cell& entryPos, const Cell& exitPos);
-    Maze(const Maze& m) = default;
+    Maze(const Maze& m) = delete;
     ~Maze() = default;
-    Maze(Maze&& facade) = default;
-    Maze& operator=(Maze&& maze) = default;
-    Maze& operator=(const Maze& m) = default;
+    Maze(Maze&& facade) = delete;
+    Maze& operator=(Maze&& maze) = delete;
+    Maze& operator=(const Maze& m) = delete;
+
+    void setParams(const int w, const int h, const Cell& entryPos, const Cell& exitPos);
 
     std::vector<CellMetadata> getCellsMetadata();
 
-    void huntAndKill();
-    void backtracking();
-
-    bool solveWithAStar();
-    void solveWithDijkstra();
+    void generate(GenerationAlgo algo);
+    bool solve(SolverAlgo algo);
 };

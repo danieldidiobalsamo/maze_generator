@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <map>
+#include <random>
+#include <time.h>
 #include <unordered_map>
 #include <vector>
 
@@ -23,16 +25,24 @@ private:
     unordered_map<int, vector<int>> _adjacencyList;
     vector<Cell> _cells;
 
+    void initCells();
     void carveOutsideMaze(Cell& cell);
+
+    std::default_random_engine _randomEngine;
 
 public:
     MazeGraph() = delete;
     MazeGraph(int w, int h, const Cell& entryPos, const Cell& exitPos);
-    MazeGraph(const MazeGraph& m) = default;
-    MazeGraph& operator=(const MazeGraph& m) = default;
+    MazeGraph(const MazeGraph& m) = delete;
+    MazeGraph& operator=(const MazeGraph& m) = delete;
     ~MazeGraph() = default;
-    MazeGraph(MazeGraph&& graph) = default;
-    MazeGraph& operator=(MazeGraph&& graph) = default;
+    MazeGraph(MazeGraph&& graph) = delete;
+    MazeGraph& operator=(MazeGraph&& graph) = delete;
+
+    int getWidth();
+    int getHeight();
+    Cell getEntry();
+    Cell getExit();
 
     vector<CellMetadata> getCellsMetadata();
 
@@ -45,4 +55,9 @@ public:
     Cell indexToMazeCoord(int index);
 
     void addToPath(int cellIndex);
+
+    int chooseRandomAdjacent(std::vector<int>& adjacents);
+    std::vector<int> getAdjacents(int cellIndex, std::unordered_map<int, bool>& visited, bool visitedValue);
+
+    void setParams(const int w, const int h, const Cell& entryPos, const Cell& exitPos);
 };

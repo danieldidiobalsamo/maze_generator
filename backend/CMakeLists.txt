@@ -8,17 +8,30 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 set(CMAKE_CXX_FLAGS "-pedantic -Wall -Wextra -Werror -Wold-style-cast -Wno-unused-command-line-argument")
 
 set(SRC
-    src/Maze.cpp
-    src/EngineFacade.cpp
-    src/Cell.cpp
-    src/MazeGraph.cpp
+    include/generators/GenerateBehavior.hpp
+    include/generators/Backtracking.hpp
+    include/generators/HuntAndKill.hpp
+    src/generators/Backtracking.cpp
+    src/generators/HuntAndKill.cpp
+
+    include/solvers/SolveBehavior.hpp
+    include/solvers/AStar.hpp
+    include/solvers/Dijkstra.hpp
+    src/solvers/AStar.cpp
+    src/solvers/Dijkstra.cpp
 
     include/Maze.hpp
     include/EngineFacade.hpp
     include/Cell.hpp
-    include/MazeGraph.hpp)
+    include/MazeGraph.hpp
 
-include_directories(include ${Boost_INCLUDE_DIR})
+    src/Maze.cpp
+    src/EngineFacade.cpp
+    src/Cell.cpp
+    src/MazeGraph.cpp)
+
+
+include_directories(include include/generators include/solvers ${Boost_INCLUDE_DIR})
 
 option(EMCC "Compile with emcc" OFF) # emscripten
 
@@ -26,11 +39,9 @@ IF(${EMCC})
     set(CMAKE_CXX_COMPILER emcc)
     set(CMAKE_EXECUTABLE_SUFFIX ".js")
 
+    set(ENABLE_EMCC_BINDINGS "-DEMCC_COMPILER=1")
     set(EMCC_FLAGS "-sEXPORTED_RUNTIME_METHODS=['ccall'] -sEXPORT_ES6=1 -sMODULARIZE=1 -o MazeGenerator.js -sEXPORT_NAME='MazeGenerator' --bind ")
-    set(CMAKE_CXX_FLAGS "${CMAKE_CXX_FLAGS} ${EMCC_FLAGS}")
-
-    # Backend class is about emcc bindings
-    set(SRC ${SRC} src/Backend.cpp include/Backend.hpp)
+    set(CMAKE_CXX_FLAGS "${ENABLE_EMCC_BINDINGS} ${CMAKE_CXX_FLAGS} ${EMCC_FLAGS}")
 
     add_executable(mazeGenerator ${SRC})
     set_target_properties(mazeGenerator PROPERTIES LINK_FLAGS "-o mazeGenerator.html")
