@@ -54,9 +54,9 @@ EMSCRIPTEN_BINDINGS(EngineFacade)
     emscripten::register_vector<CellMetadata>("CellMetadataLists");
     emscripten::class_<EngineFacade>("EngineFacade")
         .constructor<>()
-        .function("generateMaze", std::function<void(EngineFacade&, int, int, GenerationAlgo)>(&EngineFacade::generateMaze))
-        .function("getCellsMetadata", std::function<const std::vector<CellMetadata>(EngineFacade&)>(&EngineFacade::getCellsMetadata))
-        .function("solve", std::function<void(EngineFacade&, SolverAlgo)>(&EngineFacade::solve));
+        .function("generateMaze", &EngineFacade::generateMaze)
+        .function("getCellsMetadata", &EngineFacade::getCellsMetadata)
+        .function("solve", &EngineFacade::solve);
 }
 
 EMSCRIPTEN_BINDINGS(GenerationAlgo)
