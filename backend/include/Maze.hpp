@@ -6,6 +6,16 @@
 
 #include <memory>
 
+enum class GenerationAlgo {
+    HuntAndKill,
+    Backtracking,
+};
+
+enum class SolverAlgo {
+    AStar,
+    Dijkstra,
+};
+
 class Maze {
 private:
     MazeGraph _graph;
@@ -26,6 +36,6 @@ public:
 
     std::vector<CellMetadata> getCellsMetadata();
 
-    void generate(std::string algo);
-    bool solve(std::string algo);
+    void generate(GenerationAlgo algo);
+    bool solve(SolverAlgo algo);
 };

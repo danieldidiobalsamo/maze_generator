@@ -34,16 +34,16 @@ BOOST_FIXTURE_TEST_SUITE(s, MazeFixture)
 
 BOOST_FIXTURE_TEST_CASE(HuntAndKill, MazeFixture)
 {
-    maze.generate("hunt");
-    bool solutionExists = maze.solve("a_star");
+    maze.generate(GenerationAlgo::HuntAndKill);
+    bool solutionExists = maze.solve(SolverAlgo::AStar);
 
     BOOST_CHECK_EQUAL(true, solutionExists);
 }
 
 BOOST_FIXTURE_TEST_CASE(backtracking, MazeFixture)
 {
-    maze.generate("backtracking");
-    bool solutionExists = maze.solve("a_star");
+    maze.generate(GenerationAlgo::Backtracking);
+    bool solutionExists = maze.solve(SolverAlgo::AStar);
 
     BOOST_CHECK_EQUAL(true, solutionExists);
 }

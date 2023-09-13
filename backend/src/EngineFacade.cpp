@@ -6,7 +6,7 @@ EngineFacade::EngineFacade()
 {
 }
 
-void EngineFacade::generateMaze(int width, int height, std::string algo)
+void EngineFacade::generateMaze(int width, int height, const GenerationAlgo algo)
 {
     Cell entry {}, exit {};
     std::uniform_int_distribution<int> intDistrib(0, 10);
@@ -35,7 +35,7 @@ const std::vector<CellMetadata> EngineFacade::getCellsMetadata()
     return _maze.getCellsMetadata();
 }
 
-void EngineFacade::solve(const std::string algo)
+void EngineFacade::solve(const SolverAlgo algo)
 {
     _maze.solve(algo);
 }

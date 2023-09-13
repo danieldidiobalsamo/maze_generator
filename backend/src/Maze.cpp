@@ -29,27 +29,34 @@ std::vector<CellMetadata> Maze::getCellsMetadata()
     return _graph.getCellsMetadata();
 }
 
-void Maze::generate(std::string algo)
+void Maze::generate(GenerationAlgo algo)
 {
-    if (algo == "hunt")
+    switch (algo) {
+
+    case GenerationAlgo::HuntAndKill:
         _generateBehavior = std::make_unique<HuntAndKill>();
-    else if (algo == "backtracking")
+        break;
+    case GenerationAlgo::Backtracking:
         _generateBehavior = std::make_unique<Backtracking>();
-    else {
-        std::cout << "Bad algorithm name : " << algo << std::endl;
+        break;
+    default:
+        std::cout << "Bad maze generator name" << std::endl;
     }
 
     _generateBehavior->generate(_graph);
 }
 
-bool Maze::solve(std::string algo)
+bool Maze::solve(SolverAlgo algo)
 {
-    if (algo == "a_star")
+    switch (algo) {
+    case SolverAlgo::AStar:
         _solveBehavior = std::make_unique<AStar>();
-    else if (algo == "dijkstra")
+        break;
+    case SolverAlgo::Dijkstra:
         _solveBehavior = std::make_unique<Dijkstra>();
-    else {
-        std::cout << "Bad solver name : " << algo << std::endl;
+        break;
+    default:
+        std::cout << "Bad maze solver name" << std::endl;
     }
 
     return _solveBehavior->solve(_graph);

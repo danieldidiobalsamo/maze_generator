@@ -20,8 +20,8 @@ public:
     EngineFacade(EngineFacade&& backend) = delete;
     EngineFacade& operator=(EngineFacade&& backend) = delete;
 
-    void generateMaze(int width, int height, std::string algo);
-    void solve(std::string algo);
+    void generateMaze(int width, int height, const GenerationAlgo algo);
+    void solve(const SolverAlgo algo);
     const std::vector<CellMetadata> getCellsMetadata();
 
 private:
@@ -54,9 +54,23 @@ EMSCRIPTEN_BINDINGS(EngineFacade)
     emscripten::register_vector<CellMetadata>("CellMetadataLists");
     emscripten::class_<EngineFacade>("EngineFacade")
         .constructor<>()
-        .function("generateMaze", std::function<void(EngineFacade&, int, int, std::string)>(&EngineFacade::generateMaze))
+        .function("generateMaze", std::function<void(EngineFacade&, int, int, GenerationAlgo)>(&EngineFacade::generateMaze))
         .function("getCellsMetadata", std::function<const std::vector<CellMetadata>(EngineFacade&)>(&EngineFacade::getCellsMetadata))
-        .function("solve", &EngineFacade::solve);
+        .function("solve", std::function<void(EngineFacade&, SolverAlgo)>(&EngineFacade::solve));
+}
+
+EMSCRIPTEN_BINDINGS(GenerationAlgo)
+{
+    emscripten::enum_<GenerationAlgo>("GenerationAlgo")
+        .value("HuntAndKill", GenerationAlgo::HuntAndKill)
+        .value("Backtracking", GenerationAlgo::Backtracking);
+}
+
+EMSCRIPTEN_BINDINGS(SolverAlgo)
+{
+    emscripten::enum_<SolverAlgo>("SolverAlgo")
+        .value("AStar", SolverAlgo::AStar)
+        .value("Dijkstra", SolverAlgo::Dijkstra);
 }
 
 #endif

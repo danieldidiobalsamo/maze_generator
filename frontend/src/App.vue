@@ -7,6 +7,7 @@ import { defineComponent } from 'vue'
 
 <script>
 import MazeGenerator from './assets/wasm/mazeGenerator.js'; // generated file (emcc wasm compiler)
+import {GenAlgos, SolveAlgos} from "./enums.js"
 
 export default {
 
@@ -33,7 +34,18 @@ export default {
     methods:{
       generate(algo, width, height){
 
-        this.engineFacade.generateMaze(width, height, algo);
+        let cppEnum = {};
+
+        switch(algo){
+          case GenAlgos.HUNT:
+            cppEnum = this.wasmInstance.GenerationAlgo.HuntAndKill
+            break;
+          case GenAlgos.BACKTRACKING:
+            cppEnum = this.wasmInstance.GenerationAlgo.Backtracking
+            break;
+        }
+
+        this.engineFacade.generateMaze(width, height, cppEnum);
 
         const metadataVector = this.engineFacade.getCellsMetadata()
         this.cellsMetadata = []
@@ -48,7 +60,18 @@ export default {
 
       solve(algo){
         if(this.width != 0 || this.height !=0){
-          this.engineFacade.solve(algo);
+          let cppEnum = {};
+
+          switch(algo){
+            case SolveAlgos.A_STAR:
+              cppEnum = this.wasmInstance.SolverAlgo.AStar
+              break;
+            case SolveAlgos.DIJKSTRA:
+              cppEnum = this.wasmInstance.SolverAlgo.Dijkstra
+              break;
+          }
+
+          let r = this.engineFacade.solve(cppEnum);
 
           const metadataVector = this.engineFacade.getCellsMetadata()
           this.cellsMetadata = []
