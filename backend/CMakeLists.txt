@@ -30,11 +30,13 @@ set(SRC
     include/EngineFacade.hpp
     src/EngineFacade.cpp)
 
-include_directories(include include/maze include/generators include/solvers ${Boost_INCLUDE_DIR})
+set(INCLUDE_DIRS include include/maze include/generators include/solvers)
 
 option(EMCC "Compile with emcc" OFF) # emscripten
 
 IF(${EMCC})
+    include_directories(${INCLUDE_DIRS})
+
     set(CMAKE_CXX_COMPILER emcc)
     set(CMAKE_EXECUTABLE_SUFFIX ".js")
 
@@ -50,6 +52,8 @@ ELSE()
         test/mainTest.cpp
         test/MazeGraphTest.cpp
         test/MazeTest.cpp)
+
+    include_directories(${INCLUDE_DIRS} ${Boost_INCLUDE_DIR})
 
     enable_testing()
     add_executable(test_exe ${SRC} ${TEST_FILES})
