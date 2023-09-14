@@ -6,7 +6,7 @@ The following algorithms are implemented :
 - solvers: A*, Dijkstra
 - generators: Backtracking, Hunt and Kill
 
-![image info](./img/example.png)
+![image info](./img/ui.png)
 
 # How to launch
 
