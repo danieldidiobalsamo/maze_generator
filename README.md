@@ -13,7 +13,7 @@ The following algorithms are implemented :
 
 The following dependencies must be installed:
 - CMake
-- ![Emscripten](https://emscripten.org/docs/getting_started/downloads.html#installation-instructions-using-the-emsdk-recommended)
+- [Emscripten](https://emscripten.org/docs/getting_started/downloads.html#installation-instructions-using-the-emsdk-recommended)
 - clang (needed for emscripten)
 - node.js
 - (optional) Boost.test to launch unit tests
