@@ -18,8 +18,8 @@ import Cell from './Cell.vue'
             return{
                 canvas: {},
                 ctx: {},
-                cellWidth: 20,
-                cellHeight: 20,
+                cellWidth: 24,
+                cellHeight: 24,
             }
         },
 
@@ -60,19 +60,19 @@ import Cell from './Cell.vue'
                 }
 
                 if(walls.top){
-                    this.drawWall(x - w/2, y - h/2, w + (h / 10), h / 10, false)
+                    this.drawWall(x - w/2, y - h/2, w + (h/8), (h/8), false)
                 }
 
                 if(walls.bottom){
-                    this.drawWall(x - w/2, y + h/2, w + (h / 10), h / 10, false)
+                    this.drawWall(x - w/2, y + h/2, w + (h/8), (h/8), false)
                 }
 
                 if(walls.left){
-                    this.drawWall(x - w/2, y - h/2, w, h / 10, true)
+                    this.drawWall(x - w/2, y - h/2, w, (h/8), true)
                 }
 
                 if(walls.right){
-                    this.drawWall(x + w/2, y - h/2, w, h / 10, true)
+                    this.drawWall(x + w/2, y - h/2, w, (h/8), true)
                 }
             },
 
