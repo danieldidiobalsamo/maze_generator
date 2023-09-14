@@ -63,17 +63,17 @@
     display: flex;
     flex-direction: column;
     flex-wrap: wrap;
-
-    align-content: center;
-    justify-content: center;
   }
 
   #main-item > form{
     display: flex;
     flex-direction: column;
-    flex-wrap: wrap;
-
-    align-content: center;
-    justify-content: center;
+    row-gap: 2%;
   }
+
+  #main-item > form > button,input,select{
+    height: 2.5em;
+    text-align: center;
+  }
+
 </style>
