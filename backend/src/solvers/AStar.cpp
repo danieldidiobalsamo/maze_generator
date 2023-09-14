@@ -1,6 +1,6 @@
 #include "AStar.hpp"
 #include <stack>
-#include <unordered_map>
+#include <vector>
 
 AStar::~AStar()
 {

@@ -1,6 +1,6 @@
 #include "Backtracking.hpp"
 #include <stack>
-#include <unordered_map>
+#include <vector>
 
 Backtracking::~Backtracking()
 {
@@ -8,13 +8,10 @@ Backtracking::~Backtracking()
 
 void Backtracking::generate(MazeGraph& graph)
 {
-    std::unordered_map<int, bool> visited;
+    std::vector<bool> visited;
     int nbCells = graph.getWidth() * graph.getHeight();
     visited.reserve(nbCells);
-
-    for (int cell = 0; cell < nbCells; ++cell) {
-        visited[cell] = false;
-    }
+    visited.assign(nbCells, false);
 
     int entryIndex = graph.mazeCoordToIndex(graph.getEntry());
     visited[entryIndex] = true;

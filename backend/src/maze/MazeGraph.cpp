@@ -135,7 +135,7 @@ Cell MazeGraph::getExit()
     return _exitPos;
 }
 
-std::vector<int> MazeGraph::getAdjacents(int cellIndex, std::unordered_map<int, bool>& visited, bool visitedValue)
+std::vector<int> MazeGraph::getAdjacents(int cellIndex, const std::vector<bool>& visited, bool visitedValue)
 {
     Cell cell = indexToMazeCoord(cellIndex);
     std::vector<int> surrounding;

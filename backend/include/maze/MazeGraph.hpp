@@ -57,7 +57,7 @@ public:
     void addToPath(int cellIndex);
 
     int chooseRandomAdjacent(std::vector<int>& adjacents);
-    std::vector<int> getAdjacents(int cellIndex, std::unordered_map<int, bool>& visited, bool visitedValue);
+    std::vector<int> getAdjacents(int cellIndex, const std::vector<bool>& visited, bool visitedValue);
 
     void setParams(const int w, const int h, const Cell& entryPos, const Cell& exitPos);
 };

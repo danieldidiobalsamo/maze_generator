@@ -1,7 +1,7 @@
 #include "Dijkstra.hpp"
 #include <set>
 #include <stack>
-#include <unordered_map>
+#include <vector>
 
 Dijkstra::~Dijkstra()
 {
