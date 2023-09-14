@@ -20,18 +20,17 @@ set(SRC
     src/solvers/AStar.cpp
     src/solvers/Dijkstra.cpp
 
-    include/Maze.hpp
+    include/maze/Maze.hpp
+    include/maze/Cell.hpp
+    include/maze/MazeGraph.hpp
+    src/maze/Maze.cpp
+    src/maze/Cell.cpp
+    src/maze/MazeGraph.cpp
+
     include/EngineFacade.hpp
-    include/Cell.hpp
-    include/MazeGraph.hpp
+    src/EngineFacade.cpp)
 
-    src/Maze.cpp
-    src/EngineFacade.cpp
-    src/Cell.cpp
-    src/MazeGraph.cpp)
-
-
-include_directories(include include/generators include/solvers ${Boost_INCLUDE_DIR})
+include_directories(include include/maze include/generators include/solvers ${Boost_INCLUDE_DIR})
 
 option(EMCC "Compile with emcc" OFF) # emscripten
 
