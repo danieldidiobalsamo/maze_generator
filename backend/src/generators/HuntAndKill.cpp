@@ -1,6 +1,8 @@
 #include "HuntAndKill.hpp"
 #include "GenerateBehavior.hpp"
 
+#include <vector>
+
 HuntAndKill::~HuntAndKill()
 {
 }
@@ -10,13 +12,10 @@ void HuntAndKill::generate(MazeGraph& graph)
     int width = graph.getWidth();
     int height = graph.getHeight();
 
-    std::unordered_map<int, bool> visited;
+    std::vector<bool> visited;
     int nbCells = width * height;
     visited.reserve(nbCells);
-
-    for (int cell = 0; cell < nbCells; ++cell) {
-        visited[cell] = false;
-    }
+    visited.assign(nbCells, false);
 
     int current = graph.mazeCoordToIndex(graph.getEntry());
     visited[current] = true;
