@@ -1,6 +1,7 @@
 # About
 
-This app consists in a maze generator and solver taking advantage of web assembly : the C++ backend is imported from Vue.js frontend as a javascript module, using Emscripten.
+This app is a maze generator and solver, written in C++ and running in your web browser.
+It takes advantage of web assembly using Emscripten, which allows the Vue.js frontend to import the C++ maze generator as a Javascript module.
 
 The following algorithms are implemented :
 - solvers: A*, Dijkstra
